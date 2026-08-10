@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-warm: #F5F3EE;
+    --text-primary: #111111;
+    --text-secondary: #6B6862;
+    --text-muted: #9E9A91;
+    --border-subtle: #E2DFD7;
+    --border-hover: #C5C0B3;
+    --accent-blue: #3B4CCA;
+    --accent-blue-hover: #2938A8;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-warm);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--bg-warm);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    selection-background-color: #111111;
+    selection-color: #F5F3EE;
+  }
+
+  ::selection {
+    background-color: #111111;
+    color: #F5F3EE;
+  }
+
+  ::-moz-selection {
+    background-color: #111111;
+    color: #F5F3EE;
+  }
+}
+
+/* Custom scrollbar for editorial feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F3EE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D5D1C5;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B0A99A;
+}
+
+/* Typography utilities */
+.font-display {
+  font-feature-settings: "ss01" on, "cv01" on;
+  letter-spacing: -0.03em;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Smooth noise background overlay (subtle grain effect for organic editorial feel) */
+.grain-overlay {
+  background-image: radial-gradient(rgba(17, 17, 17, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Cursor custom cursor hover targets */
+[data-cursor="view"] {
+  cursor: pointer;
+}
