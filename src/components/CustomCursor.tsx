@@ -62,7 +62,7 @@ export default function CustomCursor() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed left-0 top-0 z-50 hidden md:flex items-center justify-center rounded-full mix-blend-difference"
+      className="pointer-events-none fixed left-0 top-0 z-50 hidden md:flex items-center justify-center rounded-full shadow-lg"
       style={{
         x: cursorX,
         y: cursorY,
@@ -70,20 +70,20 @@ export default function CustomCursor() {
         translateY: "-50%",
       }}
       animate={{
-        width: isHovered ? 72 : 10,
-        height: isHovered ? 72 : 10,
-        backgroundColor: "#FFFFFF",
+        width: isHovered ? 80 : 10,
+        height: isHovered ? 80 : 10,
+        backgroundColor: "#111111",
       }}
-      transition={{ type: "spring", damping: 30, stiffness: 400, mass: 0.2 }}
+      transition={{ type: "spring", damping: 28, stiffness: 380, mass: 0.25 }}
     >
       {isHovered && cursorText && (
         <motion.span
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.75 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          className="text-[10px] font-semibold tracking-widest text-[#111111] uppercase"
+          exit={{ opacity: 0, scale: 0.75 }}
+          className="text-[10px] font-mono font-semibold tracking-wider text-[#F5F3EE] uppercase flex items-center justify-center gap-0.5"
         >
-          {cursorText}
+          {cursorText === "VIEW" ? "VIEW →" : cursorText}
         </motion.span>
       )}
     </motion.div>

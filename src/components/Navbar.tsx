@@ -33,7 +33,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
             ? "bg-[#F5F3EE]/90 backdrop-blur-md border-b border-[#E2DFD7]/80 py-4 shadow-xs"
             : "bg-transparent py-6 md:py-8"
@@ -81,7 +81,7 @@ export default function Navbar() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
-            className="md:hidden p-2 text-[#111111] hover:opacity-75 transition-opacity"
+            className="md:hidden p-2 text-[#111111] hover:opacity-75 transition-opacity z-50"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -90,7 +90,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-30 bg-[#F5F3EE] flex flex-col justify-between p-8 pt-28 md:hidden animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-40 bg-[#F5F3EE] flex flex-col justify-between p-8 pt-28 md:hidden animate-in fade-in duration-200">
           <div className="flex flex-col gap-6">
             <span className="text-xs font-mono text-[#767470] tracking-widest uppercase">
               Navigation

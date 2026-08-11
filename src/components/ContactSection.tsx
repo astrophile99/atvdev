@@ -10,28 +10,34 @@ export default function ContactSection() {
 
   return (
     <>
-      <section id="contact" className="py-28 md:py-44 px-6 md:px-10 max-w-7xl mx-auto border-t border-[#E2DFD7] text-center">
-        <div className="flex flex-col items-center max-w-4xl mx-auto">
+      <section
+        id="contact"
+        className="bg-[#0D0D0D] text-[#F5F3EE] py-28 md:py-44 px-6 md:px-10 border-t border-zinc-800 text-center relative overflow-hidden"
+      >
+        {/* Subtle Ambient Background Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#3B4CCA]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="flex flex-col items-center max-w-4xl mx-auto relative z-10">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-xs font-mono uppercase tracking-widest text-[#767470] mb-6"
+            className="text-xs font-mono uppercase tracking-widest text-[#9E9A91] mb-6 block"
           >
-            [ Start a Project ]
+            [ Studio Inquiry & Commission ]
           </motion.span>
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-[#111111] uppercase font-display leading-[0.95] mb-8 text-balance"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white uppercase font-display leading-[0.95] mb-8 text-balance"
           >
-            Have an idea? <br />
-            <span className="italic font-serif font-normal lowercase tracking-normal text-[#33312E] opacity-90 pr-2">
-              Let's make it
+            YOUR IDEA <br />
+            <span className="italic font-serif font-normal lowercase tracking-normal text-zinc-400 pr-2">
+              could be
             </span>
-            real.
+            NEXT.
           </motion.h2>
 
           <motion.p
@@ -39,9 +45,9 @@ export default function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-base sm:text-xl text-[#6B6862] max-w-xl font-normal leading-relaxed mb-12"
+            className="text-base sm:text-xl text-zinc-400 max-w-xl font-normal leading-relaxed mb-12"
           >
-            Tell us what you're imagining. We'll turn it into a fast, responsive, polished website people remember.
+            Have something in mind? Tell us what you're imagining. We'll turn it into a fast, responsive, polished website people remember.
           </motion.p>
 
           <motion.div
@@ -53,7 +59,7 @@ export default function ContactSection() {
           >
             <button
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-[#111111] text-[#F5F3EE] text-xs sm:text-sm font-semibold uppercase tracking-widest hover:bg-[#3B4CCA] transition-all duration-300 group shadow-lg"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[#F5F3EE] text-[#111111] text-xs sm:text-sm font-semibold uppercase tracking-widest hover:bg-[#3B4CCA] hover:text-white transition-all duration-300 group shadow-xl"
             >
               <span>Start a Project</span>
               <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
@@ -61,9 +67,9 @@ export default function ContactSection() {
 
             <a
               href="mailto:hello@atvdev.com"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono text-[#6B6862] hover:text-[#111111] transition-colors py-2 px-4 border border-transparent hover:border-[#E2DFD7]"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono text-zinc-400 hover:text-white transition-colors py-2 px-4 border border-zinc-800 hover:border-zinc-600 rounded-xs"
             >
-              <Mail className="w-4 h-4 text-[#767470]" />
+              <Mail className="w-4 h-4 text-zinc-500" />
               <span>hello@atvdev.com</span>
             </a>
           </motion.div>

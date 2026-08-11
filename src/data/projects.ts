@@ -194,28 +194,38 @@ export const PROJECTS: Project[] = [
 export const CAPABILITIES = [
   {
     number: "01",
-    title: "Bespoke Brand Websites",
-    description: "Custom digital platforms designed from scratch to reflect your brand's unique identity, tone, and visual personality."
+    title: "WEBSITES",
+    subtitle: "Bespoke Brand Platforms",
+    description: "From focused business sites to fully art-directed digital experiences.",
+    previewProjectSlug: "hospital"
   },
   {
     number: "02",
-    title: "E-Commerce Experiences",
-    description: "High-converting online stores built around products, seamless navigation, and effortless checkout journeys."
+    title: "STORES",
+    subtitle: "Ecommerce Platforms",
+    description: "Online shops designed around products, people and conversion.",
+    previewProjectSlug: "ecommerce"
   },
   {
     number: "03",
-    title: "Interactive Campaigns",
-    description: "Memorable digital experiences engineered to launch new products, major announcements, or brand campaigns."
+    title: "EXPERIENCES",
+    subtitle: "High-Interaction Interfaces",
+    description: "Interfaces that feel like more than another webpage.",
+    previewProjectSlug: "nike"
   },
   {
     number: "04",
-    title: "Corporate & Institutional Sites",
-    description: "Clear, trustworthy digital portals that communicate authority, human warmth, and structural clarity for serious industries."
+    title: "CAMPAIGNS",
+    subtitle: "Launch & Brand Moments",
+    description: "Digital spaces built around an idea, launch or story.",
+    previewProjectSlug: "coca-cola"
   },
   {
     number: "05",
-    title: "Performance & Technical Polish",
-    description: "Lightning-fast page speeds, flawless responsive design across all devices, WCAG accessibility, and SEO foundations."
+    title: "DIGITAL WORLDS",
+    subtitle: "Immersive Studio Environments",
+    description: "Websites that give a brand somewhere to live.",
+    previewProjectSlug: "travel"
   }
 ];
 
@@ -223,21 +233,25 @@ export const PROCESS_STEPS = [
   {
     number: "01",
     title: "THE IDEA",
-    description: "We start with what you actually want to achieve, not a template."
+    description: "You bring the thought. We figure out what it could become.",
+    detail: "We unpack your concept, identify what makes it distinct, and define the scope of the digital experience."
   },
   {
     number: "02",
     title: "THE DIRECTION",
-    description: "We shape the visual language, structure and experience around the idea."
+    description: "We shape the visual language, structure and experience around it.",
+    detail: "We establish typography, spatial layout, art direction, and interaction hierarchy for maximum clarity."
   },
   {
     number: "03",
     title: "THE BUILD",
-    description: "We turn it into a fast, responsive, polished website."
+    description: "We turn the direction into a fast, responsive, polished website.",
+    detail: "We engineer performant, WCAG accessible, responsive bespoke code with smooth motion and micro-interactions."
   },
   {
     number: "04",
     title: "THE LAUNCH",
-    description: "We refine the details and put the finished experience in the world."
+    description: "We refine the details and put the finished experience into the world.",
+    detail: "We polish performance, double-check responsive behavior across devices, and deploy your site smoothly."
   }
 ];
