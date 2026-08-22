@@ -1,0 +1,11 @@
+{
+  "name": "atvdev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "atvdev — independent design and build studio. Static site, no runtime dependencies.",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "dev": "python -m http.server 4321"
+  },
+  "engines": { "node": ">=18" }
+}
