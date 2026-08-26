@@ -1,0 +1,400 @@
+/* ==========================================================================
+   atvdev — motion layer
+   Two tiers, deliberately:
+     1. IntersectionObserver + class toggles for entrances. Works everywhere.
+     2. Native CSS scroll-driven animations (animation-timeline) for the
+        continuous, scrubbed effects. These run off the main thread, so
+        parallax and scale stay locked to the scrollbar with no rAF cost.
+        Where unsupported the page simply sits still — nothing breaks.
+   Everything expressive collapses under prefers-reduced-motion.
+   ========================================================================== */
+
+@property --n {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+:root {
+  /* Strong curves. The built-in CSS easings are too weak to read as designed. */
+  --e-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --e-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --e-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --sv: 0;
+  --sv-abs: 0;
+}
+
+/* ==========================================================================
+   1. Entrances — richer than a fade-up
+   ========================================================================== */
+
+/* Depth: entering content resolves from slightly soft and low. */
+.js [data-rise] {
+  opacity: 0;
+  transform: translate3d(0, 2.6rem, 0);
+  filter: blur(6px);
+}
+[data-rise].in {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+  transition:
+    opacity .8s var(--e-out) var(--d, 0s),
+    transform 1.05s var(--e-out) var(--d, 0s),
+    filter .9s var(--e-out) var(--d, 0s);
+}
+
+/* Wipe: for plates and artwork. Reveals from the bottom edge with a
+   counter-move on the contents so the image feels anchored, not slid in. */
+/* The clip goes on the CHILD, never the observed element. Clipping the
+   observed element to zero height collapses its intersection rect, so the
+   IntersectionObserver meant to reveal it never fires and the artwork stays
+   hidden forever. */
+.js [data-clip] > * { clip-path: inset(0 0 100% 0); }
+[data-clip].in > * {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.25s var(--e-in-out) var(--d, 0s);
+}
+.js [data-clip] .art { transform: scale(1.16); }
+[data-clip].in .art {
+  transform: scale(1);
+  transition: transform 1.6s var(--e-out) var(--d, 0s);
+}
+
+/* Line-mask headings: each line clips its own words. */
+.split .ln { overflow: hidden; }
+.js .split .wd {
+  transform: translate3d(0, 110%, 0) rotate(3deg);
+  transform-origin: left top;
+}
+.split.in .wd {
+  transform: none;
+  transition: transform 1.15s var(--e-out) var(--wd, 0s);
+}
+
+/* Stagger any list of siblings by index without writing N rules. */
+[data-stagger] > * { --d: calc(var(--i, 0) * 60ms); }
+
+/* ==========================================================================
+   2. Scroll-scrubbed effects (native timeline)
+   ========================================================================== */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* Artwork drifts inside its frame as the card crosses the viewport.
+       The frame clips, so the oversize scale never shows an edge. */
+    @keyframes artDrift {
+      from { transform: translate3d(0, -7%, 0) scale(1.15); }
+      to   { transform: translate3d(0, 7%, 0) scale(1.15); }
+    }
+    .pj__art .art,
+    .plate .art {
+      animation: artDrift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    /* the entrance wipe owns the transform until it has finished */
+    .js [data-clip]:not(.in) .art { animation: none; }
+
+    /* Section headings tighten and gain weight as they settle into place. */
+    @keyframes headWeight {
+      from { font-variation-settings: "wdth" 100, "opsz" 96; letter-spacing: -0.012em; }
+      to   { font-variation-settings: "wdth" 96, "opsz" 96; letter-spacing: -0.038em; }
+    }
+    .d2[data-weigh], .d3[data-weigh] {
+      animation: headWeight linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 42%;
+    }
+
+    /* A hairline that draws itself along the section as you pass it. */
+    @keyframes ruleDraw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .rule-draw {
+      transform-origin: left center;
+      animation: ruleDraw linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+
+    /* Numbers count up via a registered custom property (declared above). */
+    @keyframes countUp { to { --n: var(--to); } }
+    .count {
+      counter-reset: n var(--n);
+      animation: countUp linear both;
+      animation-timeline: view();
+      animation-range: entry 30% cover 30%;
+    }
+    .count::after { content: counter(n); }
+  }
+}
+
+/* Fallback for engines without scroll-driven animations: show the final
+   number rather than a zero that never moves. */
+@supports not (animation-timeline: view()) {
+  .count::after { content: attr(data-to); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .count::after { content: attr(data-to); }
+}
+
+/* ==========================================================================
+   3. Velocity — the page leans into a flick
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .pj__art,
+  .plate,
+  .mock__win {
+    transform: skewY(calc(var(--sv, 0) * 0.16deg));
+    transition: transform .45s var(--e-out);
+  }
+  /* mock__win already owns transform for pointer tilt, so it opts out */
+  .mock__win { transform: none; }
+
+  .mq__row { animation-duration: calc(var(--mq-dur, 34s) / (1 + var(--sv-abs, 0) * 0.55)); }
+}
+
+/* ==========================================================================
+   4. Page transition
+   A cover wipes up over the outgoing page, then lifts off the incoming one.
+   Purpose: prevents the jarring white flash between two dark-to-light pages
+   and carries continuity across a full page load.
+   ========================================================================== */
+.wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 9700;
+  background: var(--ink);
+  pointer-events: none;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+}
+.wipe__mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--display);
+  font-weight: 700;
+  font-variation-settings: "wdth" 88, "opsz" 48;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  letter-spacing: -0.045em;
+  color: var(--bone);
+  opacity: 0;
+}
+.wipe__mark .dot { color: var(--flame); }
+
+body.wipe-out .wipe {
+  transform: translate3d(0, 0, 0);
+  transition: transform .62s var(--e-in-out);
+}
+body.wipe-out .wipe__mark {
+  opacity: 1;
+  transition: opacity .3s linear .22s;
+}
+/* incoming page: cover starts over the viewport and lifts away */
+body.wipe-in .wipe { transform: translate3d(0, 0, 0); }
+body.wipe-in.wipe-lift .wipe {
+  transform: translate3d(0, -100%, 0);
+  transition: transform .72s var(--e-in-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wipe { display: none; }
+}
+
+/* ==========================================================================
+   5. Marquee seam fix
+   Two rows are cloned in JS; the gap belongs between items, not after the
+   last one, or the loop shows a hole at the wrap point.
+   ========================================================================== */
+.mq { --mq-gap: clamp(1.6rem, 4vw, 3.4rem); }
+.mq__row { gap: var(--mq-gap); padding-right: var(--mq-gap); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-rise],
+  .js [data-clip] > *,
+  .js [data-clip] .art,
+  .js .split .wd {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+  .pj__art, .plate { transform: none !important; }
+}
+
+/* ==========================================================================
+   6. Stagger primitive
+   Replaces every container-level fade on the site. A grid used to arrive as
+   one flat plate; now its children assemble.
+   ========================================================================== */
+.js [data-stagger] > * {
+  opacity: 0;
+  transform: translate3d(0, 2.2rem, 0);
+  filter: blur(5px);
+}
+[data-stagger].in > * {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+  transition:
+    opacity .68s var(--e-out) var(--d, 0s),
+    transform .9s var(--e-out) var(--d, 0s),
+    filter .7s var(--e-out) var(--d, 0s);
+}
+[data-stagger] > * { --d: calc(var(--i, 0) * 65ms); }
+
+/* the project side column reads as a list being written out */
+.pj__side[data-stagger] > * { --d: calc(var(--i, 0) * 75ms); }
+.pj__side[data-stagger] > * { transform: translate3d(0, 1.5rem, 0); }
+
+/* ==========================================================================
+   7. Character reveal for display type
+   ========================================================================== */
+.split[data-chars] .wd { overflow: visible; transform: none !important; }
+.js .split[data-chars] .ch {
+  display: inline-block;
+  transform: translate3d(0, 108%, 0) rotate(6deg);
+  transform-origin: 0% 90%;
+  will-change: transform;
+}
+.split[data-chars].in .ch {
+  transform: none;
+  transition: transform 1.05s var(--e-out) var(--wd, 0s);
+}
+
+/* ==========================================================================
+   8. Work index — entrance and a hover you can actually see
+   ========================================================================== */
+.pj__art {
+  --wash: 0;
+  cursor: pointer;
+}
+.pj__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: var(--pj-accent, var(--flame));
+  mix-blend-mode: overlay;
+  opacity: calc(var(--wash) * 0.5);
+  transition: opacity .55s var(--e-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pj__art:hover { --wash: 1; }
+  .pj__art:hover .pj__inner { transform: scale(1.065); }
+  .pj__inner { transition: transform .75s var(--e-out); }
+
+  /* the title pulls toward its card */
+  .pj:hover .pj__title { transform: translateX(.7rem); }
+  .pj__title { transition: transform .6s var(--e-out); }
+  .pj:hover .pj__idx::after { background: var(--pj-accent, var(--flame)); }
+  .pj__idx::after { transition: background-color .5s var(--e-out); }
+}
+
+/* ==========================================================================
+   9. Process deck — a stack with real depth
+   Cards used to share one `top`, so four of them landed in the same place and
+   read as overlap rather than accumulation.
+   ========================================================================== */
+.proc__deck .step:nth-child(1) { --stack: 0; }
+.proc__deck .step:nth-child(2) { --stack: 1; }
+.proc__deck .step:nth-child(3) { --stack: 2; }
+.proc__deck .step:nth-child(4) { --stack: 3; }
+.step {
+  top: calc(var(--nav-h) + clamp(1rem, 4vh, 3rem) + var(--stack, 0) * 1.6rem);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes deckRecede {
+      to { transform: scale(.93) translateY(-1.2rem); opacity: .55; filter: blur(2px); }
+    }
+    .proc__deck .step:not(:last-child) .step__card {
+      animation: deckRecede linear both;
+      animation-timeline: view();
+      animation-range: exit -10% exit 90%;
+    }
+  }
+}
+
+/* ==========================================================================
+   10. Capability rows — fire the sweep that was never wired up
+   ========================================================================== */
+.cap { position: relative; isolation: isolate; overflow: hidden; }
+.cap__btn::before {
+  z-index: -1;
+  transform-origin: bottom;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cap:hover .cap__btn::before { transform: scaleY(1); }
+  .cap:hover .cap__btn { color: var(--bone); }
+  .cap:hover .cap__name { color: var(--bone); }
+  .cap:hover .cap__num { color: var(--flame-txt); }
+  .cap:hover .cap__plus { box-shadow: inset 0 0 0 1px rgba(239, 233, 222, .4); }
+}
+.cap[aria-expanded="true"] .cap__btn::before { transform: scaleY(1); }
+.cap[aria-expanded="true"] .cap__name { color: var(--bone); }
+.cap[aria-expanded="true"] .cap__btn { color: var(--bone); }
+.cap[aria-expanded="true"] .cap__num { color: var(--flame-txt); }
+.cap[aria-expanded="true"] .cap__panel { color: var(--bone); }
+.cap[aria-expanded="true"] .cap__inner p { color: color-mix(in srgb, var(--bone) 74%, transparent); }
+.cap[aria-expanded="true"] .chip {
+  color: color-mix(in srgb, var(--bone) 80%, transparent);
+  box-shadow: inset 0 0 0 1px rgba(239, 233, 222, .28);
+}
+/* the panel contents arrive rather than being uncovered */
+.js .cap__inner > * {
+  opacity: 0;
+  transform: translate3d(0, .9rem, 0);
+}
+.cap[aria-expanded="true"] .cap__inner > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity .5s var(--e-out) var(--d, .12s), transform .6s var(--e-out) var(--d, .12s);
+}
+.cap__inner > *:nth-child(2) { --d: .18s; }
+.cap__inner > *:nth-child(3) { --d: .26s; }
+
+/* ==========================================================================
+   11. Link + button timing
+   ========================================================================== */
+.ul-link::after { transition: transform .34s var(--e-out); }
+.btn::before { transition: transform .45s var(--e-out); }
+.btn { transition: color .3s var(--e-out), transform .4s var(--e-out); }
+
+/* ==========================================================================
+   12. Marquee behaviour
+   Award-tier tickers respond to the page rather than freezing under the
+   cursor, so hover accelerates instead of pausing.
+   ========================================================================== */
+.mq:hover .mq__row { animation-play-state: running; }
+@media (hover: hover) and (pointer: fine) {
+  .mq:hover .mq__row { animation-duration: calc(var(--mq-dur, 34s) / 2.2); }
+}
+
+/* the studio toolkit row was creeping; give it display scale and pace */
+.ticker--tools { --mq-dur: 26s; }
+.ticker--tools .mq__item {
+  font-family: var(--display);
+  font-weight: 500;
+  font-variation-settings: "wdth" 96, "opsz" 48;
+  font-size: clamp(1.1rem, 2.4vw, 2rem);
+  letter-spacing: -0.03em;
+  text-transform: none;
+}
+
+/* ==========================================================================
+   13. Stat counters
+   ========================================================================== */
+.stats b .count { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-stagger] > *,
+  .js .split[data-chars] .ch {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .js .cap__inner > * { opacity: 1; transform: none; }
+  .proc__deck .step__card { animation: none !important; }
+}

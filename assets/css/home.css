@@ -545,11 +545,16 @@
 .step:nth-child(1) .step__card { background: var(--bone-soft); }
 .step:nth-child(2) .step__card { background: #EAE3D6; }
 .step:nth-child(3) .step__card { background: var(--ink); color: var(--on-dark); border-color: transparent; }
-.step:nth-child(4) .step__card { background: var(--flame); color: #FFF3EE; border-color: transparent; }
-.step:nth-child(3) .step__card .muted,
-.step:nth-child(4) .step__card .muted { color: currentColor; opacity: .68; }
-.step:nth-child(3) .step__num, .step:nth-child(4) .step__num { color: currentColor; opacity: .55; }
-.step:nth-child(3) .step__list li, .step:nth-child(4) .step__list li { border-color: currentColor; opacity: .85; }
+.step:nth-child(3) .step__card .muted { color: var(--on-dark-mute); }
+.step:nth-child(3) .step__num { color: var(--on-dark-mute); }
+.step:nth-child(3) .step__list li { border-color: rgba(239, 233, 222, .22); }
+
+/* #DE3F1F is too light to carry 11px text even in white, so the card that
+   actually holds copy uses the darker solid. */
+.step:nth-child(4) .step__card { background: var(--flame-solid); color: #FFF3EE; border-color: transparent; }
+.step:nth-child(4) .step__card .muted { color: #FFE4DC; }
+.step:nth-child(4) .step__num { color: #FFE4DC; }
+.step:nth-child(4) .step__list li { border-color: rgba(255, 255, 255, .28); }
 
 @media (max-width: 860px) { .step__card { grid-template-columns: 1fr; } }
 
@@ -557,7 +562,7 @@
   font-family: var(--mono);
   font-size: .68rem;
   letter-spacing: .14em;
-  color: var(--fg-faint);
+  color: var(--fg-mute);   /* faint fails AA on the darker card */
   display: block;
   margin-bottom: 1rem;
 }
@@ -848,3 +853,249 @@
 }
 .fit__list li::before { content: "＋"; color: var(--flame-txt); flex: none; font-size: .8em; }
 .fit__col--no .fit__list li::before { content: "－"; color: var(--fg-faint); }
+
+/* ==========================================================================
+   Studio hero — kinetic type stack
+   The about page used to open with the case-study hero, which is a padding
+   block, so it opened weaker than every other page. This is its own signature:
+   three display rows running at different speeds in opposing directions,
+   alternating filled and outlined. It reuses the marquee machinery, so it
+   inherits the scroll-velocity coupling for free.
+   ========================================================================== */
+.skin {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(2rem, 6vh, 4.5rem);
+  padding-top: calc(var(--nav-h) + 3vh);
+  padding-bottom: clamp(1.5rem, 4vh, 3rem);
+  overflow: hidden;
+}
+.skin__rows {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(.1rem, .6vh, .5rem);
+}
+.skin__row .mq__item {
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: "wdth" 88, "opsz" 96;
+  font-size: clamp(2.6rem, 11.5vw, 10rem);
+  line-height: .92;
+  letter-spacing: -0.05em;
+  text-transform: none;
+}
+.skin__row--out .mq__item {
+  -webkit-text-stroke: 1.5px var(--ink);
+  color: transparent;
+}
+.skin__row--flame .mq__item { color: var(--flame); }
+.skin__row .ast {
+  color: var(--flame);
+  font-size: .32em;
+  vertical-align: middle;
+}
+
+.skin__foot {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gut);
+  align-items: end;
+}
+.skin__lede {
+  grid-column: 1 / span 5;
+  font-size: clamp(1.02rem, .95rem + .45vw, 1.35rem);
+  line-height: 1.45;
+  color: var(--fg-mute);
+  text-wrap: pretty;
+}
+.skin__lede strong { color: var(--fg); font-weight: 500; }
+.skin__meta {
+  grid-column: 7 / span 6;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gut);
+}
+.skin__meta div { display: flex; flex-direction: column; gap: .4rem; }
+.skin__meta dt {
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+.skin__meta dd { font-size: .95rem; letter-spacing: -0.01em; }
+@media (max-width: 900px) {
+  .skin__lede { grid-column: 1 / -1; }
+  .skin__meta { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ==========================================================================
+   Horizontal set-piece
+   The principles grid was six paragraphs fading in as one plate. Pinned and
+   dragged sideways it becomes the moment the page is built around.
+   Height is written by JS from the real track width.
+   ========================================================================== */
+.hsec { position: relative; }
+.hsec__pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.hsec__head {
+  padding-inline: var(--edge);
+  max-width: var(--maxw);
+  margin-inline: auto;
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  padding-bottom: clamp(1.5rem, 4vh, 3rem);
+}
+.hsec__count {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .14em;
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+.hsec__track {
+  display: flex;
+  gap: clamp(1rem, 2.4vw, 2.2rem);
+  padding-inline: var(--edge);
+  will-change: transform;
+}
+.hpanel {
+  flex: none;
+  width: clamp(17rem, 26vw, 24rem);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--bone-soft);
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: clamp(22rem, 58vh, 34rem);
+  transition: background-color .5s var(--e-out), border-color .5s var(--e-out);
+}
+.hpanel__n {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .14em;
+  color: #9C2810;   /* clears AA on both panel tints */
+}
+.hpanel h3 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-variation-settings: "wdth" 96, "opsz" 40;
+  font-size: clamp(1.4rem, 2.3vw, 1.95rem);
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  margin-top: auto;
+}
+.hpanel p { font-size: .96rem; color: var(--fg-mute); text-wrap: pretty; }
+.hpanel:nth-child(even) { background: var(--bone-deep); }
+.hpanel:last-child {
+  background: var(--ink);
+  border-color: transparent;
+  color: var(--on-dark);
+}
+.hpanel:last-child p { color: var(--on-dark-mute); }
+.hpanel:last-child .hpanel__n { color: #FF7A5E; }   /* flame is too dark on ink at 11px */
+
+/* Progress rail under the pinned panels. */
+.hsec__rail {
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  margin-inline: var(--edge);
+  height: 2px;
+  background: var(--rule);
+  position: relative;
+}
+.hsec__rail i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  background: var(--flame);
+  transform: scaleX(var(--hp, 0));
+  transform-origin: left;
+}
+
+/* Below the breakpoint the pin is dropped entirely and the panels stack. */
+@media (max-width: 860px), (prefers-reduced-motion: reduce) {
+  .hsec { height: auto !important; }
+  .hsec__pin { position: static; height: auto; padding-block: clamp(3rem, 8vh, 5rem); }
+  .hsec__track {
+    transform: none !important;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .hpanel { width: auto; min-height: 0; }
+  .hsec__rail { display: none; }
+}
+
+/* ==========================================================================
+   Portrait frame
+   Holds a real photograph when there is one. The generative fallback is a
+   deliberate composition rather than two initials on a gradient.
+   ========================================================================== */
+.bio__portrait { background: var(--ink); }
+.bio__portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bio__portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(239, 233, 222, .07) 0 1px,
+      transparent 1px 5px
+    );
+}
+.bio__initials {
+  position: relative;
+  z-index: 2;
+  -webkit-text-stroke: 1.5px var(--bone);
+  color: transparent;
+}
+.bio__portrait .sig {
+  position: absolute;
+  z-index: 2;
+  left: clamp(1rem, 2vw, 1.6rem);
+  bottom: clamp(1rem, 2vw, 1.6rem);
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+}
+
+/* ==========================================================================
+   Fit columns — argue with weight, not just bullets
+   ========================================================================== */
+.fit__col--no { opacity: .78; }
+.fit__col--no h3 { color: var(--fg-mute); }
+@media (hover: hover) and (pointer: fine) {
+  .fit__col { transition: opacity .5s var(--e-out); }
+  .fit:hover .fit__col--no { opacity: .5; }
+  .fit:hover .fit__col:hover { opacity: 1; }
+}
+.fit__list li { transition: transform .45s var(--e-out), color .4s linear; }
+@media (hover: hover) and (pointer: fine) {
+  .fit__list li:hover { transform: translateX(.5rem); color: var(--fg); }
+}
+
+/* Closing CTA should not be out-shouted by the footer wordmark below it. */
+.studio-cta .d2 { font-size: clamp(2.9rem, 9vw, 8.2rem); }

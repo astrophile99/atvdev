@@ -4,12 +4,25 @@
    Run:  node tools/build.mjs
    ========================================================================== */
 
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { projects } from './projects.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+/* Assets are served with a one-year immutable cache header, so every URL
+   carries a hash of the actual CSS and JS. Change a stylesheet and the URL
+   changes with it; leave it alone and the cache keeps working. */
+const ASSET_V = (() => {
+  const h = createHash('sha1');
+  for (const f of readdirSync(resolve(root, 'assets/css')).sort()) {
+    h.update(readFileSync(resolve(root, 'assets/css', f)));
+  }
+  h.update(readFileSync(resolve(root, 'assets/js/app.js')));
+  return h.digest('hex').slice(0, 8);
+})();
+
 const SITE = 'https://atvdev.studio';
 const MAIL = 'hello@atvdev.studio';
 
@@ -36,9 +49,10 @@ const head = (p) => `<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/css/core.css">
-<link rel="stylesheet" href="../assets/css/art.css">
-<link rel="stylesheet" href="../assets/css/case.css">
+<link rel="stylesheet" href="../assets/css/core.css?v=${ASSET_V}">
+<link rel="stylesheet" href="../assets/css/art.css?v=${ASSET_V}">
+<link rel="stylesheet" href="../assets/css/case.css?v=${ASSET_V}">
+<link rel="stylesheet" href="../assets/css/motion.css?v=${ASSET_V}">
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
@@ -51,10 +65,11 @@ const head = (p) => `<!doctype html>
     <span class="pre__mark">${p.name}</span>
     <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">Case study — atvdev</span>
+  <span class="pre__note">Case study</span>
   <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
+<div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="prog" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
@@ -69,7 +84,6 @@ const head = (p) => `<!doctype html>
       <a href="../index.html#contact">Contact</a>
     </nav>
     <div class="hdr__right">
-      <span class="clock"><span class="pip" aria-hidden="true"></span><span data-clock>—</span></span>
       <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
         <span></span><span></span>
       </button>
@@ -102,7 +116,7 @@ const head = (p) => `<!doctype html>
 const footer = () => `
 <footer class="ftr">
   <div class="shell">
-    <div class="ftr__top">
+    <div class="ftr__top" data-stagger>
       <div class="ftr__col">
         <h4>Studio</h4>
         <p>An independent design and build studio working from India with clients worldwide.</p>
@@ -127,7 +141,7 @@ const footer = () => `
       </div>
     </div>
 
-    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
+    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
 
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
@@ -140,7 +154,7 @@ const footer = () => `
   </div>
 </footer>
 
-<script src="../assets/js/app.js" defer></script>
+<script src="../assets/js/app.js?v=${ASSET_V}" defer></script>
 </body>
 </html>
 `;
@@ -179,7 +193,7 @@ const page = (p, next) => `${head(p)}
       </div>
 
       <div class="case-hero__row">
-        <h1 class="case-title split"><span class="ln">${p.name}</span></h1>
+        <h1 class="case-title split" data-chars><span class="ln">${p.name}</span></h1>
         <span class="tag tag--bare" data-rise>${p.sector} — ${p.year}</span>
       </div>
 
@@ -187,7 +201,7 @@ const page = (p, next) => `${head(p)}
 
       <p class="case-note" data-rise style="--d:.14s">Self-initiated concept — brand and brief invented to show scope</p>
 
-      <dl class="case-meta" data-fade style="--d:.16s">
+      <dl class="case-meta" data-stagger style="--d:.16s">
         ${p.meta.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('\n        ')}
       </dl>
     </div>
@@ -241,7 +255,6 @@ const page = (p, next) => `${head(p)}
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
-          <span class="tag" data-rise>The approach</span>
           <p class="body-lg" data-rise style="--d:.06s">The decisions that shaped everything downstream.</p>
         </div>
         <div class="case-body__main">
@@ -255,7 +268,6 @@ const page = (p, next) => `${head(p)}
   <section class="band">
     <div class="shell">
       <div class="sec-head">
-        <span class="tag" data-rise>Type &amp; colour</span>
         <p class="body-lg" data-rise style="max-width:34ch">The system underneath — two faces, four colours, no exceptions.</p>
       </div>
 
@@ -280,7 +292,7 @@ const page = (p, next) => `${head(p)}
   <!-- facts -->
   <section class="band--tight">
     <div class="shell">
-      <div class="facts" data-fade>
+      <div class="facts" data-stagger>
         ${p.facts.map(([n, h, t]) => `<div><span class="num">${n}</span><h4>${h}</h4><p>${t}</p></div>`).join('\n        ')}
       </div>
       <div class="case-body" style="margin-top:clamp(2.5rem,6vw,4rem)">
@@ -308,6 +320,25 @@ ${footer()}`;
 
 mkdirSync(resolve(root, 'work'), { recursive: true });
 
+/* The three hand-written pages get the same stamp so a deploy can never
+   serve them a year-old stylesheet. */
+const stampRoot = () => {
+  for (const f of ['index.html', 'studio.html', '404.html']) {
+    const file = resolve(root, f);
+    let html = readFileSync(file, 'utf8');
+    const before = html;
+    html = html.replace(
+      /(href|src)="((?:\.\.\/|\/)?assets\/(?:css|js)\/[a-z.]+)(?:\?v=[a-f0-9]+)?"/g,
+      (_m, attr, path) => `${attr}="${path}?v=${ASSET_V}"`
+    );
+    if (html !== before) {
+      writeFileSync(file, html, 'utf8');
+      console.log('stamped ' + f);
+    }
+  }
+};
+stampRoot();
+
 projects.forEach((p, i) => {
   const next = projects[(i + 1) % projects.length];
   const out = resolve(root, 'work', `${p.slug}.html`);
@@ -315,4 +346,4 @@ projects.forEach((p, i) => {
   console.log('wrote work/' + p.slug + '.html');
 });
 
-console.log('\n' + projects.length + ' case studies built.');
+console.log('\n' + projects.length + ' case studies built. asset version ' + ASSET_V);

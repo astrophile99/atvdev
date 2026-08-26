@@ -58,10 +58,11 @@ studio.html           About the studio — principles, bio, fit, FAQ
 work/*.html           Six case studies (GENERATED — do not edit by hand)
 
 assets/css/core.css   Design tokens, reset, type, header, menu, cursor,
-                      marquee, reveals, footer, preloader
+                      marquee, footer, preloader
 assets/css/home.css   Home + studio page sections
-assets/css/case.css   Case study layout, interface mockups, specimens
+assets/css/case.css   Case study layout, interface mockups, scenes
 assets/css/art.css    The six bespoke project artworks
+assets/css/motion.css The motion layer (load it LAST, it wins the cascade)
 assets/js/app.js      All interaction (no dependencies)
 
 tools/projects.mjs    ← Single source of truth for the case studies
@@ -160,6 +161,65 @@ other change is needed.
   bracketed negatives, a red stamp — because that is the artefact the product
   replaces.
 
+## Motion architecture
+
+Two tiers, on purpose:
+
+1. **IntersectionObserver + class toggles** for entrances. Works everywhere.
+2. **Native CSS scroll-driven animations** (`animation-timeline: view()`) for
+   the continuous, scrubbed effects. They run off the main thread, so parallax
+   and scale stay locked to the scrollbar at no rAF cost. Where the browser
+   does not support them the page simply sits still; nothing breaks.
+
+**One scroll listener.** `hub` in `app.js` owns the only `scroll` listener and
+the only rAF loop. Everything scroll-driven subscribes to it, so there is one
+layout read per frame instead of three competing schedulers. The loop sleeps
+once velocity settles. It publishes `--sv` on `:root`, which CSS uses to lean
+the artwork and speed up marquees while the page is moving.
+
+**Two traps worth knowing about**, both hit during the build:
+
+- Never put the reveal `clip-path` on the element the observer is watching.
+  `clip-path: inset(0 0 100%)` collapses the intersection rect to zero, so the
+  observer never fires and the element stays hidden forever. The clip goes on
+  the child: `[data-clip] > *`.
+- `[data-rise]` sets a transform, so it will silently overwrite any positioning
+  transform on the same element. The hero orb is centred with
+  `translateY(-50%)` and therefore uses `data-fade`, not `data-rise`.
+
+**Primitives** (add them as attributes, no JS required):
+
+| Attribute | Effect |
+|---|---|
+| `data-rise` | blur + lift entrance |
+| `data-fade` | opacity only, safe on positioned elements |
+| `data-clip` | wipe reveal, applied to the child |
+| `data-stagger` | children assemble in sequence via `--i` |
+| `data-chars` | on a `.split` heading, animates per character |
+| `data-weigh` | scrubs variable-font weight and tracking on scroll |
+| `data-par="0.16"` | scroll parallax |
+
+**Asset cache busting.** `/assets/*` is served `immutable` for a year, so every
+asset URL carries `?v=<hash>` derived from the actual CSS and JS contents.
+`node tools/build.mjs` recomputes it and stamps all nine pages. Run the build
+after any CSS or JS change or returning visitors will keep the old files.
+
+---
+
+## Known gap: photography
+
+There is still no photograph anywhere on the site. Every visual is hand-built
+CSS and SVG. That is a deliberate flex for a developer portfolio, but two
+places genuinely want a real image:
+
+1. **The founder portrait** on `studio.html`. The frame is built and ready;
+   drop in `assets/img/atharva.jpg` and uncomment the `<img>` already sitting
+   in `.bio__portrait`. A real face is the highest-trust element on a
+   founder-led studio site and a monogram is not a substitute.
+2. **Real client work**, once the concept projects are replaced.
+
+---
+
 ## Accessibility and robustness
 
 Verified during the build, not assumed:
@@ -171,7 +231,9 @@ Verified during the build, not assumed:
   JavaScript gets the complete page rather than a blank one. Accordions render
   open, the preloader never shows.
 - **Reduced motion** — `prefers-reduced-motion` disables the grain, marquees,
-  cursor, parallax, split-text and the preloader counter.
+  cursor, parallax, split-text, the preloader counter, the page transition,
+  the scrubbed effects and the pinned horizontal section (which falls back to
+  a plain vertical stack, as it also does below 860px).
 - **Touch** — small typographic links get a real hit area under
   `(pointer: coarse)`; desktop layout is untouched.
 - **No horizontal overflow** at 375, 768 and 1440px on every page.

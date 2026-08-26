@@ -20,6 +20,61 @@
   var lerp = function (a, b, t) { return a + (b - a) * t; };
 
   /* ----------------------------------------------------------------------
+     Scroll hub
+     One scroll listener and one rAF loop for the whole page. Everything
+     scroll-driven subscribes here instead of adding its own listener, so
+     there is exactly one layout read per frame and effects stay in sync.
+     The loop sleeps once velocity settles rather than running forever.
+     ---------------------------------------------------------------------- */
+  var hub = (function () {
+    var subs = [];
+    var last = window.scrollY;
+    var vel = 0;
+    var running = false;
+    var idle = 0;
+    var max = 1;
+
+    function measure() {
+      max = Math.max(1, doc.documentElement.scrollHeight - window.innerHeight);
+    }
+
+    function frame() {
+      var y = window.scrollY;
+      var delta = y - last;
+      last = y;
+      vel += (delta - vel) * 0.18;
+      if (Math.abs(vel) < 0.04) vel = 0;
+
+      var state = {
+        y: y,
+        vel: vel,
+        max: max,
+        progress: clamp(y / max, 0, 1),
+        vh: window.innerHeight
+      };
+      for (var i = 0; i < subs.length; i++) subs[i](state);
+
+      if (Math.abs(vel) > 0.04) { idle = 0; requestAnimationFrame(frame); }
+      else if (idle < 4) { idle++; requestAnimationFrame(frame); }
+      else { running = false; }
+    }
+
+    function kick() {
+      idle = 0;
+      if (running) return;
+      running = true;
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { measure(); kick(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); kick(); });
+    measure();
+
+    return { add: function (fn) { subs.push(fn); kick(); }, kick: kick, measure: measure };
+  })();
+
+  /* ----------------------------------------------------------------------
      1. Preloader
      ---------------------------------------------------------------------- */
   function preloader() {
@@ -60,7 +115,6 @@
         pre.remove();
         body.classList.remove('intro');
       }, 1400);
-      revealNow();
     }
 
     if (reduced) { if (out) out.textContent = '100'; finish(); return; }
@@ -103,8 +157,36 @@
         line.appendChild(frag);
       });
 
-      $$('.wd', el).forEach(function (w, i) {
-        w.style.setProperty('--wd', (i * 0.055).toFixed(3) + 's');
+      // Character layer, only where it is worth the span count.
+      if (el.hasAttribute('data-chars')) {
+        $$('.wd', el).forEach(function (w) {
+          var text = w.textContent;
+          var inner = w.firstElementChild;              // e.g. a nested <em>
+          var host = inner || w;
+          var t = host.textContent;
+          host.textContent = '';
+          for (var c = 0; c < t.length; c++) {
+            var ch = doc.createElement('span');
+            ch.className = 'ch';
+            ch.textContent = t[c];
+            host.appendChild(ch);
+          }
+          if (!text) return;
+        });
+        $$('.ch', el).forEach(function (c, i) {
+          c.style.setProperty('--wd', (i * 0.018).toFixed(3) + 's');
+        });
+      } else {
+        $$('.wd', el).forEach(function (w, i) {
+          w.style.setProperty('--wd', (i * 0.075).toFixed(3) + 's');
+        });
+      }
+
+      // Drop the compositor layers once the reveal has played out.
+      el.addEventListener('transitionend', function once(ev) {
+        if (ev.propertyName !== 'transform') return;
+        $$('.wd, .ch', el).forEach(function (n) { n.style.willChange = 'auto'; });
+        el.removeEventListener('transitionend', once);
       });
     });
   }
@@ -112,9 +194,9 @@
   /* ----------------------------------------------------------------------
      3. Reveals
      ---------------------------------------------------------------------- */
-  var revealSel = '[data-rise], [data-fade], [data-clip], .split';
+  var revealSel = '[data-rise], [data-fade], [data-clip], [data-stagger], .split';
   var heroSel = '[data-hero] [data-rise], [data-hero] [data-fade], ' +
-                '[data-hero] [data-clip], [data-hero] .split';
+                '[data-hero] [data-clip], [data-hero] [data-stagger], [data-hero] .split';
 
   function revealNow() {
     $$(heroSel).forEach(function (el, i) {
@@ -149,31 +231,22 @@
     var hdr = $('.hdr');
     var prog = $('.prog');
     var last = window.scrollY;
-    var ticking = false;
 
-    function frame() {
-      var y = window.scrollY;
-      var max = doc.documentElement.scrollHeight - window.innerHeight;
+    function frame(s) {
+      var y = s.y;
 
-      if (prog) prog.style.transform = 'scaleX(' + (max > 0 ? clamp(y / max, 0, 1) : 0) + ')';
+      if (prog) prog.style.transform = 'scaleX(' + s.progress.toFixed(4) + ')';
 
       if (hdr) {
         hdr.classList.toggle('is-stuck', y > 24);
         if (!body.classList.contains('menu-open')) {
-          var goingDown = y > last && y > 320;
-          hdr.classList.toggle('is-hidden', goingDown);
+          hdr.classList.toggle('is-hidden', y > last && y > 320);
         }
       }
       last = y;
-      ticking = false;
     }
 
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(frame);
-    }, { passive: true });
-    frame();
+    hub.add(frame);
   }
 
   /* ----------------------------------------------------------------------
@@ -258,7 +331,7 @@
   function magnets() {
     if (!finePointer || reduced) return;
     $$('[data-magnet]').forEach(function (el) {
-      var strength = parseFloat(el.getAttribute('data-magnet')) || 0.28;
+      var strength = parseFloat(el.getAttribute('data-magnet')) || 0.4;
       var raf = null, cx = 0, cy = 0, tx2 = 0, ty2 = 0;
 
       function run() {
@@ -287,27 +360,18 @@
   function parallax() {
     var items = $$('[data-par]');
     if (!items.length || reduced) return;
-    var ticking = false;
 
-    function frame() {
-      var vh = window.innerHeight;
-      items.forEach(function (el) {
+    hub.add(function (s) {
+      var vh = s.vh;
+      for (var i = 0; i < items.length; i++) {
+        var el = items[i];
         var r = el.getBoundingClientRect();
-        if (r.bottom < -200 || r.top > vh + 200) return;
+        if (r.bottom < -240 || r.top > vh + 240) continue;
         var amt = parseFloat(el.getAttribute('data-par')) || 0.08;
-        var mid = r.top + r.height / 2;
-        var off = (mid - vh / 2) / vh;
+        var off = (r.top + r.height / 2 - vh / 2) / vh;
         el.style.transform = 'translate3d(0,' + (-off * amt * 100).toFixed(2) + 'px,0)';
-      });
-      ticking = false;
-    }
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(frame);
-    }, { passive: true });
-    window.addEventListener('resize', frame);
-    frame();
+      }
+    });
   }
 
   /* ----------------------------------------------------------------------
@@ -354,26 +418,20 @@
 
     if (reduced) { words.forEach(function (w) { w.classList.add('lit'); }); return; }
 
-    var ticking = false;
-    function frame() {
+    var litUpto = -1;
+    hub.add(function (s) {
       var r = host.getBoundingClientRect();
-      var vh = window.innerHeight;
-      var start = vh * 0.86;
-      var end = vh * 0.24;
+      var start = s.vh * 0.86;
+      var end = s.vh * 0.24;
       var span = r.height + (start - end);
-      var travelled = start - r.top;
-      var p = clamp(travelled / span, 0, 1);
+      var p = clamp((start - r.top) / span, 0, 1);
       var upto = Math.round(p * words.length * 1.12);
-      words.forEach(function (w, i) { w.classList.toggle('lit', i < upto); });
-      ticking = false;
-    }
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(frame);
-    }, { passive: true });
-    window.addEventListener('resize', frame);
-    frame();
+      if (upto === litUpto) return;          // only touch the DOM when it changes
+      litUpto = upto;
+      for (var i = 0; i < words.length; i++) {
+        words[i].classList.toggle('lit', i < upto);
+      }
+    });
   }
 
   /* ----------------------------------------------------------------------
@@ -391,6 +449,7 @@
     var t = 0;
     var gap = 32;
     var orb = { x: -9999, y: -9999, r: 0 };
+    var live = false;
 
     function build() {
       var r = cv.getBoundingClientRect();
@@ -430,6 +489,7 @@
     window.addEventListener('mouseout', function () { mx = -9999; my = -9999; });
 
     function draw() {
+      if (!live) return;
       if (!w || !h) { requestAnimationFrame(draw); return; }
       ctx.clearRect(0, 0, w, h);
       t += 0.006;
@@ -493,11 +553,27 @@
       requestAnimationFrame(draw);
     }
 
+    // Painting ~1200 points every frame while the hero is scrolled far
+    // off-screen is pure waste. Run only while it is actually visible.
+    function start() { if (!live) { live = true; requestAnimationFrame(draw); } }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        var vis = entries[0].isIntersecting && document.visibilityState === 'visible';
+        if (vis) start(); else live = false;
+      }, { threshold: 0 }).observe(cv);
+    } else { start(); }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible' &&
+          cv.getBoundingClientRect().bottom > 0) start();
+      else live = false;
+    });
+
     build();
     window.addEventListener('resize', build);
-    // fonts landing can shift the orb, so re-measure once they are ready
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
-    requestAnimationFrame(draw);
+    start();
   }
 
   /* ----------------------------------------------------------------------
@@ -511,8 +587,8 @@
       var raf = null, tx = 0, ty = 0, cx = 0, cy = 0;
 
       function run() {
-        cx = lerp(cx, tx, 0.12);
-        cy = lerp(cy, ty, 0.12);
+        cx = lerp(cx, tx, 0.2);
+        cy = lerp(cy, ty, 0.2);
         win.style.setProperty('--ry', cx.toFixed(2) + 'deg');
         win.style.setProperty('--rx', cy.toFixed(2) + 'deg');
         if (Math.abs(cx - tx) > 0.02 || Math.abs(cy - ty) > 0.02) {
@@ -523,12 +599,132 @@
 
       m.addEventListener('mousemove', function (e) {
         var r = m.getBoundingClientRect();
-        tx = ((e.clientX - r.left) / r.width - 0.5) * 7;
-        ty = ((e.clientY - r.top) / r.height - 0.5) * -5;
+        tx = ((e.clientX - r.left) / r.width - 0.5) * 13;
+        ty = ((e.clientY - r.top) / r.height - 0.5) * -9;
         kick();
       });
       m.addEventListener('mouseleave', function () { tx = 0; ty = 0; kick(); });
     });
+  }
+
+  /* ----------------------------------------------------------------------
+     10c. Scroll velocity signal
+     Publishes a damped velocity on :root so CSS can lean type and speed up
+     marquees while the page is moving. Purely expressive, so it is dropped
+     entirely under reduced motion.
+     ---------------------------------------------------------------------- */
+  function velocity() {
+    if (reduced) return;
+    var prev = 0;
+    hub.add(function (s) {
+      var v = clamp(s.vel * 0.09, -4.2, 4.2);
+      if (Math.abs(v - prev) < 0.02) return;
+      prev = v;
+      root.style.setProperty('--sv', v.toFixed(2));
+      root.style.setProperty('--sv-abs', Math.abs(v).toFixed(2));
+    });
+  }
+
+  /* ----------------------------------------------------------------------
+     10d. Page transition
+     Purpose: prevents the white flash between a paper page and an ink one,
+     and keeps continuity across a real page load. Same-origin document
+     links only, and never for modified clicks or in-page anchors.
+     ---------------------------------------------------------------------- */
+  function pageTransition() {
+    if (reduced) return;
+    var wipe = $('.wipe');
+    if (!wipe) return;
+
+    // Lift the cover off the incoming page.
+    body.classList.add('wipe-in');
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { body.classList.add('wipe-lift'); });
+    });
+    setTimeout(function () {
+      body.classList.remove('wipe-in', 'wipe-lift');
+    }, 900);
+
+    doc.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      var a = e.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') return;
+      if (a.target === '_blank' || a.hasAttribute('download')) return;
+      if (!/^(\/|\.|[a-zA-Z0-9_-]+\.html)/.test(href)) return;   // same-site documents only
+
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname) return;               // same page
+
+      e.preventDefault();
+      body.classList.remove('wipe-in', 'wipe-lift');
+      body.classList.add('wipe-out');
+      setTimeout(function () { location.href = a.href; }, 560);
+    });
+
+    // Returning via the back button must not land on a covered page.
+    window.addEventListener('pageshow', function (ev) {
+      if (ev.persisted) body.classList.remove('wipe-out', 'wipe-in', 'wipe-lift');
+    });
+  }
+
+  /* ----------------------------------------------------------------------
+     10e. Stagger index
+     Writes --i on the children of [data-stagger] so CSS can cascade a delay
+     without a rule per child.
+     ---------------------------------------------------------------------- */
+  function staggerIndex() {
+    $$('[data-stagger]').forEach(function (host) {
+      Array.prototype.forEach.call(host.children, function (child, i) {
+        child.style.setProperty('--i', i);
+      });
+    });
+  }
+
+  /* ----------------------------------------------------------------------
+     10f. Pinned horizontal section
+     Purpose: storytelling. The section holds the viewport while its own
+     timeline plays sideways, so six ideas get read one at a time instead of
+     fading in as a grid. Section height is derived from the real track
+     width, and the whole thing is skipped on narrow screens where the CSS
+     falls back to a vertical stack.
+     ---------------------------------------------------------------------- */
+  function hSection() {
+    var sec = $('[data-hsec]');
+    if (!sec || reduced) return;
+    var pin = $('.hsec__pin', sec);
+    var track = $('[data-htrack]', sec);
+    var rail = $('.hsec__rail i', sec);
+    if (!pin || !track) return;
+
+    var distance = 0;
+    var active = false;
+
+    function measure() {
+      // The CSS drops the pin below this width; keep JS out of the way too.
+      active = window.matchMedia('(min-width: 861px)').matches;
+      if (!active) {
+        sec.style.height = '';
+        track.style.transform = '';
+        return;
+      }
+      distance = Math.max(0, track.scrollWidth - window.innerWidth + parseFloat(getComputedStyle(track).paddingInlineStart || 0));
+      sec.style.height = (window.innerHeight + distance) + 'px';
+    }
+
+    hub.add(function (st) {
+      if (!active || !distance) return;
+      var top = sec.getBoundingClientRect().top;
+      var p = clamp(-top / distance, 0, 1);
+      track.style.transform = 'translate3d(' + (-p * distance).toFixed(1) + 'px,0,0)';
+      if (rail) rail.style.setProperty('--hp', p.toFixed(4));
+    });
+
+    measure();
+    window.addEventListener('resize', function () { measure(); hub.measure(); });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { measure(); hub.measure(); });
   }
 
   /* ----------------------------------------------------------------------
@@ -708,6 +904,13 @@
      Boot
      ---------------------------------------------------------------------- */
   function init() {
+    // The hero reveal is tied to fonts and layout, never to the load curtain.
+    if (doc.fonts && doc.fonts.ready) {
+      doc.fonts.ready.then(function () { setTimeout(revealNow, 60); });
+    } else {
+      setTimeout(revealNow, 120);
+    }
+
     marquees();
     splitLines();
     projectHover();
@@ -719,6 +922,10 @@
     parallax();
     litText();
     heroField();
+    velocity();
+    hSection();
+    staggerIndex();
+    pageTransition();
     mockTilt();
     accordion();
     clock();

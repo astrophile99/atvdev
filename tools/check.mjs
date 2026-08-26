@@ -21,7 +21,8 @@ for (const p of pages) {
 }
 
 for (const p of pages) {
-  const html = readFileSync(p, 'utf8');
+  // Commented-out markup is documentation, not a live reference.
+  const html = readFileSync(p, 'utf8').replace(/<!--[\s\S]*?-->/g, '');
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map(m => m[1]);
   for (const r of refs) {
     if (/^(https?:|mailto:|tel:|data:|#|\/\/|\/_vercel\/)/.test(r)) {
@@ -32,7 +33,7 @@ for (const p of pages) {
       continue;
     }
     checked++;
-    const [path] = r.split('#');
+    const [path] = r.split('#')[0].split('?');
     const target = path.startsWith('/') ? resolve(root, '.' + path) : resolve(dirname(p), path);
     if (!existsSync(target)) { console.log('MISSING FILE  ', p.replace(root, ''), '->', r); bad++; }
   }
@@ -42,7 +43,8 @@ for (const p of pages) {
 for (const p of pages) {
   const html = readFileSync(p, 'utf8');
   for (const m of html.matchAll(/(?:href)="([^"#]+)#([^"]+)"/g)) {
-    const target = m[1].startsWith('/') ? resolve(root, '.' + m[1]) : resolve(dirname(p), m[1]);
+    const clean = m[1].split('?')[0];
+    const target = clean.startsWith('/') ? resolve(root, '.' + clean) : resolve(dirname(p), clean);
     if (!existsSync(target)) continue;
     checked++;
     if (!ids.get(target)?.has(m[2])) { console.log('MISSING ANCHOR', p.replace(root,''), '->', m[0]); bad++; }

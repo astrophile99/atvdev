@@ -205,15 +205,8 @@ ul, ol { list-style: none; }
   line-height: 1;
 }
 .tag--ink { color: var(--fg); }
-.tag::before {
-  content: "";
-  width: .4rem;
-  height: .4rem;
-  border-radius: 50%;
-  background: var(--flame);
-  flex: none;
-}
-.tag--bare::before { display: none; }
+/* No decorative dot before every label. A coloured dot is reserved for
+   real state (the availability pip), not used as label furniture. */
 
 .num {
   font-family: var(--mono);
@@ -224,16 +217,20 @@ ul, ol { list-style: none; }
 }
 
 /* section heading pattern */
+/* Stacked, not split. A big headline on the left with a small explainer
+   floating top-right is the templated agency header; one focused column
+   reads better and keeps the measure sane. */
 .sec-head {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--gut);
-  flex-wrap: wrap;
-  padding-bottom: 1.6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  padding-bottom: 1.8rem;
   border-bottom: 1px solid var(--rule);
   margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
 }
+.sec-head > p { max-width: 56ch; }
+.sec-head > div { max-width: none !important; }
 
 /* ---------- 6. Links & buttons ---------- */
 .ul-link {
@@ -599,8 +596,8 @@ body.cur-view .cur-dot { opacity: 0; }
 .js [data-fade] { opacity: 0; }
 [data-fade].in { opacity: 1; transition: opacity 1.1s linear var(--d, 0s); }
 
-.js [data-clip] { clip-path: inset(0 0 100% 0); }
-[data-clip].in { clip-path: inset(0 0 0 0); transition: clip-path 1.15s var(--ease-in-out) var(--d, 0s); }
+/* clip reveal now lives in motion.css, applied to the child */
+
 
 /* split text */
 .split { display: block; }

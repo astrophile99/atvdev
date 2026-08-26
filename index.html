@@ -19,9 +19,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/core.css">
-<link rel="stylesheet" href="assets/css/art.css">
-<link rel="stylesheet" href="assets/css/home.css">
+<link rel="stylesheet" href="assets/css/core.css?v=4789c052">
+<link rel="stylesheet" href="assets/css/art.css?v=4789c052">
+<link rel="stylesheet" href="assets/css/home.css?v=4789c052">
+<link rel="stylesheet" href="assets/css/motion.css?v=4789c052">
 
 <script type="application/ld+json">
 {
@@ -48,10 +49,11 @@
     <span class="pre__mark">atvdev<span class="dot">.</span></span>
     <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">Design &amp; build studio — India</span>
+  <span class="pre__note">Design and build studio</span>
   <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
+<div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="prog" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
@@ -71,7 +73,6 @@
     </nav>
 
     <div class="hdr__right">
-      <span class="clock"><span class="pip" aria-hidden="true"></span><span data-clock>—</span></span>
       <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
         <span></span><span></span>
       </button>
@@ -129,7 +130,7 @@
       </span>
     </a>
 
-    <h1 class="hero__title d1 split">
+    <h1 class="hero__title d1 split" data-chars>
       <span class="ln">We make</span>
       <span class="ln ln--indent-sm">websites</span>
       <span class="ln"><em class="em-serif flame">worth</em></span>
@@ -137,15 +138,12 @@
     </h1>
 
     <div class="hero__foot">
-      <dl class="hero__meta" data-rise style="--d:.25s">
+      <dl class="hero__meta" data-stagger style="--d:.25s">
         <div><dt>Discipline</dt><dd>Design &amp; Build</dd></div>
-        <div><dt>Based</dt><dd>India — worldwide</dd></div>
+        <div><dt>Based</dt><dd>India, worldwide</dd></div>
         <div><dt>Founded</dt><dd>2023</dd></div>
         <div><dt>Sectors</dt><dd>Six and counting</dd></div>
       </dl>
-      <a class="scroll-cue" href="#work" data-rise style="--d:.3s">
-        <span class="line" aria-hidden="true"></span> Selected work
-      </a>
     </div>
 
   </div>
@@ -189,8 +187,7 @@
     <div class="grid12 mani__grid">
 
       <aside class="mani__aside">
-        <span class="tag" data-rise>01 — Position</span>
-        <p class="body-lg" data-rise style="--d:.08s">
+        <p class="body-lg" data-rise>
           A studio is only worth hiring for its opinions. Here are ours.
         </p>
       </aside>
@@ -220,10 +217,10 @@
 </section>
 
 <!-- ── Standards ─────────────────────────────────────────────────────────── -->
-<div class="stats" data-fade>
-  <div><b>1</b><span>Project in build at a time</span></div>
-  <div><b>100<span class="sup">/100</span></b><span>Lighthouse target, every launch</span></div>
-  <div><b>24<span class="sup">h</span></b><span>Reply to every brief</span></div>
+<div class="stats" data-stagger>
+  <div><b><span class="count" style="--to:1" data-to="1"></span></b><span>Project in build at a time</span></div>
+  <div><b><span class="count" style="--to:100" data-to="100"></span><span class="sup">/100</span></b><span>Lighthouse target, every launch</span></div>
+  <div><b><span class="count" style="--to:24" data-to="24"></span><span class="sup">h</span></b><span>Reply to every brief</span></div>
   <div><b>0</b><span>Templates used, ever</span></div>
 </div>
 
@@ -233,8 +230,8 @@
 
     <div class="sec-head">
       <div style="display:flex;flex-direction:column;gap:1.2rem;max-width:20ch">
-        <span class="tag" data-rise>02 — Selected work</span>
-        <h2 class="d3" data-rise style="--d:.06s">Six industries.<br>One standard.</h2>
+        <span class="tag" data-rise>Selected work</span>
+        <h2 class="d3" data-weigh data-rise style="--d:.06s">Six industries.<br>One standard.</h2>
       </div>
       <p class="body-lg" data-rise style="--d:.12s;max-width:38ch">
         Each piece below was art-directed, designed and built end to end.
@@ -245,7 +242,7 @@
 
     <!-- 01 — Kobu -->
     <article class="pj" data-accent="#A8482A" data-on-accent="#FFFFFF">
-      <a class="pj__art" href="work/kobu.html" data-cursor="Open case" aria-label="Kōbu case study">
+      <a class="pj__art" data-clip href="work/kobu.html" data-cursor="Open case" aria-label="Kōbu case study">
         <span class="pj__frame">
           <span class="pj__inner">
             <div class="art art-kobu">
@@ -271,7 +268,7 @@
         </span>
       </a>
 
-      <div class="pj__side">
+      <div class="pj__side" data-stagger>
         <span class="pj__idx">Project 01</span>
         <h3 class="pj__title"><a class="ul-link" href="work/kobu.html">Kōbu</a></h3>
         <div class="chips">
@@ -296,7 +293,7 @@
 
     <!-- 02 — Vertex -->
     <article class="pj pj--r pj--drop" data-accent="#1B3A63" data-on-accent="#FFFFFF">
-      <a class="pj__art" href="work/vertex.html" data-cursor="Open case" aria-label="Vertex case study">
+      <a class="pj__art" data-clip href="work/vertex.html" data-cursor="Open case" aria-label="Vertex case study">
         <span class="pj__frame">
           <span class="pj__inner">
             <div class="art art-vertex">
@@ -334,7 +331,7 @@
         </span>
       </a>
 
-      <div class="pj__side">
+      <div class="pj__side" data-stagger>
         <span class="pj__idx">Project 02</span>
         <h3 class="pj__title"><a class="ul-link" href="work/vertex.html">Vertex</a></h3>
         <div class="chips">
@@ -360,7 +357,7 @@
 
     <!-- 03 — Solène -->
     <article class="pj" data-accent="#2C3729" data-on-accent="#FFFFFF">
-      <a class="pj__art" href="work/solene.html" data-cursor="Open case" aria-label="Solène case study">
+      <a class="pj__art" data-clip href="work/solene.html" data-cursor="Open case" aria-label="Solène case study">
         <span class="pj__frame">
           <span class="pj__inner">
             <div class="art art-solene">
@@ -393,7 +390,7 @@
         </span>
       </a>
 
-      <div class="pj__side">
+      <div class="pj__side" data-stagger>
         <span class="pj__idx">Project 03</span>
         <h3 class="pj__title"><a class="ul-link" href="work/solene.html">Solène</a></h3>
         <div class="chips">
@@ -419,7 +416,7 @@
 
     <!-- 04 — Meridian -->
     <article class="pj pj--r pj--drop" data-accent="#575550" data-on-accent="#FFFFFF">
-      <a class="pj__art" href="work/meridian.html" data-cursor="Open case" aria-label="Meridian case study">
+      <a class="pj__art" data-clip href="work/meridian.html" data-cursor="Open case" aria-label="Meridian case study">
         <span class="pj__frame">
           <span class="pj__inner">
             <div class="art art-meridian">
@@ -451,7 +448,7 @@
         </span>
       </a>
 
-      <div class="pj__side">
+      <div class="pj__side" data-stagger>
         <span class="pj__idx">Project 04</span>
         <h3 class="pj__title"><a class="ul-link" href="work/meridian.html">Meridian</a></h3>
         <div class="chips">
@@ -476,7 +473,7 @@
 
     <!-- 05 — Pulse -->
     <article class="pj" data-accent="#C0301A" data-on-accent="#FFFFFF">
-      <a class="pj__art" href="work/pulse.html" data-cursor="Open case" aria-label="Pulse case study">
+      <a class="pj__art" data-clip href="work/pulse.html" data-cursor="Open case" aria-label="Pulse case study">
         <span class="pj__frame">
           <span class="pj__inner">
             <div class="art art-pulse">
@@ -515,7 +512,7 @@
         </span>
       </a>
 
-      <div class="pj__side">
+      <div class="pj__side" data-stagger>
         <span class="pj__idx">Project 05</span>
         <h3 class="pj__title"><a class="ul-link" href="work/pulse.html">Pulse</a></h3>
         <div class="chips">
@@ -540,7 +537,7 @@
 
     <!-- 06 — Cassette -->
     <article class="pj pj--r pj--drop" data-accent="#5C6A0B" data-on-accent="#FFFFFF">
-      <a class="pj__art" href="work/cassette.html" data-cursor="Open case" aria-label="Cassette case study">
+      <a class="pj__art" data-clip href="work/cassette.html" data-cursor="Open case" aria-label="Cassette case study">
         <span class="pj__frame">
           <span class="pj__inner">
             <div class="art art-cassette">
@@ -573,7 +570,7 @@
         </span>
       </a>
 
-      <div class="pj__side">
+      <div class="pj__side" data-stagger>
         <span class="pj__idx">Project 06</span>
         <h3 class="pj__title"><a class="ul-link" href="work/cassette.html">Cassette</a></h3>
         <div class="chips">
@@ -605,8 +602,7 @@
   <div class="shell">
     <div class="sec-head">
       <div style="display:flex;flex-direction:column;gap:1.2rem;max-width:22ch">
-        <span class="tag" data-rise>03 — Capabilities</span>
-        <h2 class="d3" data-rise style="--d:.06s">What we actually do</h2>
+        <h2 class="d3" data-weigh data-rise style="--d:.06s">What we actually do</h2>
       </div>
       <p class="body-lg" data-rise style="--d:.12s;max-width:36ch">
         One studio, the whole chain. Nothing gets handed to a stranger halfway
@@ -614,7 +610,7 @@
       </p>
     </div>
 
-    <div class="caps__list" data-fade>
+    <div class="caps__list" data-stagger>
 
       <div class="cap" aria-expanded="false">
         <button class="cap__btn" type="button" aria-expanded="false">
@@ -722,8 +718,7 @@
   <div class="shell">
     <div class="sec-head">
       <div style="display:flex;flex-direction:column;gap:1.2rem;max-width:22ch">
-        <span class="tag" data-rise>04 — How it goes</span>
-        <h2 class="d3" data-rise style="--d:.06s">Four moves,<br>no mystery</h2>
+        <h2 class="d3" data-weigh data-rise style="--d:.06s">Four moves,<br>no mystery</h2>
       </div>
       <p class="body-lg" data-rise style="--d:.12s;max-width:36ch">
         Roughly eight to eleven weeks from first call to launch day. You will
@@ -733,7 +728,7 @@
 
     <div class="proc__deck">
 
-      <div class="step">
+      <div class="step" data-rise>
         <div class="step__card">
           <div>
             <span class="step__num">Step 01 · Week 1</span>
@@ -751,7 +746,7 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step" data-rise>
         <div class="step__card">
           <div>
             <span class="step__num">Step 02 · Weeks 2–3</span>
@@ -769,7 +764,7 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step" data-rise>
         <div class="step__card">
           <div>
             <span class="step__num">Step 03 · Weeks 4–8</span>
@@ -787,7 +782,7 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step" data-rise>
         <div class="step__card">
           <div>
             <span class="step__num">Step 04 · Launch</span>
@@ -814,8 +809,7 @@
   <div class="shell">
     <div class="sec-head">
       <div style="display:flex;flex-direction:column;gap:1.2rem;max-width:22ch">
-        <span class="tag" data-rise>05 — Engagements</span>
-        <h2 class="d3" data-rise style="--d:.06s">Three ways<br>to work</h2>
+        <h2 class="d3" data-weigh data-rise style="--d:.06s">Three ways<br>to work</h2>
       </div>
       <p class="body-lg" data-rise style="--d:.12s;max-width:36ch">
         Fixed scope, fixed fee, fixed dates. If the scope changes we say so before
@@ -823,7 +817,7 @@
       </p>
     </div>
 
-    <div class="eng__grid" data-rise>
+    <div class="eng__grid" data-stagger>
 
       <div class="eng__card">
         <h3 class="eng__name">Launch</h3>
@@ -873,8 +867,7 @@
   <div class="shell">
 
     <div class="cta__head">
-      <span class="tag" data-rise>06 — Start something</span>
-      <h2 class="d2 split" style="margin-top:1.5rem">
+      <h2 class="d2 split" data-weigh style="margin-top:1.5rem">
         <span class="ln">Tell us what</span>
         <span class="ln">you're <em class="em-serif flame">building.</em></span>
       </h2>
@@ -885,7 +878,7 @@
 
     <div class="grid12 cta__grid">
 
-      <form class="cta__form" data-form data-mailto="hello@atvdev.studio" novalidate>
+      <form class="cta__form" data-stagger data-form data-mailto="hello@atvdev.studio" novalidate>
         <div class="form__row">
           <div class="field">
             <label for="f-name">Your name</label>
@@ -924,7 +917,7 @@
         <p class="form__status" role="status"></p>
       </form>
 
-      <aside class="cta__aside">
+      <aside class="cta__aside" data-stagger>
         <div class="contact-card">
           <h5>Email</h5>
           <a class="ul-link" href="mailto:hello@atvdev.studio">hello@atvdev.studio</a>
@@ -958,7 +951,7 @@
 <footer class="ftr">
   <div class="shell">
 
-    <div class="ftr__top">
+    <div class="ftr__top" data-stagger>
       <div class="ftr__col">
         <h4>Studio</h4>
         <p>An independent design and build studio working from India with clients worldwide.</p>
@@ -988,7 +981,7 @@
       </div>
     </div>
 
-    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
+    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
 
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
@@ -1002,6 +995,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js" defer></script>
+<script src="assets/js/app.js?v=4789c052" defer></script>
 </body>
 </html>

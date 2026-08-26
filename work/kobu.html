@@ -19,9 +19,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/css/core.css">
-<link rel="stylesheet" href="../assets/css/art.css">
-<link rel="stylesheet" href="../assets/css/case.css">
+<link rel="stylesheet" href="../assets/css/core.css?v=4789c052">
+<link rel="stylesheet" href="../assets/css/art.css?v=4789c052">
+<link rel="stylesheet" href="../assets/css/case.css?v=4789c052">
+<link rel="stylesheet" href="../assets/css/motion.css?v=4789c052">
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
@@ -34,10 +35,11 @@
     <span class="pre__mark">Kōbu</span>
     <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">Case study — atvdev</span>
+  <span class="pre__note">Case study</span>
   <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
+<div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="prog" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
@@ -52,7 +54,6 @@
       <a href="../index.html#contact">Contact</a>
     </nav>
     <div class="hdr__right">
-      <span class="clock"><span class="pip" aria-hidden="true"></span><span data-clock>—</span></span>
       <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
         <span></span><span></span>
       </button>
@@ -96,7 +97,7 @@
       </div>
 
       <div class="case-hero__row">
-        <h1 class="case-title split"><span class="ln">Kōbu</span></h1>
+        <h1 class="case-title split" data-chars><span class="ln">Kōbu</span></h1>
         <span class="tag tag--bare" data-rise>Hospitality — 2025</span>
       </div>
 
@@ -104,7 +105,7 @@
 
       <p class="case-note" data-rise style="--d:.14s">Self-initiated concept — brand and brief invented to show scope</p>
 
-      <dl class="case-meta" data-fade style="--d:.16s">
+      <dl class="case-meta" data-stagger style="--d:.16s">
         <div><dt>Client</dt><dd>Kōbu Hospitality Group</dd></div>
         <div><dt>Sector</dt><dd>Restaurants &amp; bars</dd></div>
         <div><dt>Scope</dt><dd>Brand site, reservations, CMS</dd></div>
@@ -207,7 +208,6 @@
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
-          <span class="tag" data-rise>The approach</span>
           <p class="body-lg" data-rise style="--d:.06s">The decisions that shaped everything downstream.</p>
         </div>
         <div class="case-body__main">
@@ -222,7 +222,6 @@
   <section class="band">
     <div class="shell">
       <div class="sec-head">
-        <span class="tag" data-rise>Type &amp; colour</span>
         <p class="body-lg" data-rise style="max-width:34ch">The system underneath — two faces, four colours, no exceptions.</p>
       </div>
 
@@ -255,7 +254,7 @@
   <!-- facts -->
   <section class="band--tight">
     <div class="shell">
-      <div class="facts" data-fade>
+      <div class="facts" data-stagger>
         <div><span class="num">01</span><h4>Six rooms, one system</h4><p>A single design system with six accent temperatures, so each room reads as itself without a rebuild.</p></div>
         <div><span class="num">02</span><h4>Four taps to a table</h4><p>Reservations run in a persistent rail — pick room, size, date, time. No page reloads, no dead ends.</p></div>
         <div><span class="num">03</span><h4>Editors in the kitchen</h4><p>Menus change weekly. Managers update prices and sold-out items from a phone in under a minute.</p></div>
@@ -313,7 +312,7 @@
 
 <footer class="ftr">
   <div class="shell">
-    <div class="ftr__top">
+    <div class="ftr__top" data-stagger>
       <div class="ftr__col">
         <h4>Studio</h4>
         <p>An independent design and build studio working from India with clients worldwide.</p>
@@ -343,7 +342,7 @@
       </div>
     </div>
 
-    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
+    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
 
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
@@ -356,6 +355,6 @@
   </div>
 </footer>
 
-<script src="../assets/js/app.js" defer></script>
+<script src="../assets/js/app.js?v=4789c052" defer></script>
 </body>
 </html>

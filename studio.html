@@ -19,10 +19,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/core.css">
-<link rel="stylesheet" href="assets/css/art.css">
-<link rel="stylesheet" href="assets/css/case.css">
-<link rel="stylesheet" href="assets/css/home.css">
+<link rel="stylesheet" href="assets/css/core.css?v=4789c052">
+<link rel="stylesheet" href="assets/css/art.css?v=4789c052">
+<link rel="stylesheet" href="assets/css/case.css?v=4789c052">
+<link rel="stylesheet" href="assets/css/home.css?v=4789c052">
+<link rel="stylesheet" href="assets/css/motion.css?v=4789c052">
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
@@ -35,10 +36,11 @@
     <span class="pre__mark">Studio</span>
     <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">atvdev — design &amp; build</span>
+  <span class="pre__note">Design and build studio</span>
   <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
+<div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="prog" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
@@ -53,7 +55,6 @@
       <a href="index.html#contact">Contact</a>
     </nav>
     <div class="hdr__right">
-      <span class="clock"><span class="pip" aria-hidden="true"></span><span data-clock>—</span></span>
       <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
         <span></span><span></span>
       </button>
@@ -85,33 +86,47 @@
 <main id="main">
 
 <!-- ── Hero ──────────────────────────────────────────────────────────────── -->
-<section class="case-hero" data-hero>
-  <div class="shell">
-    <div class="case-hero__crumb">
-      <a class="ul-link" href="index.html">Index</a>
-      <span>/</span>
-      <span>Studio</span>
+<section class="skin" data-hero>
+
+  <div class="skin__rows" aria-hidden="true">
+    <div class="mq mq--hard skin__row" style="--mq-dur:34s">
+      <div class="mq__row">
+        <span class="mq__item">Small studio</span><span class="mq__item ast">✳</span>
+        <span class="mq__item">One project at a time</span><span class="mq__item ast">✳</span>
+      </div>
     </div>
 
-    <h1 class="case-title split">
-      <span class="ln">Small studio,</span>
-      <span class="ln"><em class="em-serif flame">unreasonable</em></span>
-      <span class="ln">standards.</span>
-    </h1>
+    <div class="mq mq--hard mq--rev skin__row skin__row--out" style="--mq-dur:44s">
+      <div class="mq__row">
+        <span class="mq__item">Unreasonable</span><span class="mq__item ast">✳</span>
+        <span class="mq__item">Unreasonable</span><span class="mq__item ast">✳</span>
+      </div>
+    </div>
 
-    <p class="case-hero__lede" data-rise style="--d:.1s">
-      atvdev takes one project at a time, from the first awkward question
-      to the day the DNS switches over. No account managers, no handoff,
+    <div class="mq mq--hard skin__row skin__row--flame" style="--mq-dur:28s">
+      <div class="mq__row">
+        <span class="mq__item">Standards</span><span class="mq__item ast">✳</span>
+        <span class="mq__item">No templates</span><span class="mq__item ast">✳</span>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="sr">Studio</h1>
+
+  <div class="skin__foot shell">
+    <p class="skin__lede" data-rise>
+      <strong>atvdev</strong> takes one project at a time, from the first awkward
+      question to the day the DNS switches over. No account managers, no handoff,
       no template with your logo dropped into it.
     </p>
-
-    <dl class="case-meta" data-fade style="--d:.16s">
+    <dl class="skin__meta" data-stagger>
       <div><dt>Founded</dt><dd>2023</dd></div>
-      <div><dt>Based</dt><dd>India — working worldwide</dd></div>
-      <div><dt>Team</dt><dd>Founder-led, specialists on call</dd></div>
-      <div><dt>Capacity</dt><dd>One build at a time</dd></div>
+      <div><dt>Based</dt><dd>India, worldwide</dd></div>
+      <div><dt>Team</dt><dd>Founder-led</dd></div>
+      <div><dt>Capacity</dt><dd>One build</dd></div>
     </dl>
   </div>
+
 </section>
 
 <!-- ── Statement ─────────────────────────────────────────────────────────── -->
@@ -119,7 +134,6 @@
   <div class="shell">
     <div class="grid12 mani__grid">
       <aside class="mani__aside">
-        <span class="tag" data-rise>Why we exist</span>
       </aside>
       <div class="mani__body">
         <p class="mani__text" data-lit>
@@ -135,52 +149,49 @@
   </div>
 </section>
 
-<!-- ── Principles ────────────────────────────────────────────────────────── -->
-<section class="band">
-  <div class="shell">
-    <div class="sec-head">
-      <div style="display:flex;flex-direction:column;gap:1.2rem;max-width:22ch">
-        <span class="tag" data-rise>Principles</span>
-        <h2 class="d3" data-rise style="--d:.06s">Six things<br>we hold to</h2>
-      </div>
-      <p class="body-lg" data-rise style="--d:.12s;max-width:36ch">
-        Not values on a wall. These are the arguments we will actually have
-        with you during the project.
-      </p>
+<!-- ── Principles (pinned, dragged sideways) ─────────────────────────────── -->
+<section class="hsec" id="principles" data-hsec>
+  <div class="hsec__pin">
+
+    <div class="hsec__head">
+      <h2 class="d3" data-weigh data-rise>Six things we hold to</h2>
+      <span class="hsec__count" aria-hidden="true">06</span>
     </div>
 
-    <div class="facts" data-fade style="--acc-ink:var(--flame-txt)">
-      <div>
-        <span class="num">01</span>
-        <h4>Art direction comes first</h4>
-        <p>Before a single component, there is a point of view about how the thing should feel. Everything downstream is easier once that is settled.</p>
-      </div>
-      <div>
-        <span class="num">02</span>
-        <h4>Fast is part of beautiful</h4>
-        <p>A site that takes four seconds to arrive is not well designed, whatever it looks like once it lands. Performance budgets are set in week one.</p>
-      </div>
-      <div>
-        <span class="num">03</span>
-        <h4>Words are design</h4>
-        <p>We write alongside the layout. Copy poured into a finished design always looks like copy poured into a finished design.</p>
-      </div>
-      <div>
-        <span class="num">04</span>
-        <h4>Accessible by default</h4>
-        <p>Keyboard paths, contrast, focus states and reduced-motion handling are built in, not bolted on after an audit finds them missing.</p>
-      </div>
-      <div>
-        <span class="num">05</span>
-        <h4>You own everything</h4>
-        <p>Code, design files, domains, accounts. No proprietary builder, no hostage situation, no licence that expires if you stop paying us.</p>
-      </div>
-      <div>
-        <span class="num">06</span>
-        <h4>Motion needs a reason</h4>
-        <p>Every animation maps to a state change or a spatial relationship. If it is only there to look busy, it does not ship.</p>
-      </div>
+    <div class="hsec__track" data-htrack>
+        <article class="hpanel">
+          <span class="hpanel__n">01</span>
+          <h3>Art direction comes first</h3>
+          <p>Before a single component there is a point of view about how the thing should feel. Everything downstream gets easier once that is settled.</p>
+        </article>
+        <article class="hpanel">
+          <span class="hpanel__n">02</span>
+          <h3>Fast is part of beautiful</h3>
+          <p>A site that takes four seconds to arrive is not well designed, whatever it looks like once it lands. Performance budgets are set in week one.</p>
+        </article>
+        <article class="hpanel">
+          <span class="hpanel__n">03</span>
+          <h3>Words are design</h3>
+          <p>We write alongside the layout. Copy poured into a finished design always looks like copy poured into a finished design.</p>
+        </article>
+        <article class="hpanel">
+          <span class="hpanel__n">04</span>
+          <h3>Accessible by default</h3>
+          <p>Keyboard paths, contrast, focus states and reduced-motion handling are built in, not bolted on after an audit finds them missing.</p>
+        </article>
+        <article class="hpanel">
+          <span class="hpanel__n">05</span>
+          <h3>You own everything</h3>
+          <p>Code, design files, domains, accounts. No proprietary builder, no hostage situation, no licence that expires if you stop paying us.</p>
+        </article>
+        <article class="hpanel">
+          <span class="hpanel__n">06</span>
+          <h3>Motion needs a reason</h3>
+          <p>Every animation maps to a state change or a spatial relationship. If it is only there to look busy, it does not ship.</p>
+        </article>
     </div>
+
+    <div class="hsec__rail" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
@@ -188,16 +199,19 @@
 <section class="band--tight">
   <div class="shell">
     <div class="sec-head">
-      <span class="tag" data-rise>Who you work with</span>
       <p class="body-lg" data-rise style="max-width:34ch">The person you meet on the first call is the person who designs it and the person who builds it.</p>
     </div>
 
     <div class="bio">
       <div class="bio__card" data-rise>
-        <div class="bio__portrait"><span class="bio__initials">at</span></div>
+        <div class="bio__portrait">
+          <!-- Swap in a real photograph: <img src="assets/img/atharva.jpg" alt="Atharva, founder of atvdev"> -->
+          <span class="bio__initials">at</span>
+          <span class="sig">Founder</span>
+        </div>
         <div class="bio__meta">
           <div><span>Role</span><b>Design &amp; build</b></div>
-          <div><span>Based</span><b>India · IST</b></div>
+          <div><span>Based</span><b>India</b></div>
           <div><span>Since</span><b>2023</b></div>
         </div>
       </div>
@@ -231,32 +245,12 @@
   </div>
 </section>
 
-<!-- ── Toolkit marquee ───────────────────────────────────────────────────── -->
-<div class="ticker" aria-hidden="true">
-  <div class="mq mq--mono mq--hard" style="--mq-dur:38s">
-    <div class="mq__row">
-      <span class="mq__item">Figma</span><span class="mq__item">◦</span>
-      <span class="mq__item">Next.js</span><span class="mq__item">◦</span>
-      <span class="mq__item">Astro</span><span class="mq__item">◦</span>
-      <span class="mq__item">TypeScript</span><span class="mq__item">◦</span>
-      <span class="mq__item">Shopify Hydrogen</span><span class="mq__item">◦</span>
-      <span class="mq__item">Sanity</span><span class="mq__item">◦</span>
-      <span class="mq__item">Payload</span><span class="mq__item">◦</span>
-      <span class="mq__item">Stripe</span><span class="mq__item">◦</span>
-      <span class="mq__item">GSAP</span><span class="mq__item">◦</span>
-      <span class="mq__item">Vercel</span><span class="mq__item">◦</span>
-      <span class="mq__item">Cloudflare</span><span class="mq__item">◦</span>
-    </div>
-  </div>
-</div>
-
 <!-- ── Fit ───────────────────────────────────────────────────────────────── -->
 <section class="band">
   <div class="shell">
     <div class="sec-head">
       <div style="display:flex;flex-direction:column;gap:1.2rem;max-width:24ch">
-        <span class="tag" data-rise>Fit</span>
-        <h2 class="d3" data-rise style="--d:.06s">Let's save<br>everyone time</h2>
+        <h2 class="d3" data-weigh data-rise style="--d:.06s">Let's save<br>everyone time</h2>
       </div>
       <p class="body-lg" data-rise style="--d:.12s;max-width:36ch">
         We are very good for some projects and genuinely wrong for others.
@@ -264,10 +258,10 @@
       </p>
     </div>
 
-    <div class="fit">
+    <div class="fit" data-stagger>
       <div class="fit__col" data-rise>
         <h3>We're a good fit if</h3>
-        <ul class="fit__list">
+        <ul class="fit__list" data-stagger>
           <li>You want the site to be a reason people remember you, not a box ticked.</li>
           <li>You have a real point of view about your business and can defend it.</li>
           <li>One or two people can make decisions without a committee.</li>
@@ -278,7 +272,7 @@
 
       <div class="fit__col fit__col--no" data-rise style="--d:.08s">
         <h3>We're the wrong call if</h3>
-        <ul class="fit__list">
+        <ul class="fit__list" data-stagger>
           <li>You need it live in ten days because a campaign already booked.</li>
           <li>The brief is “make it look like this other site, but ours”.</li>
           <li>Approval requires sign-off from more than four people.</li>
@@ -294,11 +288,11 @@
 <section class="band--tight" id="faq">
   <div class="shell">
     <div class="sec-head">
-      <span class="tag" data-rise>Questions</span>
+      <span class="tag" data-rise>Common questions</span>
       <p class="body-lg" data-rise style="max-width:32ch">The five that come up on every first call.</p>
     </div>
 
-    <div class="caps__list" data-fade>
+    <div class="caps__list" data-stagger>
       <div class="cap" aria-expanded="false">
         <button class="cap__btn" type="button" aria-expanded="false">
           <span class="cap__num">01</span>
@@ -368,10 +362,9 @@
 </section>
 
 <!-- ── CTA ───────────────────────────────────────────────────────────────── -->
-<section class="band on-dark">
+<section class="band on-dark studio-cta">
   <div class="shell">
-    <span class="tag" data-rise>Next step</span>
-    <h2 class="d2 split" style="margin-top:1.5rem">
+    <h2 class="d2 split" data-weigh style="margin-top:1.5rem">
       <span class="ln">Send a brief.</span>
       <span class="ln">We'll <em class="em-serif flame">reply</em> today.</span>
     </h2>
@@ -391,7 +384,7 @@
 
 <footer class="ftr">
   <div class="shell">
-    <div class="ftr__top">
+    <div class="ftr__top" data-stagger>
       <div class="ftr__col">
         <h4>Studio</h4>
         <p>An independent design and build studio working from India with clients worldwide.</p>
@@ -421,7 +414,7 @@
       </div>
     </div>
 
-    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
+    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
 
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
@@ -434,6 +427,6 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js" defer></script>
+<script src="assets/js/app.js?v=4789c052" defer></script>
 </body>
 </html>
