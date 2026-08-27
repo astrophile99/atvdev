@@ -1,16 +1,17 @@
 /* ==========================================================================
-   atvdev — case study generator
+   atvdev v2 — case study generator
    Renders work/<slug>.html for every project in tools/projects.mjs.
    Run:  node tools/build.mjs
    ========================================================================== */
 
 import { writeFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
-import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { projects } from './projects.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+
 /* Assets are served with a one-year immutable cache header, so every URL
    carries a hash of the actual CSS and JS. Change a stylesheet and the URL
    changes with it; leave it alone and the cache keeps working. */
@@ -19,12 +20,15 @@ const ASSET_V = (() => {
   for (const f of readdirSync(resolve(root, 'assets/css')).sort()) {
     h.update(readFileSync(resolve(root, 'assets/css', f)));
   }
-  h.update(readFileSync(resolve(root, 'assets/js/app.js')));
+  for (const f of readdirSync(resolve(root, 'assets/js')).sort()) {
+    h.update(readFileSync(resolve(root, 'assets/js', f)));
+  }
   return h.digest('hex').slice(0, 8);
 })();
 
 const SITE = 'https://atvdev.studio';
 const MAIL = 'hello@atvdev.studio';
+const strip = (s) => String(s).replace(/<[^>]+>/g, '');
 
 /* ---------- shared chrome ---------- */
 
@@ -35,7 +39,7 @@ const head = (p) => `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${p.name} — ${p.sector} — atvdev</title>
 <meta name="description" content="${strip(p.tagline)}">
-<meta name="theme-color" content="#EFE9DE">
+<meta name="theme-color" content="#FBF4E6">
 <link rel="canonical" href="${SITE}/work/${p.slug}">
 
 <meta property="og:type" content="article">
@@ -47,26 +51,28 @@ const head = (p) => `<!doctype html>
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/css/core.css?v=${ASSET_V}">
+<link rel="stylesheet" href="../assets/css/tokens.css?v=${ASSET_V}">
+<link rel="stylesheet" href="../assets/css/base.css?v=${ASSET_V}">
 <link rel="stylesheet" href="../assets/css/art.css?v=${ASSET_V}">
+<link rel="stylesheet" href="../assets/css/sections.css?v=${ASSET_V}">
 <link rel="stylesheet" href="../assets/css/case.css?v=${ASSET_V}">
 <link rel="stylesheet" href="../assets/css/motion.css?v=${ASSET_V}">
-<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');
+try{if(localStorage.getItem('atvdev-theme')==='night'){document.documentElement.setAttribute('data-theme','night');document.documentElement.style.setProperty('--night','1');}}catch(e){}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 
-<body class="case" style="--acc:${p.accent};--acc-ink:${p.accentInk};--acc-on:${p.accentOn}">
+<body class="case" style="--acc:${p.accent};--acc-ink:${p.accentInk}">
 
 <div class="pre" role="status" aria-label="Loading">
   <div class="pre__in">
+    <span class="pre__sun" aria-hidden="true"></span>
     <span class="pre__mark">${p.name}</span>
-    <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">Case study</span>
-  <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
 <div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
@@ -76,7 +82,7 @@ const head = (p) => `<!doctype html>
 
 <header class="hdr">
   <div class="hdr__in">
-    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span><sup>®</sup></a>
+    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span></a>
     <nav class="nav" aria-label="Primary">
       <a href="../index.html#work" aria-current="page">Work</a>
       <a href="../index.html#capabilities">Capabilities</a>
@@ -101,10 +107,10 @@ const head = (p) => `<!doctype html>
   </ul>
   <div class="menu__foot">
     <div style="display:flex;flex-direction:column;gap:.4rem">
-      <span class="tag tag--bare" style="color:#857D6D">Say hello</span>
+      <span class="tag">Say hello</span>
       <a class="ul-link" href="mailto:${MAIL}" style="font-size:1.1rem">${MAIL}</a>
     </div>
-    <div style="display:flex;gap:1.5rem" class="tag tag--bare">
+    <div style="display:flex;gap:1.5rem" class="tag">
       <a class="ul-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
       <a class="ul-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
@@ -140,9 +146,7 @@ const footer = () => `
         <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
-
-    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
-
+    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
       <span>Designed &amp; built in-house · <span data-clock>IST</span></span>
@@ -159,55 +163,33 @@ const footer = () => `
 </html>
 `;
 
-/* ---------- pieces ---------- */
-
-const strip = (s) => String(s).replace(/<[^>]+>/g, '');
-
-const mock = (m) =>
-  m.app
-    ? `<figure class="mock mock--app" style="${m.vars}" data-rise>
-  <div class="mock__win"><div class="phone">${m.body}</div></div>
-  <figcaption>${m.cap}</figcaption>
-</figure>`
-    : `<figure class="mock" style="${m.vars}" data-rise>
-  <div class="mock__win">
-    <div class="mock__chrome"><i></i><i></i><i></i><em>${m.url}</em></div>
-    <div class="mock__view">${m.body}</div>
-  </div>
-  <figcaption>${m.cap}</figcaption>
-</figure>`;
+/* ---------- page ---------- */
 
 const page = (p, next) => `${head(p)}
 <main id="main">
 
-  <!-- hero -->
   <section class="case-hero" data-hero>
     <div class="shell">
       <div class="case-hero__crumb">
         <a class="ul-link" href="../index.html#work">Work</a>
-        <span>/</span>
-        <span>${p.index}</span>
-        <span>/</span>
-        <span>${p.name}</span>
+        <span>/</span><span>${p.index}</span><span>/</span><span>${p.name}</span>
         <span class="sw" aria-hidden="true"></span>
       </div>
 
       <div class="case-hero__row">
         <h1 class="case-title split" data-chars><span class="ln">${p.name}</span></h1>
-        <span class="tag tag--bare" data-rise>${p.sector} — ${p.year}</span>
+        <span class="tag" data-rise>${p.sector} — ${p.year}</span>
       </div>
 
       <p class="case-hero__lede" data-rise style="--d:.1s">${p.tagline}</p>
-
       <p class="case-note" data-rise style="--d:.14s">Self-initiated concept — brand and brief invented to show scope</p>
 
-      <dl class="case-meta" data-stagger style="--d:.16s">
+      <dl class="case-meta" data-stagger>
         ${p.meta.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('\n        ')}
       </dl>
     </div>
   </section>
 
-  <!-- plate -->
   <div class="plate" data-clip>
     <span class="plate__frame">${p.art(p.slug + '-plate')}</span>
   </div>
@@ -218,13 +200,11 @@ const page = (p, next) => `${head(p)}
     </div>
   </div>
 
-  <!-- brief -->
   <section class="band">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
           <span class="tag" data-rise>The brief</span>
-          <p class="body-lg" data-rise style="--d:.06s">What we were handed, and what was actually wrong with it.</p>
         </div>
         <div class="case-body__main">
           ${p.brief.map((t, i) => `<p${i === 0 ? ' class="first"' : ''} data-rise style="--d:.${i}s">${t}</p>`).join('\n          ')}
@@ -233,29 +213,17 @@ const page = (p, next) => `${head(p)}
     </div>
   </section>
 
-  <!-- screens -->
-  <section class="band--tight">
-    <div class="shell">
-      <div class="mock-pair${p.pairRev ? ' mock-pair--rev' : ''}">
-        ${mock(p.mocks[0])}
-        ${mock(p.mocks[1])}
-      </div>
-    </div>
-  </section>
-
-  <!-- pull -->
   <section class="band--tight">
     <div class="shell">
       <blockquote class="pull" data-rise>${p.pull}</blockquote>
     </div>
   </section>
 
-  <!-- approach -->
   <section class="band--tight">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
-          <p class="body-lg" data-rise style="--d:.06s">The decisions that shaped everything downstream.</p>
+          <span class="tag" data-rise>The approach</span>
         </div>
         <div class="case-body__main">
           ${p.approach.map((t, i) => `<p data-rise style="--d:.${i}s">${t}</p>`).join('\n          ')}
@@ -264,47 +232,32 @@ const page = (p, next) => `${head(p)}
     </div>
   </section>
 
-  <!-- specimen -->
   <section class="band">
     <div class="shell">
       <div class="sec-head">
-        <p class="body-lg" data-rise style="max-width:34ch">The system underneath — two faces, four colours, no exceptions.</p>
+        <span class="tag" data-rise>Palette</span>
+        <p class="body-lg" data-rise style="max-width:34ch">The colour system underneath — four tones, no exceptions.</p>
       </div>
-
-      <div class="spec">
-        <div class="spec__type">
-          ${p.faces.map((f) => `<div class="spec__face" data-rise>
-            <div class="spec__label"><span>${f.name}</span><span>${f.role}</span></div>
-            <div class="spec__glyphs" style="${f.name.includes('Instrument') ? 'font-family:var(--serif);font-style:italic' : f.name.includes('Mono') ? 'font-family:var(--mono);letter-spacing:-.01em' : 'font-family:var(--display);font-weight:500'}">${f.glyph}</div>
-            <p class="spec__sample">${f.sample}</p>
-          </div>`).join('\n          ')}
-        </div>
-
-        <div class="spec__pal">
-          <div class="swatches" data-rise>
-            ${p.palette.map(([hex, name, role]) => `<div class="sw-row"><i style="background:${hex}"></i><span><b>${name}</b><em>${hex} — ${role}</em></span></div>`).join('\n            ')}
-          </div>
-        </div>
+      <div class="swatches" data-stagger style="max-width:32rem">
+        ${p.palette.map(([hex, name, role]) => `<div class="sw-row"><i style="background:${hex}"></i><span><b>${name}</b><em>${hex} — ${role}</em></span></div>`).join('\n        ')}
       </div>
     </div>
   </section>
 
-  <!-- facts -->
   <section class="band--tight">
     <div class="shell">
       <div class="facts" data-stagger>
         ${p.facts.map(([n, h, t]) => `<div><span class="num">${n}</span><h4>${h}</h4><p>${t}</p></div>`).join('\n        ')}
       </div>
-      <div class="case-body" style="margin-top:clamp(2.5rem,6vw,4rem)">
+      <div class="case-body" style="margin-top:clamp(2.2rem,5vw,3.5rem)">
         <div class="case-body__aside"><span class="tag" data-rise>Build note</span></div>
         <div class="case-body__main"><p data-rise>${p.outcome}</p></div>
       </div>
     </div>
   </section>
 
-  <!-- next -->
   <div class="shell">
-    <a class="next-pj" href="${next.slug}.html" data-cursor="Next" style="--acc:${next.accent};--acc-ink:${next.accentInk}">
+    <a class="next-pj" href="${next.slug}.html" data-cursor="NEXT" style="--acc:${next.accent};--acc-ink:${next.accentInk}">
       <span class="next-pj__lbl">Next project — ${next.index}</span>
       <span class="next-pj__row">
         <span class="next-pj__name">${next.name}</span>
@@ -321,23 +274,20 @@ ${footer()}`;
 mkdirSync(resolve(root, 'work'), { recursive: true });
 
 /* The three hand-written pages get the same stamp so a deploy can never
-   serve them a year-old stylesheet. */
-const stampRoot = () => {
-  for (const f of ['index.html', 'studio.html', '404.html']) {
-    const file = resolve(root, f);
-    let html = readFileSync(file, 'utf8');
-    const before = html;
-    html = html.replace(
-      /(href|src)="((?:\.\.\/|\/)?assets\/(?:css|js)\/[a-z.]+)(?:\?v=[a-f0-9]+)?"/g,
-      (_m, attr, path) => `${attr}="${path}?v=${ASSET_V}"`
-    );
-    if (html !== before) {
-      writeFileSync(file, html, 'utf8');
-      console.log('stamped ' + f);
-    }
+   serve them a year-old stylesheet under the immutable cache header. */
+for (const f of ['index.html', 'studio.html', '404.html']) {
+  const file = resolve(root, f);
+  let html = readFileSync(file, 'utf8');
+  const before = html;
+  html = html.replace(
+    /(href|src)="((?:\.\.\/|\/)?assets\/(?:css|js)\/[a-z.]+)(?:\?v=[a-f0-9]+)?"/g,
+    (_m, attr, path) => `${attr}="${path}?v=${ASSET_V}"`
+  );
+  if (html !== before) {
+    writeFileSync(file, html, 'utf8');
+    console.log('stamped ' + f);
   }
-};
-stampRoot();
+}
 
 projects.forEach((p, i) => {
   const next = projects[(i + 1) % projects.length];

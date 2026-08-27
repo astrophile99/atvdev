@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Meridian — Architecture — atvdev</title>
 <meta name="description" content="Twenty-six years of a practice, indexed like a library and typeset like a monograph.">
-<meta name="theme-color" content="#EFE9DE">
+<meta name="theme-color" content="#FBF4E6">
 <link rel="canonical" href="https://atvdev.studio/work/meridian">
 
 <meta property="og:type" content="article">
@@ -17,26 +17,28 @@
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/css/core.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/art.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/case.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/motion.css?v=4789c052">
-<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../assets/css/tokens.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/base.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/art.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/sections.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/case.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/motion.css?v=8711f05e">
+
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');
+try{if(localStorage.getItem('atvdev-theme')==='night'){document.documentElement.setAttribute('data-theme','night');document.documentElement.style.setProperty('--night','1');}}catch(e){}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 
-<body class="case" style="--acc:#575550;--acc-ink:#575550;--acc-on:#E5E3DD">
+<body class="case" style="--acc:#575550;--acc-ink:#575550">
 
 <div class="pre" role="status" aria-label="Loading">
   <div class="pre__in">
+    <span class="pre__sun" aria-hidden="true"></span>
     <span class="pre__mark">Meridian</span>
-    <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">Case study</span>
-  <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
 <div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
@@ -46,7 +48,7 @@
 
 <header class="hdr">
   <div class="hdr__in">
-    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span><sup>®</sup></a>
+    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span></a>
     <nav class="nav" aria-label="Primary">
       <a href="../index.html#work" aria-current="page">Work</a>
       <a href="../index.html#capabilities">Capabilities</a>
@@ -71,10 +73,10 @@
   </ul>
   <div class="menu__foot">
     <div style="display:flex;flex-direction:column;gap:.4rem">
-      <span class="tag tag--bare" style="color:#857D6D">Say hello</span>
+      <span class="tag">Say hello</span>
       <a class="ul-link" href="mailto:hello@atvdev.studio" style="font-size:1.1rem">hello@atvdev.studio</a>
     </div>
-    <div style="display:flex;gap:1.5rem" class="tag tag--bare">
+    <div style="display:flex;gap:1.5rem" class="tag">
       <a class="ul-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
       <a class="ul-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
@@ -84,28 +86,23 @@
 
 <main id="main">
 
-  <!-- hero -->
   <section class="case-hero" data-hero>
     <div class="shell">
       <div class="case-hero__crumb">
         <a class="ul-link" href="../index.html#work">Work</a>
-        <span>/</span>
-        <span>04</span>
-        <span>/</span>
-        <span>Meridian</span>
+        <span>/</span><span>04</span><span>/</span><span>Meridian</span>
         <span class="sw" aria-hidden="true"></span>
       </div>
 
       <div class="case-hero__row">
         <h1 class="case-title split" data-chars><span class="ln">Meridian</span></h1>
-        <span class="tag tag--bare" data-rise>Architecture — 2024</span>
+        <span class="tag" data-rise>Architecture — 2024</span>
       </div>
 
       <p class="case-hero__lede" data-rise style="--d:.1s">Twenty-six years of a practice, indexed like a library and typeset like a monograph.</p>
-
       <p class="case-note" data-rise style="--d:.14s">Self-initiated concept — brand and brief invented to show scope</p>
 
-      <dl class="case-meta" data-stagger style="--d:.16s">
+      <dl class="case-meta" data-stagger>
         <div><dt>Client</dt><dd>Meridian Architects</dd></div>
         <div><dt>Sector</dt><dd>Architecture</dd></div>
         <div><dt>Scope</dt><dd>Editorial design, build, CMS</dd></div>
@@ -114,7 +111,6 @@
     </div>
   </section>
 
-  <!-- plate -->
   <div class="plate" data-clip>
     <span class="plate__frame">
 <div class="art art-meridian">
@@ -150,13 +146,11 @@
     </div>
   </div>
 
-  <!-- brief -->
   <section class="band">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
           <span class="tag" data-rise>The brief</span>
-          <p class="body-lg" data-rise style="--d:.06s">What we were handed, and what was actually wrong with it.</p>
         </div>
         <div class="case-body__main">
           <p class="first" data-rise style="--d:.0s">Meridian had two hundred and forty projects, four thousand drawings, and a website that showed twelve of them in a carousel. The archive was the practice — and it was invisible.</p>
@@ -166,62 +160,17 @@
     </div>
   </section>
 
-  <!-- screens -->
-  <section class="band--tight">
-    <div class="shell">
-      <div class="mock-pair">
-        <figure class="mock" style="--m-bg:#E5E3DD;--m-fg:#1A1A18;--m-acc:#575550;--m-soft:rgba(26,26,24,.08);--m-line:rgba(26,26,24,.18);" data-rise>
-  <div class="mock__win">
-    <div class="mock__chrome"><i></i><i></i><i></i><em>meridian.co.in / index</em></div>
-    <div class="mock__view"><div class="mv">
-          <div class="mv-nav"><b>Meridian</b><ul><li>Index</li><li>Practice</li><li>Awards</li></ul><span>240 projects</span></div>
-          <div class="mv-h">The <em>index.</em></div>
-          <div class="mv-cols">
-            <div class="mv-tile mv-tile--light"><span class="sc sc-mass"><i></i><i></i><i></i><i></i><i></i></span><span>2021 · Residential</span><b>Panchgani</b></div>
-            <div class="mv-tile mv-tile--light"><span class="sc sc-mass sc-mass--b"><i></i><i></i><i></i><i></i><i></i></span><span>2019 · Civic</span><b>Kadamba</b></div>
-            <div class="mv-tile mv-tile--light"><span class="sc sc-mass sc-mass--c"><i></i><i></i><i></i><i></i><i></i></span><span>2017 · Reuse</span><b>Foundry Lane</b></div>
-          </div>
-          <div class="mv-row"><span>House at Panchgani</span><em>2021 · Residential</em></div>
-          <div class="mv-row"><span>Kadamba Library Extension</span><em>2019 · Civic</em></div>
-          <div class="mv-row"><span>Foundry Lane Studios</span><em>2017 · Adaptive reuse</em></div>
-        </div></div>
-  </div>
-  <figcaption>Project index — filterable</figcaption>
-</figure>
-        <figure class="mock" style="--m-bg:#DCDAD3;--m-fg:#1A1A18;--m-acc:#575550;--m-soft:rgba(26,26,24,.1);--m-line:rgba(26,26,24,.2);" data-rise>
-  <div class="mock__win">
-    <div class="mock__chrome"><i></i><i></i><i></i><em>Drawing viewer</em></div>
-    <div class="mock__view"><div class="mv">
-          <div class="mv-nav" style="border:0"><span>Sheet 04 / 12</span><span>1:200</span></div>
-          <div class="mv-tile mv-tile--wide" style="align-items:center;justify-content:center">
-            <svg viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width=".8" style="width:78%;opacity:.5">
-              <rect x="6" y="6" width="188" height="88"/>
-              <path d="M6 40h88M94 6v88M94 68h100M150 68v26M120 40h74"/>
-              <circle cx="44" cy="72" r="14"/>
-            </svg>
-          </div>
-          <div class="mv-row"><span>Ground floor plan</span><em>Reinforced concrete, local basalt</em></div>
-        </div></div>
-  </div>
-  <figcaption>Plate — deep zoom</figcaption>
-</figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- pull -->
   <section class="band--tight">
     <div class="shell">
       <blockquote class="pull" data-rise>For a practice this old, the archive <em class="em-serif">is</em> the argument. Our job was to get out of its way and hold the ruler straight.</blockquote>
     </div>
   </section>
 
-  <!-- approach -->
   <section class="band--tight">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
-          <p class="body-lg" data-rise style="--d:.06s">The decisions that shaped everything downstream.</p>
+          <span class="tag" data-rise>The approach</span>
         </div>
         <div class="case-body__main">
           <p data-rise style="--d:.0s">Everything is drawn on a visible grid. Hairline rules, drafting crosses at the corners, measurement bars under the plates — the furniture of a technical drawing, used as the interface furniture. It signals what the practice does before you read a word.</p>
@@ -232,40 +181,21 @@
     </div>
   </section>
 
-  <!-- specimen -->
   <section class="band">
     <div class="shell">
       <div class="sec-head">
-        <p class="body-lg" data-rise style="max-width:34ch">The system underneath — two faces, four colours, no exceptions.</p>
+        <span class="tag" data-rise>Palette</span>
+        <p class="body-lg" data-rise style="max-width:34ch">The colour system underneath — four tones, no exceptions.</p>
       </div>
-
-      <div class="spec">
-        <div class="spec__type">
-          <div class="spec__face" data-rise>
-            <div class="spec__label"><span>Bricolage Grotesque</span><span>Project titles</span></div>
-            <div class="spec__glyphs" style="font-family:var(--display);font-weight:500">House at Panchgani</div>
-            <p class="spec__sample">Wide optical size, minimal tracking. Project titles are the only place the site raises its voice, and it never goes above three lines.</p>
-          </div>
-          <div class="spec__face" data-rise>
-            <div class="spec__label"><span>JetBrains Mono</span><span>Drawing captions</span></div>
-            <div class="spec__glyphs" style="font-family:var(--mono);letter-spacing:-.01em">Sheet 04/12 · 1:200</div>
-            <p class="spec__sample">Sheet numbers, scales, dimensions and material codes — set exactly as they appear on the practice drawings themselves.</p>
-          </div>
-        </div>
-
-        <div class="spec__pal">
-          <div class="swatches" data-rise>
-            <div class="sw-row"><i style="background:#E5E3DD"></i><span><b>Concrete</b><em>#E5E3DD — Page stock</em></span></div>
-            <div class="sw-row"><i style="background:#1A1A18"></i><span><b>Graphite</b><em>#1A1A18 — Type &amp; rules</em></span></div>
-            <div class="sw-row"><i style="background:#575550"></i><span><b>Slate</b><em>#575550 — Secondary &amp; hover</em></span></div>
-            <div class="sw-row"><i style="background:#B6B2A7"></i><span><b>Dust</b><em>#B6B2A7 — Disabled &amp; grid</em></span></div>
-          </div>
-        </div>
+      <div class="swatches" data-stagger style="max-width:32rem">
+        <div class="sw-row"><i style="background:#E5E3DD"></i><span><b>Concrete</b><em>#E5E3DD — Page stock</em></span></div>
+        <div class="sw-row"><i style="background:#1A1A18"></i><span><b>Graphite</b><em>#1A1A18 — Type &amp; rules</em></span></div>
+        <div class="sw-row"><i style="background:#575550"></i><span><b>Slate</b><em>#575550 — Secondary &amp; hover</em></span></div>
+        <div class="sw-row"><i style="background:#B6B2A7"></i><span><b>Dust</b><em>#B6B2A7 — Disabled &amp; grid</em></span></div>
       </div>
     </div>
   </section>
 
-  <!-- facts -->
   <section class="band--tight">
     <div class="shell">
       <div class="facts" data-stagger>
@@ -273,16 +203,15 @@
         <div><span class="num">02</span><h4>Drawings as documents</h4><p>Deep-zoom plates with pan and scale bars, so a section drawing survives being looked at properly.</p></div>
         <div><span class="num">03</span><h4>Structured for decades</h4><p>A Payload content model built around drawings, not pages, so the archive keeps growing without a redesign.</p></div>
       </div>
-      <div class="case-body" style="margin-top:clamp(2.5rem,6vw,4rem)">
+      <div class="case-body" style="margin-top:clamp(2.2rem,5vw,3.5rem)">
         <div class="case-body__aside"><span class="tag" data-rise>Build note</span></div>
         <div class="case-body__main"><p data-rise>The index renders on the server and filters through the URL, so a partner can send a colleague a link to “all civic work in basalt since 2010” and it opens exactly that.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- next -->
   <div class="shell">
-    <a class="next-pj" href="pulse.html" data-cursor="Next" style="--acc:#E8452B;--acc-ink:#C0301A">
+    <a class="next-pj" href="pulse.html" data-cursor="NEXT" style="--acc:#E8452B;--acc-ink:#C0301A">
       <span class="next-pj__lbl">Next project — 05</span>
       <span class="next-pj__row">
         <span class="next-pj__name">Pulse</span>
@@ -356,9 +285,7 @@
         <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
-
-    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
-
+    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
       <span>Designed &amp; built in-house · <span data-clock>IST</span></span>
@@ -370,6 +297,6 @@
   </div>
 </footer>
 
-<script src="../assets/js/app.js?v=4789c052" defer></script>
+<script src="../assets/js/app.js?v=8711f05e" defer></script>
 </body>
 </html>

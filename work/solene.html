@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Solène — Beauty — atvdev</title>
 <meta name="description" content="A skincare storefront that sells restraint — and checks out in under thirty seconds.">
-<meta name="theme-color" content="#EFE9DE">
+<meta name="theme-color" content="#FBF4E6">
 <link rel="canonical" href="https://atvdev.studio/work/solene">
 
 <meta property="og:type" content="article">
@@ -17,26 +17,28 @@
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/css/core.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/art.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/case.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/motion.css?v=4789c052">
-<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../assets/css/tokens.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/base.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/art.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/sections.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/case.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/motion.css?v=8711f05e">
+
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');
+try{if(localStorage.getItem('atvdev-theme')==='night'){document.documentElement.setAttribute('data-theme','night');document.documentElement.style.setProperty('--night','1');}}catch(e){}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 
-<body class="case" style="--acc:#2C3729;--acc-ink:#2C3729;--acc-on:#EFE6D8">
+<body class="case" style="--acc:#2C3729;--acc-ink:#2C3729">
 
 <div class="pre" role="status" aria-label="Loading">
   <div class="pre__in">
+    <span class="pre__sun" aria-hidden="true"></span>
     <span class="pre__mark">Solène</span>
-    <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">Case study</span>
-  <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
 <div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
@@ -46,7 +48,7 @@
 
 <header class="hdr">
   <div class="hdr__in">
-    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span><sup>®</sup></a>
+    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span></a>
     <nav class="nav" aria-label="Primary">
       <a href="../index.html#work" aria-current="page">Work</a>
       <a href="../index.html#capabilities">Capabilities</a>
@@ -71,10 +73,10 @@
   </ul>
   <div class="menu__foot">
     <div style="display:flex;flex-direction:column;gap:.4rem">
-      <span class="tag tag--bare" style="color:#857D6D">Say hello</span>
+      <span class="tag">Say hello</span>
       <a class="ul-link" href="mailto:hello@atvdev.studio" style="font-size:1.1rem">hello@atvdev.studio</a>
     </div>
-    <div style="display:flex;gap:1.5rem" class="tag tag--bare">
+    <div style="display:flex;gap:1.5rem" class="tag">
       <a class="ul-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
       <a class="ul-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
@@ -84,28 +86,23 @@
 
 <main id="main">
 
-  <!-- hero -->
   <section class="case-hero" data-hero>
     <div class="shell">
       <div class="case-hero__crumb">
         <a class="ul-link" href="../index.html#work">Work</a>
-        <span>/</span>
-        <span>03</span>
-        <span>/</span>
-        <span>Solène</span>
+        <span>/</span><span>03</span><span>/</span><span>Solène</span>
         <span class="sw" aria-hidden="true"></span>
       </div>
 
       <div class="case-hero__row">
         <h1 class="case-title split" data-chars><span class="ln">Solène</span></h1>
-        <span class="tag tag--bare" data-rise>Beauty — 2024</span>
+        <span class="tag" data-rise>Beauty — 2024</span>
       </div>
 
       <p class="case-hero__lede" data-rise style="--d:.1s">A skincare storefront that sells restraint — and checks out in under thirty seconds.</p>
-
       <p class="case-note" data-rise style="--d:.14s">Self-initiated concept — brand and brief invented to show scope</p>
 
-      <dl class="case-meta" data-stagger style="--d:.16s">
+      <dl class="case-meta" data-stagger>
         <div><dt>Client</dt><dd>Solène Skin</dd></div>
         <div><dt>Sector</dt><dd>Beauty &amp; e-commerce</dd></div>
         <div><dt>Scope</dt><dd>Identity, storefront, conversion</dd></div>
@@ -114,7 +111,6 @@
     </div>
   </section>
 
-  <!-- plate -->
   <div class="plate" data-clip>
     <span class="plate__frame">
 <div class="art art-solene">
@@ -149,13 +145,11 @@
     </div>
   </div>
 
-  <!-- brief -->
   <section class="band">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
           <span class="tag" data-rise>The brief</span>
-          <p class="body-lg" data-rise style="--d:.06s">What we were handed, and what was actually wrong with it.</p>
         </div>
         <div class="case-body__main">
           <p class="first" data-rise style="--d:.0s">Four products, no filler, no claims the lab could not back. Solène wanted to launch into a category that shouts, by not shouting — which is easy to say in a brand deck and very hard to hold on a product page where every competitor is running a countdown timer.</p>
@@ -165,55 +159,17 @@
     </div>
   </section>
 
-  <!-- screens -->
-  <section class="band--tight">
-    <div class="shell">
-      <div class="mock-pair">
-        <figure class="mock" style="--m-bg:#EFE6D8;--m-fg:#2C3729;--m-acc:#C47A3E;--m-soft:rgba(44,55,41,.09);--m-line:rgba(44,55,41,.16);" data-rise>
-  <div class="mock__win">
-    <div class="mock__chrome"><i></i><i></i><i></i><em>solene.co / shop</em></div>
-    <div class="mock__view"><div class="mv">
-          <div class="mv-nav"><b>Solène</b><ul><li>Shop</li><li>Ritual</li><li>Journal</li></ul><span class="cta">Bag (2)</span></div>
-          <div class="mv-h">Skin, without<br>the <em>theatre.</em></div>
-          <div class="mv-cols">
-            <div class="mv-tile mv-tile--tall mv-tile--light"><span class="sc sc-prod"><i></i><i></i><i></i><i></i></span><span>No. 01 · Barrier</span><b>Serum</b><span class="price">₹2,400</span></div>
-            <div class="mv-tile mv-tile--tall mv-tile--light"><span class="sc sc-prod sc-prod--tube"><i></i><i></i><i></i><i></i></span><span>No. 02 · Morning</span><b>Fluid SPF 40</b><span class="price">₹2,100</span></div>
-            <div class="mv-tile mv-tile--tall mv-tile--light"><span class="sc sc-prod sc-prod--jar"><i></i><i></i><i></i><i></i></span><span>No. 03 · Night</span><b>Repair Balm</b><span class="price">₹2,800</span></div>
-          </div>
-        </div></div>
-  </div>
-  <figcaption>Collection — desktop</figcaption>
-</figure>
-        <figure class="mock mock--app" style="--m-bg:#FBF7F0;--m-fg:#2C3729;--m-acc:#C47A3E;--m-soft:rgba(44,55,41,.08);--m-line:rgba(44,55,41,.15);" data-rise>
-  <div class="mock__win"><div class="phone"><div class="ph">
-          <div class="ph-top"><span>No. 01</span><span>30ml</span></div>
-          <div class="ph-h">Barrier<br>Serum</div>
-          <div class="ph-card">
-            <div class="mv-row" style="border:0;padding:0 0 2cqw;font-size:3.2cqw"><span>Niacinamide</span><em>4%</em></div>
-            <div class="mv-row" style="padding:2cqw 0;font-size:3.2cqw"><span>Panthenol</span><em>2%</em></div>
-            <div class="mv-row" style="padding:2cqw 0 0;font-size:3.2cqw"><span>Ceramide NP</span><em>0.4%</em></div>
-          </div>
-          <div class="ph-cta">Add to bag — ₹2,400</div>
-        </div></div></div>
-  <figcaption>Product — ingredients</figcaption>
-</figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- pull -->
   <section class="band--tight">
     <div class="shell">
       <blockquote class="pull" data-rise>The category shouts. We found the volume knob and turned it <em class="em-serif">down</em> — which turned out to be the loudest thing on the shelf.</blockquote>
     </div>
   </section>
 
-  <!-- approach -->
   <section class="band--tight">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
-          <p class="body-lg" data-rise style="--d:.06s">The decisions that shaped everything downstream.</p>
+          <span class="tag" data-rise>The approach</span>
         </div>
         <div class="case-body__main">
           <p data-rise style="--d:.0s">The art direction is apothecary rather than clinical — sand paper stock, a deep herbal green, one amber accent for anything transactional. Product photography sits inside generous circular crops so bottles read as objects, not as assets on a white void.</p>
@@ -224,40 +180,21 @@
     </div>
   </section>
 
-  <!-- specimen -->
   <section class="band">
     <div class="shell">
       <div class="sec-head">
-        <p class="body-lg" data-rise style="max-width:34ch">The system underneath — two faces, four colours, no exceptions.</p>
+        <span class="tag" data-rise>Palette</span>
+        <p class="body-lg" data-rise style="max-width:34ch">The colour system underneath — four tones, no exceptions.</p>
       </div>
-
-      <div class="spec">
-        <div class="spec__type">
-          <div class="spec__face" data-rise>
-            <div class="spec__label"><span>Instrument Serif</span><span>Product names</span></div>
-            <div class="spec__glyphs" style="font-family:var(--serif);font-style:italic">Solène — No. 01</div>
-            <p class="spec__sample">Italic, set large, used only for product names and the single line of poetry each page is allowed. Restraint is a type decision as much as a colour one.</p>
-          </div>
-          <div class="spec__face" data-rise>
-            <div class="spec__label"><span>Inter Tight</span><span>Body &amp; ingredients</span></div>
-            <div class="spec__glyphs" style="font-family:var(--display);font-weight:500">Niacinamide 4%</div>
-            <p class="spec__sample">The ingredient table is the hardest-working type on the site: dense, scannable, and readable at 14px on a phone in bad light.</p>
-          </div>
-        </div>
-
-        <div class="spec__pal">
-          <div class="swatches" data-rise>
-            <div class="sw-row"><i style="background:#EFE6D8"></i><span><b>Sand</b><em>#EFE6D8 — Page stock</em></span></div>
-            <div class="sw-row"><i style="background:#2C3729"></i><span><b>Apothecary</b><em>#2C3729 — Type &amp; buttons</em></span></div>
-            <div class="sw-row"><i style="background:#C47A3E"></i><span><b>Amber</b><em>#C47A3E — Price &amp; transaction</em></span></div>
-            <div class="sw-row"><i style="background:#FBF7F0"></i><span><b>Chalk</b><em>#FBF7F0 — Cards &amp; labels</em></span></div>
-          </div>
-        </div>
+      <div class="swatches" data-stagger style="max-width:32rem">
+        <div class="sw-row"><i style="background:#EFE6D8"></i><span><b>Sand</b><em>#EFE6D8 — Page stock</em></span></div>
+        <div class="sw-row"><i style="background:#2C3729"></i><span><b>Apothecary</b><em>#2C3729 — Type &amp; buttons</em></span></div>
+        <div class="sw-row"><i style="background:#C47A3E"></i><span><b>Amber</b><em>#C47A3E — Price &amp; transaction</em></span></div>
+        <div class="sw-row"><i style="background:#FBF7F0"></i><span><b>Chalk</b><em>#FBF7F0 — Cards &amp; labels</em></span></div>
       </div>
     </div>
   </section>
 
-  <!-- facts -->
   <section class="band--tight">
     <div class="shell">
       <div class="facts" data-stagger>
@@ -265,16 +202,15 @@
         <div><span class="num">02</span><h4>No interruptions</h4><p>Zero pop-ups, zero countdowns. Express wallets sit at the top of a single-page checkout.</p></div>
         <div><span class="num">03</span><h4>Photography as object</h4><p>Circular crops and warm shadow work make four SKUs feel like a collection rather than a catalogue.</p></div>
       </div>
-      <div class="case-body" style="margin-top:clamp(2.5rem,6vw,4rem)">
+      <div class="case-body" style="margin-top:clamp(2.2rem,5vw,3.5rem)">
         <div class="case-body__aside"><span class="tag" data-rise>Build note</span></div>
         <div class="case-body__main"><p data-rise>Built on Hydrogen so the catalogue renders on the edge and the bag stays client-side. The whole storefront ships without a single third-party pop-up script, which is both a brand decision and a performance one.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- next -->
   <div class="shell">
-    <a class="next-pj" href="meridian.html" data-cursor="Next" style="--acc:#575550;--acc-ink:#575550">
+    <a class="next-pj" href="meridian.html" data-cursor="NEXT" style="--acc:#575550;--acc-ink:#575550">
       <span class="next-pj__lbl">Next project — 04</span>
       <span class="next-pj__row">
         <span class="next-pj__name">Meridian</span>
@@ -341,9 +277,7 @@
         <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
-
-    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
-
+    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
       <span>Designed &amp; built in-house · <span data-clock>IST</span></span>
@@ -355,6 +289,6 @@
   </div>
 </footer>
 
-<script src="../assets/js/app.js?v=4789c052" defer></script>
+<script src="../assets/js/app.js?v=8711f05e" defer></script>
 </body>
 </html>

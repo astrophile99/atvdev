@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kōbu — Hospitality — atvdev</title>
 <meta name="description" content="Six izakaya rooms under one roof, and a website built to smell like charcoal.">
-<meta name="theme-color" content="#EFE9DE">
+<meta name="theme-color" content="#FBF4E6">
 <link rel="canonical" href="https://atvdev.studio/work/kobu">
 
 <meta property="og:type" content="article">
@@ -17,26 +17,28 @@
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/css/core.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/art.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/case.css?v=4789c052">
-<link rel="stylesheet" href="../assets/css/motion.css?v=4789c052">
-<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../assets/css/tokens.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/base.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/art.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/sections.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/case.css?v=8711f05e">
+<link rel="stylesheet" href="../assets/css/motion.css?v=8711f05e">
+
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');
+try{if(localStorage.getItem('atvdev-theme')==='night'){document.documentElement.setAttribute('data-theme','night');document.documentElement.style.setProperty('--night','1');}}catch(e){}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 
-<body class="case" style="--acc:#C45A38;--acc-ink:#A8482A;--acc-on:#FFF3EC">
+<body class="case" style="--acc:#C45A38;--acc-ink:#A8482A">
 
 <div class="pre" role="status" aria-label="Loading">
   <div class="pre__in">
+    <span class="pre__sun" aria-hidden="true"></span>
     <span class="pre__mark">Kōbu</span>
-    <span class="pre__count">000</span>
   </div>
-  <span class="pre__note">Case study</span>
-  <span class="pre__bar" aria-hidden="true"></span>
 </div>
 
 <div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
@@ -46,7 +48,7 @@
 
 <header class="hdr">
   <div class="hdr__in">
-    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span><sup>®</sup></a>
+    <a class="mark" href="../index.html" aria-label="atvdev home">atvdev<span class="dot">.</span></a>
     <nav class="nav" aria-label="Primary">
       <a href="../index.html#work" aria-current="page">Work</a>
       <a href="../index.html#capabilities">Capabilities</a>
@@ -71,10 +73,10 @@
   </ul>
   <div class="menu__foot">
     <div style="display:flex;flex-direction:column;gap:.4rem">
-      <span class="tag tag--bare" style="color:#857D6D">Say hello</span>
+      <span class="tag">Say hello</span>
       <a class="ul-link" href="mailto:hello@atvdev.studio" style="font-size:1.1rem">hello@atvdev.studio</a>
     </div>
-    <div style="display:flex;gap:1.5rem" class="tag tag--bare">
+    <div style="display:flex;gap:1.5rem" class="tag">
       <a class="ul-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
       <a class="ul-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
       <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
@@ -84,28 +86,23 @@
 
 <main id="main">
 
-  <!-- hero -->
   <section class="case-hero" data-hero>
     <div class="shell">
       <div class="case-hero__crumb">
         <a class="ul-link" href="../index.html#work">Work</a>
-        <span>/</span>
-        <span>01</span>
-        <span>/</span>
-        <span>Kōbu</span>
+        <span>/</span><span>01</span><span>/</span><span>Kōbu</span>
         <span class="sw" aria-hidden="true"></span>
       </div>
 
       <div class="case-hero__row">
         <h1 class="case-title split" data-chars><span class="ln">Kōbu</span></h1>
-        <span class="tag tag--bare" data-rise>Hospitality — 2025</span>
+        <span class="tag" data-rise>Hospitality — 2025</span>
       </div>
 
       <p class="case-hero__lede" data-rise style="--d:.1s">Six izakaya rooms under one roof, and a website built to smell like charcoal.</p>
-
       <p class="case-note" data-rise style="--d:.14s">Self-initiated concept — brand and brief invented to show scope</p>
 
-      <dl class="case-meta" data-stagger style="--d:.16s">
+      <dl class="case-meta" data-stagger>
         <div><dt>Client</dt><dd>Kōbu Hospitality Group</dd></div>
         <div><dt>Sector</dt><dd>Restaurants &amp; bars</dd></div>
         <div><dt>Scope</dt><dd>Brand site, reservations, CMS</dd></div>
@@ -114,7 +111,6 @@
     </div>
   </section>
 
-  <!-- plate -->
   <div class="plate" data-clip>
     <span class="plate__frame">
 <div class="art art-kobu">
@@ -144,13 +140,11 @@
     </div>
   </div>
 
-  <!-- brief -->
   <section class="band">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
           <span class="tag" data-rise>The brief</span>
-          <p class="body-lg" data-rise style="--d:.06s">What we were handed, and what was actually wrong with it.</p>
         </div>
         <div class="case-body__main">
           <p class="first" data-rise style="--d:.0s">Kōbu runs six izakaya rooms across Bengaluru, each with its own chef, its own menu and its own crowd. What they shared was a booking page that looked like a spreadsheet and a brand that evaporated the moment you left the room.</p>
@@ -160,55 +154,17 @@
     </div>
   </section>
 
-  <!-- screens -->
-  <section class="band--tight">
-    <div class="shell">
-      <div class="mock-pair">
-        <figure class="mock" style="--m-bg:#16110E;--m-fg:#E9DCC6;--m-acc:#C45A38;" data-rise>
-  <div class="mock__win">
-    <div class="mock__chrome"><i></i><i></i><i></i><em>kobu.co / rooms</em></div>
-    <div class="mock__view"><div class="mv">
-          <div class="mv-nav"><b>KŌBU</b><ul><li>Rooms</li><li>Menu</li><li>Story</li></ul><span class="cta">Reserve</span></div>
-          <div class="mv-h">Six rooms,<br><em>one</em> fire.</div>
-          <div class="mv-sub">Charcoal, sake and a room that stays loud until one. Pick where you are eating tonight.</div>
-          <div class="mv-cols">
-            <div class="mv-tile"><span class="sc sc-lantern"><i></i><i></i><i></i><i></i></span><span>Room 01 · Indiranagar</span><b>The Long Counter</b></div>
-            <div class="mv-tile"><span class="sc sc-embers"><i></i><i></i><i></i><i></i><i></i></span><span>Room 02 · Koramangala</span><b>Ebisu</b></div>
-            <div class="mv-tile"><span class="sc sc-counter"><i></i><i></i><i></i><i></i><i></i><i></i></span><span>Room 03 · Jayanagar</span><b>Smoke &amp; Salt</b></div>
-          </div>
-        </div></div>
-  </div>
-  <figcaption>Room index — desktop</figcaption>
-</figure>
-        <figure class="mock mock--app" style="--m-bg:#1D1613;--m-fg:#E9DCC6;--m-acc:#C45A38;" data-rise>
-  <div class="mock__win"><div class="phone"><div class="ph">
-          <div class="ph-top"><span>Reserve</span><span>Step 3/4</span></div>
-          <div class="ph-h">Table<br>for two</div>
-          <div class="ph-card">
-            <div class="ph-bars"><i style="--h:30%"></i><i style="--h:55%"></i><i class="on" style="--h:100%"></i><i style="--h:70%"></i><i style="--h:45%"></i></div>
-            <div class="mv-row" style="border:0;padding:0;font-size:3.4cqw"><span>Fri 14 Nov</span><em>20:30</em></div>
-          </div>
-          <div class="ph-cta">Confirm booking</div>
-        </div></div></div>
-  <figcaption>Reservation rail</figcaption>
-</figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- pull -->
   <section class="band--tight">
     <div class="shell">
       <blockquote class="pull" data-rise>A restaurant site is not a brochure. It is the <em class="em-serif">doorway</em> — and the door should feel heavy.</blockquote>
     </div>
   </section>
 
-  <!-- approach -->
   <section class="band--tight">
     <div class="shell">
       <div class="case-body">
         <div class="case-body__aside">
-          <p class="body-lg" data-rise style="--d:.06s">The decisions that shaped everything downstream.</p>
+          <span class="tag" data-rise>The approach</span>
         </div>
         <div class="case-body__main">
           <p data-rise style="--d:.0s">We built the whole site on a near-black stock and let one warm terracotta do all the talking. Type is set large and slow. Photography sits full-bleed with a soft vignette so the eye lands where the room is warmest, and nothing on the page competes with it.</p>
@@ -218,40 +174,21 @@
     </div>
   </section>
 
-  <!-- specimen -->
   <section class="band">
     <div class="shell">
       <div class="sec-head">
-        <p class="body-lg" data-rise style="max-width:34ch">The system underneath — two faces, four colours, no exceptions.</p>
+        <span class="tag" data-rise>Palette</span>
+        <p class="body-lg" data-rise style="max-width:34ch">The colour system underneath — four tones, no exceptions.</p>
       </div>
-
-      <div class="spec">
-        <div class="spec__type">
-          <div class="spec__face" data-rise>
-            <div class="spec__label"><span>Bricolage Grotesque</span><span>Display</span></div>
-            <div class="spec__glyphs" style="font-family:var(--display);font-weight:500">Six rooms, one fire</div>
-            <p class="spec__sample">Set at 96pt optical size with tight tracking. Used only for room names and section openers — never below 28px.</p>
-          </div>
-          <div class="spec__face" data-rise>
-            <div class="spec__label"><span>JetBrains Mono</span><span>Detail &amp; menu</span></div>
-            <div class="spec__glyphs" style="font-family:var(--mono);letter-spacing:-.01em">20:30 · Table for two</div>
-            <p class="spec__sample">Prices, times and room numbers. Tabular figures keep every menu column aligned without a table element in sight.</p>
-          </div>
-        </div>
-
-        <div class="spec__pal">
-          <div class="swatches" data-rise>
-            <div class="sw-row"><i style="background:#16110E"></i><span><b>Charcoal</b><em>#16110E — Base surface</em></span></div>
-            <div class="sw-row"><i style="background:#C45A38"></i><span><b>Ember</b><em>#C45A38 — Primary accent</em></span></div>
-            <div class="sw-row"><i style="background:#E9DCC6"></i><span><b>Rice paper</b><em>#E9DCC6 — Type on dark</em></span></div>
-            <div class="sw-row"><i style="background:#5E6A4C"></i><span><b>Shiso</b><em>#5E6A4C — Secondary accent</em></span></div>
-          </div>
-        </div>
+      <div class="swatches" data-stagger style="max-width:32rem">
+        <div class="sw-row"><i style="background:#16110E"></i><span><b>Charcoal</b><em>#16110E — Base surface</em></span></div>
+        <div class="sw-row"><i style="background:#C45A38"></i><span><b>Ember</b><em>#C45A38 — Primary accent</em></span></div>
+        <div class="sw-row"><i style="background:#E9DCC6"></i><span><b>Rice paper</b><em>#E9DCC6 — Type on dark</em></span></div>
+        <div class="sw-row"><i style="background:#5E6A4C"></i><span><b>Shiso</b><em>#5E6A4C — Secondary accent</em></span></div>
       </div>
     </div>
   </section>
 
-  <!-- facts -->
   <section class="band--tight">
     <div class="shell">
       <div class="facts" data-stagger>
@@ -259,16 +196,15 @@
         <div><span class="num">02</span><h4>Four taps to a table</h4><p>Reservations run in a persistent rail — pick room, size, date, time. No page reloads, no dead ends.</p></div>
         <div><span class="num">03</span><h4>Editors in the kitchen</h4><p>Menus change weekly. Managers update prices and sold-out items from a phone in under a minute.</p></div>
       </div>
-      <div class="case-body" style="margin-top:clamp(2.5rem,6vw,4rem)">
+      <div class="case-body" style="margin-top:clamp(2.2rem,5vw,3.5rem)">
         <div class="case-body__aside"><span class="tag" data-rise>Build note</span></div>
         <div class="case-body__main"><p data-rise>The site ships as a static Astro build with the reservation rail hydrated on demand — the menu pages weigh less than a single stock photograph, which matters when half the traffic arrives on 4G outside the restaurant.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- next -->
   <div class="shell">
-    <a class="next-pj" href="vertex.html" data-cursor="Next" style="--acc:#1B3A63;--acc-ink:#1B3A63">
+    <a class="next-pj" href="vertex.html" data-cursor="NEXT" style="--acc:#1B3A63;--acc-ink:#1B3A63">
       <span class="next-pj__lbl">Next project — 02</span>
       <span class="next-pj__row">
         <span class="next-pj__name">Vertex</span>
@@ -341,9 +277,7 @@
         <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
-
-    <span class="ftr__word" data-par="0.16" aria-hidden="true">atvdev<span class="dot">.</span></span>
-
+    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
     <div class="ftr__base">
       <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
       <span>Designed &amp; built in-house · <span data-clock>IST</span></span>
@@ -355,6 +289,6 @@
   </div>
 </footer>
 
-<script src="../assets/js/app.js?v=4789c052" defer></script>
+<script src="../assets/js/app.js?v=8711f05e" defer></script>
 </body>
 </html>
