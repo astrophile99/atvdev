@@ -1,0 +1,87 @@
+/* ATVDEV brand tokens — v1.0 (Oct 2026)
+   Fonts: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap"> */
+
+:root {
+  /* Core */
+  --atv-emerald: #19C37D;
+  --atv-blue: #2F6BFF;
+  --atv-obsidian: #0A0E0D;
+  --atv-graphite: #121816;
+  --atv-ivory: #F5F6F2;
+
+  /* Emerald scale */
+  --emerald-50: #EDFBF4;
+  --emerald-100: #D7F7E8;
+  --emerald-200: #A6EDCB;
+  --emerald-300: #66DCA6;
+  --emerald-400: #36CE8D;
+  --emerald-500: #19C37D; /* brand */
+  --emerald-600: #10A066; /* logo on light */
+  --emerald-700: #0B7A50; /* text on white, 5.4:1 */
+  --emerald-800: #08573A;
+  --emerald-900: #053524;
+
+  /* Blue scale */
+  --blue-50: #F0F4FF;
+  --blue-100: #E0E9FF;
+  --blue-200: #B7CBFF;
+  --blue-300: #87A8FF;
+  --blue-400: #5B8CFF; /* links on dark, 6.1:1 */
+  --blue-500: #2F6BFF; /* brand — large text and graphics only on dark */
+  --blue-600: #1F55E0; /* links on white, 6.1:1 */
+  --blue-700: #1A43B0;
+  --blue-800: #153282;
+  --blue-900: #0E2054;
+
+  /* Neutral scale (green-tinted) */
+  --neutral-0: #F5F6F2;
+  --neutral-100: #E1E5E2;
+  --neutral-200: #C4CBC8;
+  --neutral-300: #9BA6A2; /* Mist: body text on dark, 7.7:1 */
+  --neutral-400: #6B7773; /* captions on white */
+  --neutral-500: #46524E;
+  --neutral-600: #2A3431;
+  --neutral-700: #1B2321; /* hairlines on dark */
+  --neutral-800: #121816;
+  --neutral-900: #0A0E0D;
+
+  /* Semantic (dark UI default) */
+  --bg: var(--neutral-900);
+  --surface: var(--neutral-800);
+  --line: var(--neutral-700);
+  --text: var(--neutral-0);
+  --text-muted: var(--neutral-300);
+  --accent: var(--emerald-500);
+  --on-accent: var(--neutral-900); /* never white on Emerald */
+  --link: var(--blue-400);
+  --focus: var(--blue-400);
+
+  /* Type */
+  --font-sans: "Archivo", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --stretch-display: 118%;
+  --text-display: 88px/0.98 var(--font-sans);
+  --text-h1: 56px/1.04 var(--font-sans);
+  --text-h2: 40px/1.1 var(--font-sans);
+  --text-h3: 26px/1.25 var(--font-sans);
+  --text-lead: 20px/1.5 var(--font-sans);
+  --text-body: 16px/1.6 var(--font-sans);
+  --text-small: 14px/1.5 var(--font-sans);
+
+  /* Shape & motion */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-pill: 999px;
+  --ease-brand: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Light documents: invoices, letters, proposals */
+.atv-light {
+  --bg: #FFFFFF;
+  --surface: var(--neutral-0);
+  --line: var(--neutral-200);
+  --text: var(--neutral-900);
+  --text-muted: var(--neutral-500);
+  --accent: var(--emerald-700);
+  --link: var(--blue-600);
+}

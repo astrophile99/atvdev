@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "brief": {
+    "dimensionality": ["3d"],
+    "mood": ["technical", "luxe"],
+    "tone": ["dark"],
+    "motionEnergy": ["lively"],
+    "density": ["balanced"]
+  },
+  "styleId": "artefakt-style",
+  "tokens": {
+    "gl-bg": "#050706",
+    "gl-bg-alt": "#000000",
+    "gl-surface": "#0a0d0c",
+    "gl-surface-raised": "#0f1312",
+    "gl-ink": "#eef0eb",
+    "gl-ink-muted": "rgba(238, 240, 235, 0.56)",
+    "gl-ink-subtle": "rgba(238, 240, 235, 0.32)",
+    "gl-accent": "#19c37d",
+    "gl-accent-ink": "#050706",
+    "gl-line": "rgba(238, 240, 235, 0.10)",
+    "gl-glow": "#2f6bff",
+    "gl-font-display": "'Archivo', ui-sans-serif, system-ui, sans-serif",
+    "gl-font-body": "'Archivo', ui-sans-serif, system-ui, sans-serif",
+    "gl-font-mono": "'JetBrains Mono', ui-monospace, SFMono-Regular, monospace",
+    "gl-tracking-display": "-0.035em",
+    "gl-weight-display": "560",
+    "gl-weight-body": "400",
+    "gl-radius": "0",
+    "gl-radius-lg": "0",
+    "gl-border": "1px",
+    "gl-duration-fast": "150ms",
+    "gl-duration": "300ms",
+    "gl-duration-slow": "900ms",
+    "gl-ease": "cubic-bezier(0.2, 0, 0, 1)"
+  },
+  "activeTemplateId": null,
+  "placed": [
+    { "sectionId": "loader", "slot": 0, "reference": "codescan pixel-dissolve wipe + revealChoreography A (holding ceiling)" },
+    { "sectionId": "hero", "slot": 1, "composition": "noema-hero + clair-hero (edge-pinned frame, split headline flanking a central scene, corner HUD)", "sceneId": "custom: atv particle field (technique from helion logo-particle-field)" },
+    { "sectionId": "statement", "slot": 2, "composition": "editorial reading-fill" },
+    { "sectionId": "capabilities", "slot": 3, "composition": "pinned 5-stage, copy left / morphing particle shape right" },
+    { "sectionId": "work", "slot": 4, "composition": "index list with cursor-following preview plate" },
+    { "sectionId": "process", "slot": 5, "composition": "gantt timeline drawn on scroll", "sceneParams": { "state": "dust" } },
+    { "sectionId": "standards", "slot": 6, "composition": "stat-band of performance budgets + stack ticker", "sceneParams": { "state": "lattice", "alpha": 0.26 } },
+    { "sectionId": "contact", "slot": 7, "composition": "cortex-hero style giant line + split HUD", "sceneParams": { "state": "logoEnd", "position": "upper-right" } },
+    { "sectionId": "footer", "slot": 8, "composition": "bleeding wordmark base", "sceneParams": { "state": "fade" } }
+  ],
+  "notes": "Only the logo comes from the ATVDEV brand PDF; layout, copy and motion are original. Style is Artefakt's grammar (lattice ground lit under the cursor, hairlines, no fills, zero radius, corner brackets, colour as light) re-typed to Archivo (width axis 62-125 drives the signature 'expand' reveal) + JetBrains Mono, and re-tinted to the logo's two inks: emerald #19C37D = action, blue #2F6BFF = technology. Stack: Vite + vanilla JS + three + gsap + lenis."
+}

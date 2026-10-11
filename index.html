@@ -1,802 +1,500 @@
 <!doctype html>
-<html lang="en" class="no-js">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>atvdev — a portfolio you can play with</title>
-<meta name="description" content="atvdev is a design and build studio. Drag the dials, take the controls — the website is the portfolio.">
-<meta name="theme-color" content="#FBF4E6">
-<link rel="canonical" href="https://atvdev.studio/">
+<html lang="en" class="is-loading">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>ATVDEV — Design &amp; engineering studio</title>
+    <meta name="description" content="ATVDEV is an independent design and engineering studio in Pune, India. We build websites, dashboards, portfolios, platforms and apps — accounted for to the last pixel." />
+    <meta name="theme-color" content="#f6f7f3" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content="ATVDEV — Every pixel, accounted for." />
+    <meta property="og:description" content="Independent design & engineering studio. Websites, dashboards, portfolios, platforms and apps." />
+    <meta property="og:type" content="website" />
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="atvdev — a portfolio you can play with">
-<meta property="og:description" content="A design and build studio. Drag the dials — the website is the portfolio.">
-<meta property="og:url" content="https://atvdev.studio/">
-<meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <script>
+      // Reduced motion and touch are decided before first paint so nothing flashes.
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        // Theme: light by default, the visitor's last choice if they made one.
+        var t = 'light';
+        try { t = localStorage.getItem('atv-theme') || 'light'; } catch (e) {}
+        d.setAttribute('data-theme', t);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('reduced-motion');
+        if (window.matchMedia('(hover: none), (pointer: coarse)').matches) d.classList.add('is-touch');
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- ───────────────────────────── fixed layers ───────────────────────────── -->
+    <canvas id="lattice" class="layer layer--lattice" aria-hidden="true"></canvas>
+    <canvas id="field" class="layer layer--field" aria-hidden="true"></canvas>
+    <div class="layer layer--grain" aria-hidden="true"></div>
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=8711f05e">
-<link rel="stylesheet" href="assets/css/base.css?v=8711f05e">
-<link rel="stylesheet" href="assets/css/art.css?v=8711f05e">
-<link rel="stylesheet" href="assets/css/sections.css?v=8711f05e">
-<link rel="stylesheet" href="assets/css/motion.css?v=8711f05e">
+    <!-- ───────────────────────────── loader ───────────────────────────── -->
+    <div id="loader" class="loader" role="status" aria-live="polite" aria-label="Loading">
+      <canvas class="loader__cells" aria-hidden="true"></canvas>
+      <div class="loader__plate">
+        <div class="loader__rule"><span class="loader__rule-fill"></span></div>
+        <div class="loader__mark" aria-hidden="true">
+          <svg viewBox="0 -30 256 150" class="loader__svg">
+            <defs>
+              <clipPath id="loader-clip"><rect class="loader__clip" x="0" y="120" width="256" height="0" /></clipPath>
+            </defs>
+            <g class="loader__ghost">
+              <path d="M0 120L60 0H166L154 24H102L150 120H120L75 30L30 120Z" />
+              <path d="M120 120H150L180 60H150Z" />
+            </g>
+            <g clip-path="url(#loader-clip)">
+              <path class="mk-a" d="M0 120L60 0H166L154 24H102L150 120H120L75 30L30 120Z" />
+              <path class="mk-b" d="M120 120H150L180 60H150Z" />
+            </g>
+            <g class="loader__px mk-b"></g>
+          </svg>
+        </div>
+        <div class="loader__meta mono">
+          <span class="loader__label">ATVDEV&nbsp;/&nbsp;Studio system</span>
+          <span class="loader__status" data-loader-status>Calibrating field</span>
+        </div>
+        <div class="loader__count mono" aria-hidden="true"><span data-loader-count>000</span></div>
+      </div>
+    </div>
 
-<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');
-try{if(localStorage.getItem('atvdev-theme')==='night'){document.documentElement.setAttribute('data-theme','night');document.documentElement.style.setProperty('--night','1');}}catch(e){}</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
+    <!-- ───────────────────────────── cursor ───────────────────────────── -->
+    <div class="cursor" aria-hidden="true">
+      <div class="cursor__dot"></div>
+      <div class="cursor__label mono"></div>
+    </div>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "atvdev",
-  "description": "Design and build studio. The website is the portfolio.",
-  "url": "https://atvdev.studio/",
-  "email": "hello@atvdev.studio",
-  "areaServed": "Worldwide"
-}
-</script>
-</head>
-
-<body>
-
-<div class="pre" role="status" aria-label="Loading">
-  <div class="pre__in">
-    <span class="pre__sun" aria-hidden="true"></span>
-    <span class="pre__mark">atvdev<span class="dot">.</span></span>
-  </div>
-</div>
-
-<div class="wipe" aria-hidden="true"><span class="wipe__mark">atvdev<span class="dot">.</span></span></div>
-<div class="grain" aria-hidden="true"></div>
-<div class="prog" aria-hidden="true"></div>
-<a class="skip" href="#main">Skip to content</a>
-
-<header class="hdr">
-  <div class="hdr__in">
-    <a class="mark" href="index.html" aria-label="atvdev home">atvdev<span class="dot">.</span></a>
-    <nav class="nav" aria-label="Primary">
-      <a href="#work">Work</a>
-      <a href="#capabilities">Capabilities</a>
-      <a href="studio.html">Studio</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div class="hdr__right">
-      <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
-        <span></span><span></span>
+    <!-- ───────────────────────────── header ───────────────────────────── -->
+    <header class="site-header" data-gate>
+      <a href="#top" class="brand" aria-label="ATVDEV — back to top" data-cursor>
+        <img class="brand__img brand__img--light" src="/brand/atvdev-horizontal-light-bg.svg" alt="ATVDEV" width="146" height="38" />
+        <img class="brand__img brand__img--dark" src="/brand/atvdev-horizontal-dark-bg.svg" alt="" width="146" height="38" />
+      </a>
+      <div class="site-header__clock mono" aria-label="Local time in Pune">
+        <span class="dot dot--live" aria-hidden="true"></span>
+        <span>Pune</span><span class="sep">/</span><time data-clock>00:00:00</time><span class="dim">IST</span>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#capabilities" class="roll" data-cursor><span data-text="Capabilities">Capabilities</span></a>
+        <a href="#work" class="roll" data-cursor><span data-text="Work">Work</span></a>
+        <a href="#process" class="roll" data-cursor><span data-text="Process">Process</span></a>
+        <a href="#contact" class="roll" data-cursor><span data-text="Contact">Contact</span></a>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" data-cursor>
+        <span class="theme-toggle__track" aria-hidden="true"><span class="theme-toggle__thumb"></span></span>
+        <span class="theme-toggle__label mono" aria-hidden="true"><span data-theme-label>Light</span></span>
       </button>
-    </div>
-  </div>
-</header>
-
-<div class="menu" id="menu" aria-hidden="true">
-  <ul class="menu__list">
-    <li class="menu__item"><a class="menu__link" href="index.html"><span class="num">01</span> Index</a></li>
-    <li class="menu__item"><a class="menu__link" href="#work"><span class="num">02</span> Work</a></li>
-    <li class="menu__item"><a class="menu__link" href="#capabilities"><span class="num">03</span> Capabilities</a></li>
-    <li class="menu__item"><a class="menu__link" href="studio.html"><span class="num">04</span> Studio</a></li>
-    <li class="menu__item"><a class="menu__link" href="#contact"><span class="num">05</span> Contact</a></li>
-  </ul>
-  <div class="menu__foot">
-    <div style="display:flex;flex-direction:column;gap:.4rem">
-      <span class="tag">Say hello</span>
-      <a class="ul-link" href="mailto:hello@atvdev.studio" style="font-size:1.1rem">hello@atvdev.studio</a>
-    </div>
-    <div style="display:flex;gap:1.5rem" class="tag">
-      <a class="ul-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
-      <a class="ul-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </div>
-</div>
-
-<main id="main">
-
-<!-- ── Hero — take the controls ─────────────────────────────────────────── -->
-<section class="hero" data-hero>
-
-  <div class="hero__sky" aria-hidden="true">
-    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
-      <g class="sky-stars">
-        <circle cx="180" cy="90" r="1.6"/><circle cx="340" cy="150" r="1.2"/>
-        <circle cx="520" cy="70" r="1.8"/><circle cx="720" cy="130" r="1.3"/>
-        <circle cx="260" cy="220" r="1.1"/><circle cx="880" cy="90" r="1.5"/>
-        <circle cx="1000" cy="200" r="1.2"/><circle cx="120" cy="260" r="1.4"/>
-      </g>
-      <circle class="sky-halo" cx="1180" cy="160" r="130"/>
-      <circle class="sky-sun" cx="1180" cy="160" r="72"/>
-      <g class="sky-cloud sky-cloud--a">
-        <ellipse cx="230" cy="150" rx="90" ry="30"/><ellipse cx="300" cy="135" rx="60" ry="26"/>
-        <ellipse cx="170" cy="140" rx="55" ry="22"/>
-      </g>
-      <g class="sky-cloud sky-cloud--b">
-        <ellipse cx="820" cy="240" rx="70" ry="24"/><ellipse cx="870" cy="228" rx="48" ry="20"/>
-      </g>
-      <g class="sky-cloud sky-cloud--c">
-        <ellipse cx="60" cy="330" rx="80" ry="26"/><ellipse cx="120" cy="316" rx="52" ry="22"/>
-      </g>
-    </svg>
-  </div>
-
-  <div class="hero__in shell">
-
-    <div class="hero__top">
-      <span class="tag tag--live" data-rise>Available for Q4 — two project slots</span>
-    </div>
-
-    <h1 class="hero__title d1 split" data-chars>
-      <span class="ln">We build interfaces</span>
-      <span class="ln">worth <em class="em">playing</em> with.</span>
-    </h1>
-
-    <p class="hero__lede lede" data-rise style="--d:.1s">
-      <strong>atvdev</strong> is a design and build studio. Drag the dials below —
-      this page is the pitch, not a picture of one.
-    </p>
-
-    <div class="panel" data-cursor="TAKE THE CONTROLS" data-rise style="--d:.18s">
-      <label class="panel__ctrl">
-        <span class="panel__lbl">Warmth</span>
-        <input type="range" min="-1" max="1" step="0.01" value="0" data-dial="warmth" aria-label="Warmth">
-      </label>
-
-      <label class="panel__ctrl panel__ctrl--knob">
-        <span class="panel__lbl">Energy</span>
-        <span class="knob" aria-hidden="true"><span class="knob__dial"></span></span>
-        <input type="range" min="0" max="1" step="0.01" value="0.5" data-dial="energy" class="knob__input" aria-label="Energy">
-      </label>
-
-      <button class="panel__toggle" type="button" data-dial-toggle="night" aria-pressed="false">
-        <span class="panel__toggle-track"><span class="panel__toggle-thumb"></span></span>
-        <span class="panel__toggle-lbl">Night</span>
+      <a href="#contact" class="btn btn--frame site-header__cta" data-cursor data-magnetic>
+        <span class="btn__label">Start a project</span>
+        <i class="corner corner--tl"></i><i class="corner corner--tr"></i><i class="corner corner--bl"></i><i class="corner corner--br"></i>
+      </a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="menu" data-cursor>
+        <span class="menu-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="mono menu-toggle__label">Menu</span>
       </button>
+    </header>
 
-      <button class="panel__sound" type="button" data-dial-sound aria-pressed="false" aria-label="Toggle interface sound">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/>
-          <path class="mute-x" d="M17 9l4 4m0-4l-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-      </button>
+    <div id="menu" class="menu" aria-hidden="true">
+      <canvas class="menu__cells" aria-hidden="true"></canvas>
+      <nav class="menu__nav" aria-label="Mobile">
+        <a href="#capabilities"><span class="mono">01</span>Capabilities</a>
+        <a href="#work"><span class="mono">02</span>Work</a>
+        <a href="#process"><span class="mono">03</span>Process</a>
+        <a href="#contact"><span class="mono">04</span>Contact</a>
+      </nav>
+      <div class="menu__foot mono">
+        <a href="mailto:atharva@atvdev.in">atharva@atvdev.in</a>
+        <span>Pune, India</span>
+      </div>
     </div>
 
-    <div class="hero__foot">
-      <dl class="hero__meta" data-stagger>
-        <div><dt>Discipline</dt><dd>Design &amp; Build</dd></div>
-        <div><dt>Based</dt><dd>India, worldwide</dd></div>
-        <div><dt>Founded</dt><dd>2023</dd></div>
-      </dl>
-    </div>
+    <main id="main">
+      <!-- ───────────────────────────── hero ───────────────────────────── -->
+      <section id="top" class="hero" data-stage="logo" aria-labelledby="hero-title">
+        <div class="hero__guides" aria-hidden="true">
+          <span class="guide guide--h"></span><span class="guide guide--v"></span>
+          <span class="reticle"><i></i><i></i><i></i><i></i></span>
+        </div>
 
-  </div>
-</section>
+        <div class="hero__hud hero__hud--tl mono" data-gate>
+          <span data-scramble>N 18.5204°&nbsp;&nbsp;E 73.8567°</span>
+          <span class="dim" data-scramble>Pune — Maharashtra — IN</span>
+        </div>
+        <div class="hero__hud hero__hud--tr mono" data-gate>
+          <span><span class="dim">Field</span> <span data-points>24,000</span> pts</span>
+          <span><span class="dim">Render</span> <span data-fps>60</span> fps</span>
+        </div>
 
-<!-- ── Manifesto ─────────────────────────────────────────────────────────── -->
-<section class="mani band" id="position">
-  <div class="shell">
-    <div class="mani__grid">
+        <p class="hero__kicker mono" data-gate><span class="bracket">(</span>Independent design &amp; engineering studio<span class="bracket">)</span></p>
 
-      <aside class="mani__aside">
-        <span class="tag" data-rise>Position</span>
-        <p class="body-lg" data-rise style="--d:.06s">A studio is only worth hiring for its opinions.</p>
-      </aside>
-
-      <div class="mani__body">
-        <p class="mani__open" data-scramble>Most studios sell you a mockup.</p>
-        <p class="mani__text" data-lit>
-          We sell you the thing itself. Every project on this page is a working
-          interface you can poke, drag and break — because a screenshot proves
-          nothing and a live page <em class="em">proves everything</em>. If a
-          website cannot survive being touched, it was never actually finished.
-        </p>
-
-        <div class="mani__sig" data-rise>
-          <span class="avatar" aria-hidden="true">at</span>
-          <span class="who">
-            <b>Atharva</b>
-            <span>Founder — atvdev</span>
+        <h1 id="hero-title" class="hero__title" aria-label="Every pixel, accounted for.">
+          <span class="hero__word hero__word--l" aria-hidden="true">
+            <span class="hero__line" data-split="hero">Every</span>
+            <span class="hero__line" data-split="hero">pixel,</span>
           </span>
-        </div>
-      </div>
+          <span class="hero__word hero__word--r" aria-hidden="true">
+            <span class="hero__line" data-split="hero">accounted</span>
+            <span class="hero__line hero__line--accent" data-split="hero">for.</span>
+          </span>
+        </h1>
 
-    </div>
-  </div>
-</section>
-
-<div class="stats" data-stagger>
-  <div><b>1</b><span>Project in build at a time</span></div>
-  <div><b>100<span class="sup">/100</span></b><span>Lighthouse target, every launch</span></div>
-  <div><b>0</b><span>Templates used, ever</span></div>
-  <div><b>6</b><span>Dials you can actually touch</span></div>
-</div>
-
-<!-- ── Work — a stack, not a grid ───────────────────────────────────────── -->
-<section class="work band" id="work">
-  <div class="shell work__head">
-    <div class="sec-head">
-      <span class="tag" data-rise>Selected work</span>
-      <h2 class="d3" data-rise style="--d:.06s">Six industries.<br>One standard.</h2>
-      <p class="body-lg" data-rise style="--d:.12s;max-width:44ch">
-        Concept work, art-directed and built end to end — scroll through them
-        like a stack, not a gallery wall.
-      </p>
-    </div>
-  </div>
-
-  <div class="work__stack">
-    <div class="work__rail" aria-hidden="true">
-      <a href="#w-kobu" data-rail="0">Kōbu</a>
-      <a href="#w-vertex" data-rail="1">Vertex</a>
-      <a href="#w-solene" data-rail="2">Solène</a>
-      <a href="#w-meridian" data-rail="3">Meridian</a>
-      <a href="#w-pulse" data-rail="4">Pulse</a>
-      <a href="#w-cassette" data-rail="5">Cassette</a>
-    </div>
-
-    <!-- 01 — Kōbu -->
-    <a class="wcard" id="w-kobu" href="work/kobu.html" data-cursor="OPEN CASE" data-clip>
-      <div class="wcard__bg">
-        <div class="art art-kobu">
-          <div class="k-glow"></div>
-          <div class="k-glow2"></div>
-          <div class="k-enso"></div>
-          <div class="k-enso2"></div>
-          <div class="k-title a-disp">KŌBU<small>Izakaya · Est. 2019</small></div>
-          <div class="k-vert"><span>Charcoal · Sake · Smoke</span><span>Six rooms</span></div>
-          <div class="k-card">
-            <div class="k-row"><span>Binchō-tan skewers</span><i>480</i></div>
-            <div class="k-line"></div>
-            <div class="k-row"><span>Yuzu highball</span><i>390</i></div>
-            <div class="k-line"></div>
-            <div class="k-row"><span>Table for two — 20:30</span><i>Book</i></div>
-          </div>
-          <div class="k-top a-mono"><span>Hospitality</span><span>Bengaluru</span></div>
-          <div class="k-bot a-mono">Reserve →</div>
-          <div class="art__noise"></div>
-          <div class="art__vig"></div>
-        </div>
-      </div>
-      <div class="wcard__scrim" aria-hidden="true"></div>
-      <div class="wcard__in">
-        <div class="wcard__meta">
-          <span class="wcard__idx">01 / 06 — Hospitality</span>
-          <h3 class="wcard__name">Kōbu</h3>
-          <p class="wcard__desc">Six izakaya rooms under one roof. A site built to smell like charcoal, with a reservation flow that takes four taps.</p>
-          <div class="wcard__chips">
-            <span class="wcard__chip">Brand site</span>
-            <span class="wcard__chip">Reservations</span>
-            <span class="wcard__chip">Concept</span>
-          </div>
-        </div>
-        <span class="wcard__go" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <!-- 02 — Vertex -->
-    <a class="wcard" id="w-vertex" href="work/vertex.html" data-cursor="OPEN CASE" data-clip>
-      <div class="wcard__bg">
-        <div class="art art-vertex">
-          <div class="v-lines"></div>
-          <div class="v-wash"></div>
-          <div class="v-perf"></div>
-          <div class="v-head">
-            <span class="v-word">VERTEX</span>
-            <span class="v-kicker">Treasury statement — Nov 2025</span>
-          </div>
-          <div class="v-ref a-mono">Ref. VT-4471<br>Multi-entity</div>
-          <div class="v-ledger">
-            <div class="v-lrow"><span>IN—01 Mumbai</span><b>1,84,20,000</b></div>
-            <div class="v-lrow"><span>SG—02 Singapore</span><b>1,12,40,000</b></div>
-            <div class="v-lrow"><span>UK—03 London</span><b>96,80,000</b></div>
-            <div class="v-lrow neg"><span>Payables</span><b>(92,40,000)</b></div>
-            <div class="v-lrow tot"><span>Net position</span><b>4,82,10,000</b></div>
-          </div>
-          <div class="v-plot-cap a-mono">Cash · 30 days</div>
-          <div class="v-plot">
-            <svg viewBox="0 0 200 100" fill="none" preserveAspectRatio="none">
-              <polyline points="0,82 20,74 40,79 60,58 80,64 100,44 120,50 140,28 160,34 180,18 200,10" stroke="#1B3A63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-              <polyline points="0,90 20,88 40,89 60,84 80,86 100,80 120,82 140,76 160,78 180,72 200,70" stroke="#B3301C" stroke-width="1.2" stroke-dasharray="4 3" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity=".7"/>
-            </svg>
-          </div>
-          <div class="v-stamp"><span>Cleared<br>14 Nov</span></div>
-          <div class="v-foot a-mono">Four currencies · reconciled daily · SOC 2</div>
-          <div class="art__noise"></div>
-        </div>
-      </div>
-      <div class="wcard__scrim" aria-hidden="true"></div>
-      <div class="wcard__in">
-        <div class="wcard__meta">
-          <span class="wcard__idx">02 / 06 — Fintech</span>
-          <h3 class="wcard__name">Vertex</h3>
-          <p class="wcard__desc">A treasury console styled like the printed statement it replaces. Ruled rows, tabular figures, bracketed negatives.</p>
-          <div class="wcard__chips">
-            <span class="wcard__chip">Product marketing</span>
-            <span class="wcard__chip">Design system</span>
-            <span class="wcard__chip">Concept</span>
-          </div>
-        </div>
-        <span class="wcard__go" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <!-- 03 — Solène -->
-    <a class="wcard" id="w-solene" href="work/solene.html" data-cursor="OPEN CASE" data-clip>
-      <div class="wcard__bg">
-        <div class="art art-solene">
-          <div class="s-wash"></div>
-          <div class="s-circle"></div>
-          <div class="s-ring" aria-hidden="true">
-            <svg viewBox="0 0 100 100">
-              <defs><path id="solRingHome" d="M50,50 m-41,0 a41,41 0 1,1 82,0 a41,41 0 1,1 -82,0"></path></defs>
-              <text><textPath href="#solRingHome" startOffset="0">Barrier serum · 30ml · fragrance free · made in small batches · </textPath></text>
-            </svg>
-          </div>
-          <div class="s-bottle">
-            <span class="s-cap"></span>
-            <span class="s-band"><b>Solène</b><i>No. 01 — Barrier</i></span>
-          </div>
-          <div class="s-lock">
-            <span class="s-name">Solène</span>
-            <span class="s-sub">Skin, without the theatre</span>
-            <span class="s-buy">Add to bag <i>— ₹2,400</i></span>
-          </div>
-          <div class="s-swatch">
-            <b style="background:#E8DCC6"></b><b style="background:#C47A3E"></b><b style="background:#2C3729"></b>
-          </div>
-          <div class="s-top a-mono">Beauty commerce</div>
-          <div class="art__noise"></div>
-        </div>
-      </div>
-      <div class="wcard__scrim" aria-hidden="true"></div>
-      <div class="wcard__in">
-        <div class="wcard__meta">
-          <span class="wcard__idx">03 / 06 — Beauty</span>
-          <h3 class="wcard__name">Solène</h3>
-          <p class="wcard__desc">A skincare storefront that sells restraint. Big quiet type, honest ingredient tables, checkout in under thirty seconds.</p>
-          <div class="wcard__chips">
-            <span class="wcard__chip">Shopify</span>
-            <span class="wcard__chip">Art direction</span>
-            <span class="wcard__chip">Concept</span>
-          </div>
-        </div>
-        <span class="wcard__go" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <!-- 04 — Meridian -->
-    <a class="wcard" id="w-meridian" href="work/meridian.html" data-cursor="OPEN CASE" data-clip>
-      <div class="wcard__bg">
-        <div class="art art-meridian">
-          <div class="m-grid"></div>
-          <div class="m-num">04</div>
-          <div class="m-name">Meridian<small>Architects — since 1998</small></div>
-          <div class="m-plan" aria-hidden="true">
-            <svg viewBox="0 0 200 150" fill="none" stroke="#1A1A18" stroke-width="1">
-              <rect x="8" y="8" width="184" height="134" stroke-opacity=".85"/>
-              <path d="M8 56h84M92 8v134M92 96h100M148 96v46M120 56h72" stroke-opacity=".55"/>
-              <path d="M20 20h56v24H20z" stroke-opacity=".35"/>
-              <path d="M104 20h74v26h-74z" stroke-opacity=".35"/>
-              <path d="M104 108h32v24h-32z" stroke-opacity=".35"/>
-              <circle cx="46" cy="112" r="18" stroke-opacity=".4"/>
-              <path d="M8 8 40 40M192 142 160 110" stroke-opacity=".22"/>
-            </svg>
-          </div>
-          <div class="m-elev">
-            <i style="--h:34%"></i><i style="--h:62%"></i><i style="--h:48%"></i>
-            <i style="--h:92%"></i><i style="--h:56%"></i><i style="--h:72%"></i>
-          </div>
-          <div class="m-meas"><span>18 400 mm</span></div>
-          <div class="m-cross m-c1"></div>
-          <div class="m-cross m-c2"></div>
-          <div class="m-tag a-mono">Plan · Section<br>Sheet 04 / 12</div>
-          <div class="art__noise"></div>
-        </div>
-      </div>
-      <div class="wcard__scrim" aria-hidden="true"></div>
-      <div class="wcard__in">
-        <div class="wcard__meta">
-          <span class="wcard__idx">04 / 06 — Architecture</span>
-          <h3 class="wcard__name">Meridian</h3>
-          <p class="wcard__desc">A practice archive where the drawings do the talking, indexed like a library and typeset like a monograph.</p>
-          <div class="wcard__chips">
-            <span class="wcard__chip">Editorial</span>
-            <span class="wcard__chip">Headless CMS</span>
-            <span class="wcard__chip">Concept</span>
-          </div>
-        </div>
-        <span class="wcard__go" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <!-- 05 — Pulse -->
-    <a class="wcard" id="w-pulse" href="work/pulse.html" data-cursor="OPEN CASE" data-clip>
-      <div class="wcard__bg">
-        <div class="art art-pulse">
-          <div class="p-glow"></div>
-          <div class="p-glow2"></div>
-          <div class="p-kicker a-mono">Health &amp; fitness — iOS / Android</div>
-          <div class="p-word">Every<b>rep</b>counts</div>
-          <div class="p-phone">
-            <span class="p-notch"></span>
-            <div class="p-top"><span>Today</span><span>Week 12</span></div>
-            <div class="p-ring">
-              <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="41" fill="none" stroke="rgba(242,242,240,.12)" stroke-width="7"/>
-                <circle cx="50" cy="50" r="41" fill="none" stroke="#FF5A47" stroke-width="7" stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="62"/>
-              </svg>
-              <div><b>76%</b><i>Day goal</i></div>
-            </div>
-            <div class="p-stats">
-              <div><b>412</b><i>kcal</i></div>
-              <div><b>38</b><i>min</i></div>
-              <div><b>9</b><i>streak</i></div>
-            </div>
-            <div class="p-wave">
-              <svg viewBox="0 0 120 30" fill="none" preserveAspectRatio="none">
-                <polyline points="0,22 8,22 12,8 16,26 20,15 26,15 30,22 38,22 42,4 46,28 50,16 58,16 62,22 70,22 74,9 78,25 82,15 92,15 96,21 108,21 112,11 120,18" stroke="#FF5A47" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="p-cta">Start session</div>
-          </div>
-          <div class="p-foot a-mono">Habit engine · Apple Health · Wear OS</div>
-          <div class="art__noise"></div>
-        </div>
-      </div>
-      <div class="wcard__scrim" aria-hidden="true"></div>
-      <div class="wcard__in">
-        <div class="wcard__meta">
-          <span class="wcard__idx">05 / 06 — Health</span>
-          <h3 class="wcard__name">Pulse</h3>
-          <p class="wcard__desc">Habit tracking that feels like momentum, not homework. One number the user actually cares about.</p>
-          <div class="wcard__chips">
-            <span class="wcard__chip">Product design</span>
-            <span class="wcard__chip">Motion</span>
-            <span class="wcard__chip">Concept</span>
-          </div>
-        </div>
-        <span class="wcard__go" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <!-- 06 — Cassette -->
-    <a class="wcard" id="w-cassette" href="work/cassette.html" data-cursor="OPEN CASE" data-clip>
-      <div class="wcard__bg">
-        <div class="art art-cassette">
-          <div class="c-half"></div>
-          <div class="c-blob"></div>
-          <div class="c-tape"></div>
-          <div class="c-reel c-r1"></div>
-          <div class="c-reel c-r2"></div>
-          <div class="c-stack a-disp"><b>CASSETTE</b><b>CASSETTE</b><b>CASSETTE</b></div>
-          <div class="c-band">
-            <div>
-              <span>Three stages</span><span>·</span><span>48 artists</span><span>·</span>
-              <span>Two nights</span><span>·</span><span>Tickets live</span><span>·</span>
-              <span>Three stages</span><span>·</span><span>48 artists</span><span>·</span>
-              <span>Two nights</span><span>·</span><span>Tickets live</span><span>·</span>
-            </div>
-            <div aria-hidden="true">
-              <span>Three stages</span><span>·</span><span>48 artists</span><span>·</span>
-              <span>Two nights</span><span>·</span><span>Tickets live</span><span>·</span>
-              <span>Three stages</span><span>·</span><span>48 artists</span><span>·</span>
-              <span>Two nights</span><span>·</span><span>Tickets live</span><span>·</span>
+        <div class="hero__base">
+          <div class="hero__intro" data-gate>
+            <p class="lead">
+              ATVDEV designs and engineers websites, dashboards, portfolios, platforms and apps — for teams who can tell
+              <em>almost right</em> from right.
+            </p>
+            <div class="hero__actions">
+              <a href="#contact" class="btn btn--solid" data-cursor data-magnetic>
+                <span class="btn__label">Start a project</span>
+                <span class="btn__arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="#work" class="btn btn--ghost" data-cursor data-magnetic>
+                <span class="btn__label">Selected work</span>
+                <i class="corner corner--tl"></i><i class="corner corner--tr"></i><i class="corner corner--bl"></i><i class="corner corner--br"></i>
+              </a>
             </div>
           </div>
-          <div class="c-top a-mono">Music &amp; culture</div>
-          <div class="c-bot a-mono">Vol. 07</div>
-          <div class="c-date a-mono">Nov 14–15 · Goa</div>
-          <div class="art__noise"></div>
+
+          <aside class="status-card" data-gate aria-label="Studio status">
+            <div class="status-card__row mono"><span class="dim">Status</span><span class="dot dot--live" aria-hidden="true"></span></div>
+            <p class="status-card__title">Accepting new projects</p>
+            <div class="status-card__grid mono">
+              <span class="dim">Base</span><span>Pune, IN</span>
+              <span class="dim">Clients</span><span>Worldwide</span>
+              <span class="dim">Mode</span><span>Remote-first</span>
+            </div>
+            <i class="corner corner--tl"></i><i class="corner corner--tr"></i><i class="corner corner--bl"></i><i class="corner corner--br"></i>
+          </aside>
         </div>
-      </div>
-      <div class="wcard__scrim" aria-hidden="true"></div>
-      <div class="wcard__in">
-        <div class="wcard__meta">
-          <span class="wcard__idx">06 / 06 — Culture</span>
-          <h3 class="wcard__name">Cassette</h3>
-          <p class="wcard__desc">A festival platform built to be screenshotted, with a ticket flow that survives ten thousand refreshes.</p>
-          <div class="wcard__chips">
-            <span class="wcard__chip">Identity</span>
-            <span class="wcard__chip">Ticketing</span>
-            <span class="wcard__chip">Concept</span>
+
+        <div class="hero__scroll mono" data-gate aria-hidden="true">
+          <span>Scroll</span>
+          <span class="hero__scroll-track"><span class="hero__scroll-fill"></span></span>
+          <span data-scroll-pct>000</span>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── statement ───────────────────────────── -->
+      <section id="studio" class="statement" data-stage="dust" aria-labelledby="studio-label">
+        <header class="section-head">
+          <span id="studio-label" class="section-index mono" data-scramble>§ 01 — Studio</span>
+        </header>
+        <p class="statement__text" data-fill>
+          We are a small studio with an engineer’s patience and a designer’s eye. The person who draws your interface is
+          the person who ships it — so nothing is lost in a handoff, and what you approve is exactly what goes live.
+        </p>
+        <dl class="statement__facts mono">
+          <div><dt class="dim">Model</dt><dd data-scramble>One team, sketch to deploy</dd></div>
+          <div><dt class="dim">Focus</dt><dd data-scramble>Web, data &amp; product</dd></div>
+          <div><dt class="dim">Base</dt><dd data-scramble>Pune, India — remote-first</dd></div>
+        </dl>
+      </section>
+
+      <!-- ───────────────────────────── capabilities ───────────────────────────── -->
+      <section id="capabilities" class="caps" aria-labelledby="caps-title">
+        <div class="caps__pin">
+          <header class="caps__head">
+            <span class="section-index mono" data-scramble>§ 02 — Capabilities</span>
+            <h2 id="caps-title" class="h2" data-split>Five things, built properly.</h2>
+          </header>
+
+          <div class="caps__body">
+            <div class="caps__counter mono" aria-hidden="true">
+              <span class="caps__counter-num"><span data-caps-num>01</span></span><span class="dim">/05</span>
+            </div>
+
+            <ol class="caps__list">
+              <li class="cap is-active" data-cap="0">
+                <h3 class="cap__title">Websites</h3>
+                <p class="cap__text">Marketing sites and launches that load in a blink, rank, and are a pleasure for your team to edit.</p>
+                <ul class="tags mono"><li>Next.js</li><li>Headless CMS</li><li>SEO</li><li>Core Web Vitals</li><li>Motion</li></ul>
+              </li>
+              <li class="cap" data-cap="1">
+                <h3 class="cap__title">Dashboards</h3>
+                <p class="cap__text">Dense data made legible — live views, considered charts, and tables that stay fast at a hundred thousand rows.</p>
+                <ul class="tags mono"><li>Data viz</li><li>Realtime</li><li>Roles &amp; access</li><li>Exports</li></ul>
+              </li>
+              <li class="cap" data-cap="2">
+                <h3 class="cap__title">Portfolios</h3>
+                <p class="cap__text">Personal and studio portfolios with a point of view. Art-directed, never templated.</p>
+                <ul class="tags mono"><li>Art direction</li><li>WebGL</li><li>Case studies</li><li>CMS</li></ul>
+              </li>
+              <li class="cap" data-cap="3">
+                <h3 class="cap__title">Platforms</h3>
+                <p class="cap__text">SaaS products, portals and marketplaces — auth, billing, APIs, and all the unglamorous parts done right.</p>
+                <ul class="tags mono"><li>Auth</li><li>Payments</li><li>APIs</li><li>Postgres</li><li>Infra</li></ul>
+              </li>
+              <li class="cap" data-cap="4">
+                <h3 class="cap__title">Apps</h3>
+                <p class="cap__text">iOS and Android from a single codebase, designed to feel native on both — and to work offline.</p>
+                <ul class="tags mono"><li>React Native</li><li>Expo</li><li>Offline-first</li><li>Push</li></ul>
+              </li>
+            </ol>
+
+            <div class="caps__rail" aria-hidden="true">
+              <span class="caps__rail-fill"></span>
+              <i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </div>
+
+          <div class="caps__readout mono" aria-hidden="true">
+            <span class="dim">Form</span> <span data-caps-form>browser.frame</span>
+            <span class="dim">Particles</span> <span data-points>24,000</span>
           </div>
         </div>
-        <span class="wcard__go" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-        </span>
-      </div>
-    </a>
-  </div>
-</section>
+      </section>
 
-<!-- ── Capabilities — a grid that leans toward the cursor ───────────────── -->
-<section class="caps band" id="capabilities">
-  <div class="shell">
-    <div class="sec-head">
-      <span class="tag" data-rise>Capabilities</span>
-      <h2 class="d3" data-rise style="--d:.06s">What we actually do</h2>
-      <p class="body-lg" data-rise style="--d:.12s;max-width:44ch">One studio, the whole chain — poke a card, it opens.</p>
-    </div>
+      <!-- ───────────────────────────── work ───────────────────────────── -->
+      <section id="work" class="work" data-stage="dust" aria-labelledby="work-title">
+        <header class="section-head section-head--split">
+          <span class="section-index mono" data-scramble>§ 03 — Selected work</span>
+          <h2 id="work-title" class="h2" data-split>Recent work.</h2>
+          <p class="section-head__aside">A cross-section of the last eighteen months — one of each kind of thing we make.</p>
+        </header>
 
-    <div class="caps__grid" data-accordion data-stagger>
+        <!-- Replace these rows with real projects. Preview art is drawn in src/ui/work.js. -->
+        <ul class="work__list" data-work-list>
+          <li class="work-row" data-preview="dashboard">
+            <a href="#contact" data-cursor="View" class="work-row__link">
+              <span class="work-row__no mono">01</span>
+              <span class="work-row__name">Ledgerline</span>
+              <span class="work-row__desc">Finance analytics dashboard</span>
+              <span class="work-row__kind mono">Dashboard</span>
+              <span class="work-row__year mono">2026</span>
+            </a>
+          </li>
+          <li class="work-row" data-preview="portfolio">
+            <a href="#contact" data-cursor="View" class="work-row__link">
+              <span class="work-row__no mono">02</span>
+              <span class="work-row__name">Kaya Studio</span>
+              <span class="work-row__desc">Architecture practice portfolio</span>
+              <span class="work-row__kind mono">Portfolio</span>
+              <span class="work-row__year mono">2026</span>
+            </a>
+          </li>
+          <li class="work-row" data-preview="website">
+            <a href="#contact" data-cursor="View" class="work-row__link">
+              <span class="work-row__no mono">03</span>
+              <span class="work-row__name">Northfield</span>
+              <span class="work-row__desc">Direct-to-consumer commerce site</span>
+              <span class="work-row__kind mono">Website</span>
+              <span class="work-row__year mono">2025</span>
+            </a>
+          </li>
+          <li class="work-row" data-preview="platform">
+            <a href="#contact" data-cursor="View" class="work-row__link">
+              <span class="work-row__no mono">04</span>
+              <span class="work-row__name">Orbit Ops</span>
+              <span class="work-row__desc">Fleet &amp; logistics platform</span>
+              <span class="work-row__kind mono">Platform</span>
+              <span class="work-row__year mono">2025</span>
+            </a>
+          </li>
+          <li class="work-row" data-preview="app">
+            <a href="#contact" data-cursor="View" class="work-row__link">
+              <span class="work-row__no mono">05</span>
+              <span class="work-row__name">Tempo</span>
+              <span class="work-row__desc">Habit &amp; training app</span>
+              <span class="work-row__kind mono">App</span>
+              <span class="work-row__year mono">2025</span>
+            </a>
+          </li>
+        </ul>
 
-      <div class="cap acc-item" aria-expanded="false">
-        <button class="cap__btn acc-btn" type="button" aria-expanded="false">
-          <span class="cap__num">01</span>
-          <span class="cap__name">Brand &amp; identity</span>
-          <span class="cap__hint">Wordmarks, type systems, colour</span>
-        </button>
-        <span class="cap__plus" aria-hidden="true"></span>
-        <div class="acc-panel"><div>
-          <p>Wordmarks, type systems, colour and art direction — with written rules so it survives contact with other people six months on.</p>
-          <ul><span class="chip">Identity systems</span><span class="chip">Art direction</span><span class="chip">Type &amp; colour</span></ul>
-        </div></div>
-      </div>
+        <div class="work__preview" aria-hidden="true">
+          <div class="work__preview-inner"></div>
+          <span class="work__preview-tag mono"></span>
+        </div>
+      </section>
 
-      <div class="cap acc-item" aria-expanded="false">
-        <button class="cap__btn acc-btn" type="button" aria-expanded="false">
-          <span class="cap__num">02</span>
-          <span class="cap__name">Web design</span>
-          <span class="cap__hint">Layouts drawn to a real grid</span>
-        </button>
-        <span class="cap__plus" aria-hidden="true"></span>
-        <div class="acc-panel"><div>
-          <p>Typographic hierarchy you can read across a room, and motion that carries meaning instead of decorating the wait.</p>
-          <ul><span class="chip">UI design</span><span class="chip">Design systems</span><span class="chip">Prototyping</span></ul>
-        </div></div>
-      </div>
+      <!-- ───────────────────────────── process ───────────────────────────── -->
+      <section id="process" class="process" data-stage="grid" aria-labelledby="process-title">
+        <div class="process__pin">
+        <header class="section-head section-head--split">
+          <span class="section-index mono" data-scramble>§ 04 — Process</span>
+          <h2 id="process-title" class="h2" data-split>A schedule you can actually read.</h2>
+          <p class="section-head__aside">A typical ten-week build. Fixed scope, fixed quote, and a staging link from week four — so you watch progress instead of hearing about it.</p>
+        </header>
 
-      <div class="cap acc-item" aria-expanded="false">
-        <button class="cap__btn acc-btn" type="button" aria-expanded="false">
-          <span class="cap__num">03</span>
-          <span class="cap__name">Engineering</span>
-          <span class="cap__hint">Hand-built, no framework worship</span>
-        </button>
-        <span class="cap__plus" aria-hidden="true"></span>
-        <div class="acc-panel"><div>
-          <p>Next.js, Astro, or hand-written HTML when that's the honest answer. Accessible markup, sensible bundles.</p>
-          <ul><span class="chip">Next.js</span><span class="chip">TypeScript</span><span class="chip">Web animation</span></ul>
-        </div></div>
-      </div>
-
-      <div class="cap acc-item" aria-expanded="false">
-        <button class="cap__btn acc-btn" type="button" aria-expanded="false">
-          <span class="cap__num">04</span>
-          <span class="cap__name">Commerce</span>
-          <span class="cap__hint">Storefronts that check out fast</span>
-        </button>
-        <span class="cap__plus" aria-hidden="true"></span>
-        <div class="acc-panel"><div>
-          <p>Product pages that answer the question before it's asked, and a bag flow with nothing decorative in it.</p>
-          <ul><span class="chip">Shopify</span><span class="chip">Stripe</span><span class="chip">Checkout UX</span></ul>
-        </div></div>
-      </div>
-
-      <div class="cap acc-item" aria-expanded="false">
-        <button class="cap__btn acc-btn" type="button" aria-expanded="false">
-          <span class="cap__num">05</span>
-          <span class="cap__name">Content &amp; CMS</span>
-          <span class="cap__hint">Editors who can publish alone</span>
-        </button>
-        <span class="cap__plus" aria-hidden="true"></span>
-        <div class="acc-panel"><div>
-          <p>Structured content models and real previews, with fields named in plain English instead of engineer-speak.</p>
-          <ul><span class="chip">Sanity</span><span class="chip">Payload</span><span class="chip">Editorial UX</span></ul>
-        </div></div>
-      </div>
-
-      <div class="cap acc-item" aria-expanded="false">
-        <button class="cap__btn acc-btn" type="button" aria-expanded="false">
-          <span class="cap__num">06</span>
-          <span class="cap__name">Performance &amp; SEO</span>
-          <span class="cap__hint">Beautiful and invisible, both</span>
-        </button>
-        <span class="cap__plus" aria-hidden="true"></span>
-        <div class="acc-panel"><div>
-          <p>Core Web Vitals, semantic structure, schema — every boring thing done properly, because it compounds.</p>
-          <ul><span class="chip">Web Vitals</span><span class="chip">Accessibility</span><span class="chip">Schema</span></ul>
-        </div></div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── Process — pinned, dragged sideways ───────────────────────────────── -->
-<section class="hsec" id="process" data-hsec>
-  <div class="hsec__pin">
-    <div class="hsec__head">
-      <div>
-        <span class="tag" data-rise>How it goes</span>
-        <h2 class="d3" data-rise style="--d:.06s;margin-top:.6rem">Four moves,<br>no mystery</h2>
-      </div>
-      <span class="hsec__count" aria-hidden="true">04</span>
-    </div>
-
-    <div class="hsec__track" data-htrack>
-      <article class="hpanel">
-        <span class="hpanel__n">Step 01 · Week 1</span>
-        <h3>Interrogate</h3>
-        <p>We take the business apart before drawing anything — who buys, why they hesitate, what the site has to do that a phone call can't.</p>
-        <ul><li>Kickoff and stakeholder interviews</li><li>Audience &amp; competitor teardown</li><li>Success metrics agreed in writing</li></ul>
-      </article>
-      <article class="hpanel">
-        <span class="hpanel__n">Step 02 · Weeks 2–3</span>
-        <h3>Draw</h3>
-        <p>Art direction before pixels. Two genuine directions, not one idea and a decoy, then the winner goes all the way down.</p>
-        <ul><li>Two art directions, presented live</li><li>Full desktop and mobile design</li><li>Motion prototype for key moments</li></ul>
-      </article>
-      <article class="hpanel">
-        <span class="hpanel__n">Step 03 · Weeks 4–8</span>
-        <h3>Build</h3>
-        <p>Componentised, typed and tested. Staging goes up in week four and stays up — nobody reviews screenshots of a website here.</p>
-        <ul><li>Component library and tokens</li><li>Accessibility and performance passes</li><li>Staging review every Friday</li></ul>
-      </article>
-      <article class="hpanel">
-        <span class="hpanel__n">Step 04 · Launch</span>
-        <h3>Ship &amp; hold</h3>
-        <p>Launch is a date, not an event. We watch the numbers for a month and fix anything that moves the wrong way, no invoice.</p>
-        <ul><li>Deploy, DNS, analytics</li><li>Editor training &amp; handbook</li><li>Thirty days of fixes included</li></ul>
-      </article>
-    </div>
-
-    <div class="hsec__rail" aria-hidden="true"><i></i></div>
-  </div>
-</section>
-
-<!-- ── Voice — honest, no fabricated testimonials ───────────────────────── -->
-<section class="voice band" id="voice">
-  <div class="shell">
-    <div class="sec-head">
-      <span class="tag" data-rise>Working with us</span>
-      <h2 class="d3" data-rise style="--d:.06s">No client quotes here.<br>We haven't earned any yet.</h2>
-      <p class="body-lg" data-rise style="--d:.12s;max-width:48ch">
-        Every project on this page is a concept — we'd rather show you that plainly
-        than dress up a stock photo as a testimonial. Here's what you actually get instead.
-      </p>
-    </div>
-
-    <div class="voice__grid" data-stagger>
-      <div class="vline"><span class="vline__mark">"</span><p><b>You get the founder,</b> not an account manager relaying your feedback to someone else three days later.</p></div>
-      <div class="vline"><span class="vline__mark">"</span><p><b>You get a fixed price</b> before work starts, in writing, with the scope that produced it attached.</p></div>
-      <div class="vline"><span class="vline__mark">"</span><p><b>You get a Friday link,</b> every week — a real staging build, not a status update about one.</p></div>
-      <div class="vline"><span class="vline__mark">"</span><p><b>You get told when</b> an idea is weak, including your own, before it costs you a week of build time.</p></div>
-      <div class="vline"><span class="vline__mark">"</span><p><b>You get the source,</b> in full, the day the invoice clears. No proprietary builder, no hostage login.</p></div>
-      <div class="vline"><span class="vline__mark">"</span><p><b>You get thirty days</b> of fixes after launch, because "done" and "still working three weeks later" aren't the same thing.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Contact — click to ignite ─────────────────────────────────────────── -->
-<section class="cta band on-ink" id="contact">
-  <div class="shell">
-
-    <div class="cta__head">
-      <span class="tag" data-rise>Start something</span>
-      <h2 class="d2 split" style="margin-top:1.2rem">
-        <span class="ln">Tell us what</span>
-        <span class="ln">you're <em class="em" style="font-style:italic;color:var(--flame-txt)">building.</em></span>
-      </h2>
-      <a class="ignite cta__mail ul-link" href="mailto:hello@atvdev.studio" data-ignite data-cursor="CLICK TO IGNITE" data-rise style="--d:.1s;margin-top:1.6rem">
-        hello@atvdev.studio
-      </a>
-    </div>
-
-    <div class="cta__grid">
-      <form class="cta__form" data-form data-mailto="hello@atvdev.studio" novalidate>
-        <div class="form__row">
-          <div class="field">
-            <label for="f-name">Your name</label>
-            <input id="f-name" name="name" type="text" required autocomplete="name">
+        <div class="gantt" role="table" aria-label="Typical project timeline">
+          <div class="gantt__weeks mono" role="row">
+            <span role="columnheader" class="gantt__phase-h">Phase</span>
+            <span role="columnheader">W01</span><span role="columnheader">W02</span><span role="columnheader">W03</span>
+            <span role="columnheader">W04</span><span role="columnheader">W05</span><span role="columnheader">W06</span>
+            <span role="columnheader">W07</span><span role="columnheader">W08</span><span role="columnheader">W09</span>
+            <span role="columnheader">W10</span>
           </div>
-          <div class="field">
-            <label for="f-company">Company</label>
-            <input id="f-company" name="company" type="text" autocomplete="organization">
+
+          <div class="gantt__row" role="row" style="--from: 0; --to: 2">
+            <div class="gantt__label" role="cell"><span class="mono dim">01</span><strong>Discover</strong><span class="gantt__note">Goals, users and constraints, turned into a written scope and a fixed quote.</span></div>
+            <div class="gantt__track" role="cell"><span class="gantt__bar"><span class="mono">W01–W02</span></span></div>
+          </div>
+          <div class="gantt__row" role="row" style="--from: 1; --to: 5">
+            <div class="gantt__label" role="cell"><span class="mono dim">02</span><strong>Blueprint</strong><span class="gantt__note">Wireframes first, then high-fidelity screens you can click through.</span></div>
+            <div class="gantt__track" role="cell"><span class="gantt__bar"><span class="mono">W02–W05</span></span></div>
+          </div>
+          <div class="gantt__row" role="row" style="--from: 3; --to: 9">
+            <div class="gantt__label" role="cell"><span class="mono dim">03</span><strong>Build</strong><span class="gantt__note">Weekly releases to a staging link. Code review on every change.</span></div>
+            <div class="gantt__track" role="cell"><span class="gantt__bar gantt__bar--blue"><span class="mono">W04–W09</span></span></div>
+          </div>
+          <div class="gantt__row" role="row" style="--from: 7; --to: 10">
+            <div class="gantt__label" role="cell"><span class="mono dim">04</span><strong>Verify</strong><span class="gantt__note">Performance budgets, accessibility audit and cross-device QA.</span></div>
+            <div class="gantt__track" role="cell"><span class="gantt__bar gantt__bar--blue"><span class="mono">W08–W10</span></span></div>
+          </div>
+          <div class="gantt__row" role="row" style="--from: 9; --to: 10; --open: 1">
+            <div class="gantt__label" role="cell"><span class="mono dim">05</span><strong>Launch &amp; care</strong><span class="gantt__note">Go-live, analytics and handover — then a simple monthly care plan.</span></div>
+            <div class="gantt__track" role="cell"><span class="gantt__bar gantt__bar--open"><span class="mono">W10 →</span></span></div>
+          </div>
+
+          <div class="gantt__now" aria-hidden="true">
+            <span class="gantt__now-label mono">Week <span data-week>01</span></span>
           </div>
         </div>
 
-        <div class="field field--select">
-          <label for="f-budget">Budget range</label>
-          <select id="f-budget" name="budget">
-            <option>Not sure yet</option>
-            <option>Under ₹1.5L</option>
-            <option>₹1.5L – ₹4L</option>
-            <option>₹4L – ₹10L</option>
-            <option>₹10L and above</option>
-          </select>
+        <p class="gantt__readout" aria-hidden="true">
+          <span class="mono gantt__readout-k">Now</span>
+          <span class="gantt__readout-v" data-phase>Discover — goals, users and constraints, turned into a written scope and a fixed quote.</span>
+        </p>
         </div>
+      </section>
 
-        <div class="field">
-          <label for="f-brief">What are you building?</label>
-          <textarea id="f-brief" name="brief" rows="4" required></textarea>
+      <!-- ───────────────────────────── standards ───────────────────────────── -->
+      <section id="standards" class="standards" data-stage="grid" aria-labelledby="standards-title">
+        <header class="section-head section-head--split">
+          <span class="section-index mono" data-scramble>§ 05 — Standards</span>
+          <h2 id="standards-title" class="h2" data-split>Every build ships against a budget.</h2>
+          <p class="section-head__aside">Numbers we set before the first commit and check before the last one. If a feature breaks a budget, the feature changes.</p>
+        </header>
+
+        <ul class="budgets">
+          <li class="budget">
+            <span class="budget__k mono dim">LCP</span>
+            <span class="budget__v"><span class="budget__op">&lt;</span><span data-count="1.2" data-decimals="1">0.0</span><span class="budget__u">s</span></span>
+            <span class="budget__d">Largest contentful paint on 4G</span>
+            <span class="budget__meter"><span style="--v: 0.82"></span></span>
+          </li>
+          <li class="budget">
+            <span class="budget__k mono dim">CLS</span>
+            <span class="budget__v"><span data-count="0.00" data-decimals="2" data-from="0.25">0.25</span></span>
+            <span class="budget__d">Layout shift — nothing jumps</span>
+            <span class="budget__meter"><span style="--v: 1"></span></span>
+          </li>
+          <li class="budget">
+            <span class="budget__k mono dim">PERF</span>
+            <span class="budget__v"><span data-count="95" data-decimals="0">0</span><span class="budget__op">+</span></span>
+            <span class="budget__d">Lighthouse, every category</span>
+            <span class="budget__meter"><span style="--v: 0.95"></span></span>
+          </li>
+          <li class="budget">
+            <span class="budget__k mono dim">A11Y</span>
+            <span class="budget__v"><span data-scramble-final="AA">AA</span></span>
+            <span class="budget__d">WCAG 2.2 conformance</span>
+            <span class="budget__meter"><span style="--v: 1"></span></span>
+          </li>
+          <li class="budget">
+            <span class="budget__k mono dim">FPS</span>
+            <span class="budget__v"><span data-count="60" data-decimals="0">0</span></span>
+            <span class="budget__d">Motion on a mid-range phone</span>
+            <span class="budget__meter"><span style="--v: 1"></span></span>
+          </li>
+        </ul>
+
+        <div class="ticker mono" aria-label="Tools we use">
+          <div class="ticker__track">
+            <span>Next.js</span><i>/</i><span>React</span><i>/</i><span>TypeScript</span><i>/</i><span>Three.js</span><i>/</i>
+            <span>Node</span><i>/</i><span>PostgreSQL</span><i>/</i><span>React Native</span><i>/</i><span>Expo</span><i>/</i>
+            <span>Figma</span><i>/</i><span>GSAP</span><i>/</i><span>Tailwind</span><i>/</i><span>Vercel</span><i>/</i>
+          </div>
         </div>
+      </section>
 
-        <div class="form__foot">
-          <button class="btn btn--flame ignite" type="submit" data-magnet="0.4" data-ignite>
-            <span>Send the brief</span>
-            <svg class="arw" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-          </button>
-          <p class="form__note">No forms sent to a black hole — a person reads every one of these.</p>
+      <!-- ───────────────────────────── contact ───────────────────────────── -->
+      <section id="contact" class="contact" data-stage="logo-end" aria-labelledby="contact-title">
+        <header class="section-head">
+          <span class="section-index mono" data-scramble>§ 06 — Contact</span>
+        </header>
+
+        <h2 id="contact-title" class="contact__title">
+          <span class="contact__line" data-split>Have something</span>
+          <span class="contact__line contact__line--indent" data-split>worth building?</span>
+        </h2>
+
+        <div class="contact__grid">
+          <div class="contact__mail">
+            <span class="mono dim">Write to the studio</span>
+            <a href="mailto:atharva@atvdev.in" class="contact__email" data-cursor="Write" data-magnetic>atharva@atvdev.in</a>
+            <button class="copy mono" data-copy="atharva@atvdev.in" data-cursor>
+              <span class="copy__label">Copy address</span>
+            </button>
+          </div>
+          <div class="contact__meta mono">
+            <p><span class="dim">Reply</span> Within one working day</p>
+            <p><span class="dim">Start</span> Typically two weeks out</p>
+            <p><span class="dim">Bring</span> A rough idea is plenty</p>
+          </div>
         </div>
-        <p class="form__status" role="status"></p>
-      </form>
+      </section>
+    </main>
 
-      <aside class="cta__aside">
-        <div class="contact-card">
-          <h5>Email</h5>
-          <a class="ul-link" href="mailto:hello@atvdev.studio">hello@atvdev.studio</a>
-          <button class="copy-btn" type="button" data-copy="hello@atvdev.studio">
-            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><rect x="4.5" y="4.5" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="1.2"/><path d="M9.5 2.5h-6a1 1 0 0 0-1 1v6" stroke="currentColor" stroke-width="1.2"/></svg>
-            <span class="copy-label">Copy address</span>
+    <!-- ───────────────────────────── footer ───────────────────────────── -->
+    <footer class="site-footer">
+      <div class="site-footer__cols">
+        <div>
+          <span class="mono dim">Index</span>
+          <a href="#capabilities" class="roll" data-cursor><span data-text="Capabilities">Capabilities</span></a>
+          <a href="#work" class="roll" data-cursor><span data-text="Work">Work</span></a>
+          <a href="#process" class="roll" data-cursor><span data-text="Process">Process</span></a>
+          <a href="#contact" class="roll" data-cursor><span data-text="Contact">Contact</span></a>
+        </div>
+        <div>
+          <span class="mono dim">Studio</span>
+          <span>Pune, India</span>
+          <span class="mono"><time data-clock>00:00:00</time> IST</span>
+          <a href="https://www.atvdev.in" class="roll" data-cursor><span data-text="www.atvdev.in">www.atvdev.in</span></a>
+        </div>
+        <div>
+          <span class="mono dim">Elsewhere</span>
+          <a href="#" class="roll" data-cursor><span data-text="LinkedIn">LinkedIn</span></a>
+          <a href="#" class="roll" data-cursor><span data-text="GitHub">GitHub</span></a>
+          <a href="#" class="roll" data-cursor><span data-text="Instagram">Instagram</span></a>
+        </div>
+        <div class="site-footer__top">
+          <button class="btn btn--frame" data-to-top data-cursor data-magnetic>
+            <span class="btn__label">Back to top ↑</span>
+            <i class="corner corner--tl"></i><i class="corner corner--tr"></i><i class="corner corner--bl"></i><i class="corner corner--br"></i>
           </button>
         </div>
-        <div class="contact-card">
-          <h5>Studio hours</h5>
-          <p>Mon – Fri, 10:00 – 19:00 <span data-clock>IST</span></p>
-        </div>
-        <div class="contact-card">
-          <h5>Elsewhere</h5>
-          <p><a class="ul-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a></p>
-          <p><a class="ul-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></p>
-          <p><a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a></p>
-        </div>
-      </aside>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<footer class="ftr">
-  <div class="shell">
-    <div class="ftr__top" data-stagger>
-      <div class="ftr__col">
-        <h4>Studio</h4>
-        <p>An independent design and build studio working from India with clients worldwide.</p>
       </div>
-      <div class="ftr__col">
-        <h4>Index</h4>
-        <a class="ul-link" href="index.html">Home</a>
-        <a class="ul-link" href="#work">Work</a>
-        <a class="ul-link" href="studio.html">Studio</a>
-        <a class="ul-link" href="#contact">Contact</a>
+
+      <div class="site-footer__mark" aria-hidden="true">
+        <svg viewBox="0 0 604 100" class="wordmark" preserveAspectRatio="xMidYMax meet">
+          <g class="wordmark__l"><path class="mk-a" d="M0 100L40 0H60L100 100H80L50 25L20 100Z" /></g>
+          <g class="wordmark__l"><path class="mk-a" d="M84 0H174V16H138V100H120V16H84Z" /></g>
+          <g class="wordmark__l"><path class="mk-a" d="M184 0H204L234 75L264 0H284L244 100H224Z" /></g>
+          <g class="wordmark__l"><path class="mk-b" d="M298 0H354A44 50 0 0 1 354 100H298Z M316 16V84H354A26 34 0 0 0 354 16Z" fill-rule="evenodd" /></g>
+          <g class="wordmark__l"><path class="mk-b" d="M412 0H492V16H430V42H484V58H430V84H492V100H412Z" /></g>
+          <g class="wordmark__l"><path class="mk-b" d="M504 0H524L554 75L584 0H604L564 100H544Z" /></g>
+        </svg>
       </div>
-      <div class="ftr__col">
-        <h4>Contact</h4>
-        <a class="ul-link" href="mailto:hello@atvdev.studio">hello@atvdev.studio</a>
-        <a class="ul-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
-        <a class="ul-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="ul-link" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+
+      <div class="site-footer__legal mono">
+        <span>© 2026 ATVDEV</span>
+        <span class="dim">Designed &amp; engineered in-house</span>
+        <span class="dim">Privacy</span>
       </div>
-    </div>
+    </footer>
 
-    <span class="ftr__word" aria-hidden="true">atvdev<span class="dot">.</span></span>
-
-    <div class="ftr__base">
-      <span>© <span data-year>2026</span> atvdev — all rights reserved</span>
-      <span>Designed &amp; built in-house · <span data-clock>IST</span></span>
-      <a class="to-top" href="#main">
-        Back to top
-        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 11V1M2 5l4-4 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg>
-      </a>
-    </div>
-  </div>
-</footer>
-
-<script src="assets/js/app.js?v=8711f05e" defer></script>
-<script src="assets/js/controls.js?v=8711f05e" defer></script>
-</body>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
